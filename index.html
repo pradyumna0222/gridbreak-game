@@ -3,28 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>GRIDBREAK // Minimalist Hardcore Cyber Stealth</title>
+  <title>GRIDBREAK // Cyber Blink Infiltrator</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;900&family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=JetBrains+Mono:wght@500;800&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #07090e;
-      --bg-darker: #030407;
-      --panel-bg: rgba(11, 15, 25, 0.85);
+      --bg: #030408;
       --cyan: #00f3ff;
-      --cyan-glow: rgba(0, 243, 255, 0.5);
+      --cyan-glow: rgba(0, 243, 255, 0.7);
       --magenta: #ff006e;
-      --magenta-glow: rgba(255, 0, 110, 0.5);
-      --crimson: #ff2a51;
-      --crimson-glow: rgba(255, 42, 81, 0.6);
-      --amber: #ffb703;
+      --magenta-glow: rgba(255, 0, 110, 0.7);
+      --amber: #ffbe0b;
       --green: #05ffa1;
-      --text: #e2edff;
-      --text-dim: #7084a5;
-      --font-title: 'Orbitron', monospace;
+      --crimson: #ff2a51;
+      --panel-bg: rgba(6, 10, 20, 0.88);
+      --font-display: 'Orbitron', monospace;
       --font-mono: 'JetBrains Mono', monospace;
-      --font-ui: 'Inter', sans-serif;
+      --font-ui: 'Rajdhani', sans-serif;
     }
 
     * {
@@ -36,8 +32,8 @@
     }
 
     body {
-      background-color: var(--bg);
-      color: var(--text);
+      background: var(--bg);
+      color: #fff;
       font-family: var(--font-ui);
       height: 100vh;
       overflow: hidden;
@@ -47,144 +43,135 @@
       justify-content: center;
     }
 
-    /* Ambient Background */
+    /* Ambient Cyber Canvas Backdrop */
     body::before {
       content: '';
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(circle at 50% 50%, rgba(0, 243, 255, 0.04) 0%, transparent 70%),
+        radial-gradient(circle at 50% 50%, rgba(0, 243, 255, 0.05) 0%, transparent 70%),
+        radial-gradient(circle at 20% 80%, rgba(255, 0, 110, 0.04) 0%, transparent 60%),
         linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-      background-size: 100% 100%, 30px 30px, 30px 30px;
+      background-size: 100% 100%, 100% 100%, 28px 28px, 28px 28px;
       z-index: 0;
       pointer-events: none;
     }
 
-    /* Red Screen Flash Vignette on Alert / Death */
-    .vignette {
+    /* Red Alarm Screen Pulse */
+    .screen-vignette {
       position: fixed;
       inset: 0;
       pointer-events: none;
-      z-index: 50;
+      z-index: 80;
       box-shadow: inset 0 0 0 rgba(255, 42, 81, 0);
       transition: box-shadow 0.15s ease;
     }
-    .vignette.danger {
-      box-shadow: inset 0 0 90px rgba(255, 42, 81, 0.75);
+    .screen-vignette.danger {
+      box-shadow: inset 0 0 100px rgba(255, 42, 81, 0.85);
     }
-    .vignette.caution {
-      box-shadow: inset 0 0 70px rgba(255, 183, 3, 0.45);
+    .screen-vignette.slowmo {
+      box-shadow: inset 0 0 80px rgba(0, 243, 255, 0.55);
     }
 
     /* CRT Scanline Filter */
-    .scanlines {
+    .crt-overlay {
       position: fixed;
       inset: 0;
       background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%);
       background-size: 100% 4px;
       pointer-events: none;
-      z-index: 60;
-      opacity: 0.5;
+      z-index: 90;
+      opacity: 0.55;
     }
 
-    /* Game Master Frame */
-    .game-container {
+    /* Main Container */
+    .game-wrapper {
       position: relative;
       z-index: 10;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       width: 100%;
       max-width: 1040px;
-      padding: 10px 16px;
+      padding: 6px 16px;
     }
 
-    /* Clean Minimalist Top Header HUD */
-    .hud-bar {
+    /* Sleek Floating Header HUD */
+    .hud-header {
+      width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      width: 100%;
       background: var(--panel-bg);
-      border: 1px solid rgba(0, 243, 255, 0.25);
+      border: 1px solid rgba(0, 243, 255, 0.3);
       border-radius: 8px;
       padding: 8px 18px;
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand-title {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 17px;
+      letter-spacing: 2px;
+      background: linear-gradient(90deg, #fff, var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-transform: uppercase;
+    }
+    .sector-badge {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 800;
+      background: var(--magenta);
+      color: #fff;
+      padding: 2px 7px;
+      border-radius: 4px;
+      box-shadow: 0 0 10px var(--magenta-glow);
+    }
+
+    .metrics-group {
+      display: flex;
+      align-items: center;
+      gap: 18px;
       font-family: var(--font-mono);
       font-size: 12px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
     }
-
-    .hud-title {
-      font-family: var(--font-title);
-      font-weight: 900;
-      font-size: 14px;
-      letter-spacing: 2px;
-      color: var(--cyan);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .hud-title span {
-      background: var(--cyan);
-      color: var(--bg-darker);
-      font-size: 10px;
-      padding: 1px 6px;
-      border-radius: 3px;
-      font-weight: 900;
-    }
-
-    .hud-stats {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .stat-badge {
+    .metric-pill {
       display: flex;
       align-items: center;
       gap: 6px;
+      color: #a5b9d8;
     }
-    .stat-badge strong {
+    .metric-pill strong {
       color: #fff;
+      font-size: 13px;
     }
 
-    .alarm-pill {
-      padding: 3px 8px;
-      border-radius: 4px;
-      font-weight: 700;
-      background: rgba(5, 255, 161, 0.15);
-      color: var(--green);
-      border: 1px solid var(--green);
-      transition: all 0.2s ease;
-    }
-    .alarm-pill.caution {
-      background: rgba(255, 183, 3, 0.2);
+    .combo-badge {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 13px;
       color: var(--amber);
-      border-color: var(--amber);
-    }
-    .alarm-pill.alert {
-      background: rgba(255, 42, 81, 0.25);
-      color: var(--crimson);
-      border-color: var(--crimson);
-      box-shadow: 0 0 10px var(--crimson-glow);
-      animation: blink 0.5s infinite alternate;
-    }
-    @keyframes blink {
-      from { opacity: 0.7; }
-      to { opacity: 1; }
+      text-shadow: 0 0 10px var(--amber);
     }
 
-    /* Screen Canvas Card */
-    .canvas-wrapper {
+    /* Screen Canvas Frame */
+    .canvas-container {
       position: relative;
-      border: 1px solid rgba(0, 243, 255, 0.35);
+      border: 1px solid rgba(0, 243, 255, 0.4);
       border-radius: 8px;
       overflow: hidden;
-      background: #05070d;
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 243, 255, 0.1);
+      background: #04060c;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9), 0 0 30px rgba(0, 243, 255, 0.15);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -195,111 +182,111 @@
       cursor: crosshair;
     }
 
-    /* On-Screen Overlay Prompts */
-    .canvas-overlay {
+    /* Overlays (Start / Win / Death) */
+    .modal-overlay {
       position: absolute;
       inset: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: rgba(4, 6, 12, 0.88);
-      backdrop-filter: blur(8px);
-      z-index: 20;
+      background: rgba(3, 5, 12, 0.92);
+      backdrop-filter: blur(10px);
+      z-index: 50;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.2s ease;
       text-align: center;
-      padding: 20px;
+      padding: 24px;
     }
-    .canvas-overlay.active {
+    .modal-overlay.active {
       opacity: 1;
       pointer-events: auto;
     }
 
-    .overlay-title {
-      font-family: var(--font-title);
-      font-size: 26px;
+    .modal-title {
+      font-family: var(--font-display);
+      font-size: 28px;
       font-weight: 900;
       letter-spacing: 2px;
       margin-bottom: 8px;
+      text-transform: uppercase;
     }
-    .overlay-title.danger {
+    .modal-title.cyan {
+      color: var(--cyan);
+      text-shadow: 0 0 25px var(--cyan);
+    }
+    .modal-title.danger {
       color: var(--crimson);
-      text-shadow: 0 0 20px var(--crimson);
+      text-shadow: 0 0 25px var(--crimson);
     }
-    .overlay-title.success {
+    .modal-title.success {
       color: var(--green);
-      text-shadow: 0 0 20px var(--green);
+      text-shadow: 0 0 25px var(--green);
     }
 
-    .overlay-subtitle {
+    .modal-desc {
       font-family: var(--font-mono);
       font-size: 13px;
-      color: var(--text-dim);
-      margin-bottom: 20px;
-      max-width: 480px;
+      color: #9cb2d4;
+      max-width: 520px;
       line-height: 1.5;
+      margin-bottom: 22px;
     }
 
-    .overlay-btn {
-      background: linear-gradient(90deg, var(--cyan), #00a2ff);
-      color: #030407;
-      font-family: var(--font-title);
+    .action-btn {
+      background: linear-gradient(90deg, var(--cyan), #0099ff);
+      color: #030408;
+      font-family: var(--font-display);
       font-weight: 900;
       font-size: 13px;
       letter-spacing: 1.5px;
-      padding: 10px 22px;
+      padding: 12px 28px;
       border: none;
       border-radius: 4px;
       cursor: pointer;
-      box-shadow: 0 0 16px var(--cyan-glow);
+      box-shadow: 0 0 20px var(--cyan-glow);
       transition: all 0.15s ease;
     }
-    .overlay-btn:hover {
-      transform: scale(1.04);
-      box-shadow: 0 0 25px var(--cyan);
+    .action-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px var(--cyan);
     }
-    .overlay-btn.danger-btn {
+    .action-btn.danger-btn {
       background: linear-gradient(90deg, var(--crimson), #ff5a79);
-      box-shadow: 0 0 16px var(--crimson-glow);
       color: #fff;
+      box-shadow: 0 0 20px var(--crimson-glow);
     }
 
-    /* Minimalist Bottom Control Strip */
+    /* Bottom Quick Action Strip */
     .controls-strip {
+      width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      width: 100%;
+      background: rgba(6, 10, 20, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
       padding: 6px 14px;
       font-family: var(--font-mono);
       font-size: 11px;
-      color: var(--text-dim);
-      background: rgba(11, 15, 25, 0.6);
-      border-radius: 6px;
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: #7b91b5;
     }
-    .key-hint {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      margin: 0 6px;
-    }
-    .key-hint kbd {
+    .key-badge {
       background: rgba(0, 243, 255, 0.12);
       border: 1px solid rgba(0, 243, 255, 0.3);
       color: var(--cyan);
       padding: 2px 6px;
       border-radius: 3px;
-      font-weight: 700;
+      font-weight: 800;
       font-size: 10px;
+      margin: 0 3px;
     }
 
-    .quick-btn {
+    .btn-toggle {
       background: none;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: var(--text-dim);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #8da4c7;
       font-family: var(--font-mono);
       font-size: 11px;
       padding: 3px 8px;
@@ -307,7 +294,7 @@
       cursor: pointer;
       transition: all 0.15s;
     }
-    .quick-btn:hover {
+    .btn-toggle:hover {
       color: #fff;
       border-color: var(--cyan);
     }
@@ -316,94 +303,93 @@
 <body>
 
   <!-- Screen Vignette -->
-  <div id="vignette" class="vignette"></div>
+  <div id="vignette" class="screen-vignette"></div>
 
-  <!-- CRT Scanlines -->
-  <div class="scanlines"></div>
+  <!-- Scanlines -->
+  <div class="crt-overlay"></div>
 
-  <div class="game-container">
+  <div class="game-wrapper">
     
-    <!-- Minimalist Top HUD -->
-    <div class="hud-bar">
-      <div class="hud-title">
-        GRIDBREAK <span id="levelLabel">SECTOR 01</span>
+    <!-- Header HUD -->
+    <div class="hud-header">
+      <div class="brand-group">
+        <div class="brand-title">GRIDBREAK</div>
+        <span id="sectorTag" class="sector-badge">SECTOR 01</span>
       </div>
 
-      <div class="hud-stats">
-        <div class="stat-badge">
-          <span>THREAT:</span>
-          <span id="alarmBadge" class="alarm-pill">0% CLEAR</span>
+      <div class="metrics-group">
+        <div class="metric-pill">
+          <span>COMBO:</span>
+          <span id="comboText" class="combo-badge">0x</span>
         </div>
-        <div class="stat-badge">
-          <span>KEYS:</span>
-          <strong id="keysText" style="color:var(--cyan);">0/1</strong>
+        <div class="metric-pill">
+          <span>ENEMIES:</span>
+          <strong id="enemiesText" style="color:var(--crimson);">0/0</strong>
         </div>
-        <div class="stat-badge">
-          <span>EMP:</span>
-          <strong id="empText" style="color:var(--amber);">2x</strong>
+        <div class="metric-pill">
+          <span>ENERGY:</span>
+          <strong id="energyText" style="color:var(--cyan);">100%</strong>
         </div>
-        <div class="stat-badge">
+        <div class="metric-pill">
           <span>DEATHS:</span>
-          <strong id="deathsText" style="color:var(--crimson);">0</strong>
+          <strong id="deathsText" style="color:var(--magenta);">0</strong>
         </div>
-        <div class="stat-badge">
+        <div class="metric-pill">
           <span>TIME:</span>
-          <strong id="timerText" style="color:#fff;">00:00</strong>
+          <strong id="timeText" style="color:#fff;">00:00</strong>
         </div>
       </div>
 
       <div style="display:flex; gap:6px;">
-        <button id="btnSound" class="quick-btn">🔊 AUDIO</button>
-        <button id="btnRestart" class="quick-btn" title="Press R to Instant Restart">🔄 [R]</button>
+        <button id="btnSound" class="btn-toggle">🔊 AUDIO</button>
+        <button id="btnReset" class="btn-toggle" title="Press R to Quick Restart">🔄 [R]</button>
       </div>
     </div>
 
-    <!-- Center Canvas Stage -->
-    <div class="canvas-wrapper">
+    <!-- Canvas Frame -->
+    <div class="canvas-container">
       <canvas id="gameCanvas" width="980" height="540"></canvas>
 
       <!-- Start Overlay -->
-      <div id="startOverlay" class="canvas-overlay active">
-        <div class="overlay-title" style="color:var(--cyan);">GRIDBREAK // SHADOW INFILTRATOR</div>
-        <div class="overlay-subtitle">
-          Hardcore top-down stealth. Evade line-of-sight vision cones, slip through pulsing laser barriers, throw sound decoys, and reach the green exit elevator.
+      <div id="startModal" class="modal-overlay active">
+        <div class="modal-title cyan">CYBER BLINK // INFILTRATOR</div>
+        <div class="modal-desc">
+          <strong>Aim with Mouse &amp; Hold Left Click</strong> to slow down time.<br>
+          <strong>Release to BLINK TELEPORT</strong>. Teleporting through enemy sentries executes them in a flash!<br>
+          Eliminate all target sentries and warp through the green exit gateway.
         </div>
-        <div style="margin-bottom:20px; font-family:var(--font-mono); font-size:12px; color:var(--cyan);">
-          🎮 <strong>WASD / Arrows</strong>: Move &bull; ⚡ <strong>Space</strong>: Dash &bull; 📡 <strong>F / Click</strong>: Sound Decoy &bull; 💥 <strong>E</strong>: EMP Burst &bull; 🔄 <strong>R</strong>: Quick Restart
-        </div>
-        <button id="btnStartGame" class="overlay-btn">COMMENCE OPERATION [SPACE]</button>
+        <button id="btnStartGame" class="action-btn">COMMENCE INFILTRATION [SPACE / CLICK]</button>
       </div>
 
       <!-- Death Overlay -->
-      <div id="deathOverlay" class="canvas-overlay">
-        <div class="overlay-title danger">DETECTED &amp; ELIMINATED</div>
-        <div class="overlay-subtitle" id="deathReasonText">
-          Alarm reached 100%. Security defenses eliminated operative.
+      <div id="deathModal" class="modal-overlay">
+        <div class="modal-title danger">SIGNAL SEVERED</div>
+        <div class="modal-desc" id="deathReason">
+          Eliminated by security laser or enemy reaction.
         </div>
-        <button id="btnRetryGame" class="overlay-btn danger-btn">RETRY SECTOR [R / SPACE]</button>
+        <button id="btnRetryGame" class="action-btn danger-btn">INSTANT RETRY [R / SPACE]</button>
       </div>
 
       <!-- Victory Overlay -->
-      <div id="victoryOverlay" class="canvas-overlay">
-        <div class="overlay-title success" id="vicTitle">SECTOR CLEARED</div>
-        <div class="overlay-subtitle" id="vicStatsText">
-          Extraction successful! Moving to next security layer.
+      <div id="victoryModal" class="modal-overlay">
+        <div class="modal-title success" id="vicTitle">SECTOR PURGED</div>
+        <div class="modal-desc" id="vicStats">
+          All sentries eliminated and core extraction successful!
         </div>
-        <button id="btnNextLevel" class="overlay-btn">PROCEED TO NEXT SECTOR [SPACE]</button>
+        <button id="btnNextLevel" class="action-btn">NEXT SECTOR [SPACE / CLICK]</button>
       </div>
     </div>
 
-    <!-- Bottom Controls Strip -->
+    <!-- Controls Footer -->
     <div class="controls-strip">
       <div>
-        <span class="key-hint"><kbd>WASD</kbd> Move</span>
-        <span class="key-hint"><kbd>SPACE</kbd> Tactical Dash</span>
-        <span class="key-hint"><kbd>F / CLICK</kbd> Sound Decoy</span>
-        <span class="key-hint"><kbd>E</kbd> EMP Stun</span>
-        <span class="key-hint"><kbd>R</kbd> Quick Restart</span>
+        <span>🖱️ <span class="key-badge">HOLD CLICK &amp; DRAG</span> Aim Slow-Mo Blink</span>
+        <span>⚡ <span class="key-badge">RELEASE</span> Warp &amp; Slash</span>
+        <span>⌨️ <span class="key-badge">WASD</span> Free Move</span>
+        <span>🔄 <span class="key-badge">R</span> Instant Restart</span>
       </div>
       <div>
-        <span>SECTOR <strong id="sectorProgressText">1 / 8</strong></span>
+        <span>SECTOR PROGRESS: <strong id="progressText" style="color:#fff;">1 / 10</strong></span>
       </div>
     </div>
 
@@ -412,11 +398,12 @@
   <!-- Game Engine Script -->
   <script>
     /**
-     * GRIDBREAK // PURE MINIMALIST HARDCORE STEALTH
-     * Fast-paced, intuitive, difficult, responsive, instant restarts with R
+     * GRIDBREAK: CYBER BLINK INFILTRATOR
+     * Unique mechanic: Bullet-time Aim + Teleport Slashing + Laser Rewiring
+     * Fast, juicy, addictive, super responsive!
      */
 
-    // --- PROCEDURAL AUDIO ENGINE ---
+    // --- PROCEDURAL AUDIO SYNTHESIZER ---
     class SoundEngine {
       constructor() {
         this.ctx = null;
@@ -424,8 +411,8 @@
       }
       init() {
         if (!this.ctx) {
-          const AudioContext = window.AudioContext || window.webkitAudioContext;
-          if (AudioContext) this.ctx = new AudioContext();
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (AudioCtx) this.ctx = new AudioCtx();
         } else if (this.ctx.state === 'suspended') {
           this.ctx.resume();
         }
@@ -449,377 +436,326 @@
           osc.stop(this.ctx.currentTime + dur);
         } catch(e) {}
       }
-      playDash() {
-        this.playTone(480, 'sawtooth', 0.15, 0.12);
+      playBlink() {
+        if (!this.enabled || !this.ctx) return;
+        try {
+          const now = this.ctx.currentTime;
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(800, now);
+          osc.frequency.exponentialRampToValueAtTime(200, now + 0.18);
+          gain.gain.setValueAtTime(0.16, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start();
+          osc.stop(now + 0.18);
+        } catch(e) {}
       }
-      playDecoy() {
-        this.playTone(880, 'sine', 0.2, 0.15);
+      playSlash() {
+        if (!this.enabled || !this.ctx) return;
+        try {
+          const now = this.ctx.currentTime;
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(950, now);
+          osc.frequency.exponentialRampToValueAtTime(80, now + 0.22);
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start();
+          osc.stop(now + 0.22);
+        } catch(e) {}
       }
-      playEmp() {
-        this.playTone(180, 'square', 0.35, 0.18);
-      }
-      playItem() {
-        this.playTone(660, 'sine', 0.1, 0.1);
-        setTimeout(() => this.playTone(990, 'sine', 0.15, 0.1), 80);
-      }
-      playAlert() {
-        this.playTone(900, 'sawtooth', 0.18, 0.15);
+      playSlowMoStart() {
+        this.playTone(300, 'sine', 0.2, 0.08);
       }
       playDeath() {
-        this.playTone(120, 'sawtooth', 0.5, 0.2);
+        this.playTone(90, 'sawtooth', 0.6, 0.25);
       }
       playWin() {
-        [440, 554, 659, 880].forEach((f, i) => {
-          setTimeout(() => this.playTone(f, 'sine', 0.3, 0.12), i * 90);
+        [440, 554, 659, 880, 1108].forEach((f, i) => {
+          setTimeout(() => this.playTone(f, 'sine', 0.35, 0.14), i * 80);
         });
       }
     }
     const sound = new SoundEngine();
 
-    // --- 8 CHALLENGING PROGRESSIVE SECTORS ---
-    // 0: Floor, 1: Wall, 2: Keycard, 4: Laser Gate, 5: Exit
+    // --- 10 EXHILARATING DESIGNED SECTORS ---
     const SECTORS = [
-      // Sector 1: The Breach (Tutorial with tight guards)
+      // 1: The Training Breach
       {
-        title: "SECTOR 01: THE PERIMETER",
-        width: 16, height: 10,
-        playerStart: { x: 1.5, y: 1.5 },
-        exit: { x: 14.5, y: 8.5 },
-        empCount: 2,
-        map: [
-          [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-          [1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,1],
-          [1,0,0,0,1,0,0,0,0,1,0,0,1,1,0,1],
-          [1,0,1,0,1,0,1,1,0,1,0,0,1,0,0,1],
-          [1,0,1,0,0,0,0,1,0,0,0,0,1,0,0,1],
-          [1,0,1,1,1,1,0,1,1,1,1,0,1,4,1,1],
-          [1,0,0,0,0,1,0,0,0,0,1,0,1,0,0,1],
-          [1,1,1,0,0,1,0,0,0,0,1,0,0,0,5,1],
-          [1,2,0,0,0,1,0,0,1,0,1,0,0,0,0,1],
-          [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+        title: "SECTOR 01: FIRST STRIKE",
+        playerStart: { x: 100, y: 270 },
+        exit: { x: 880, y: 270 },
+        walls: [
+          { x: 300, y: 120, w: 20, h: 300 },
+          { x: 600, y: 120, w: 20, h: 300 }
         ],
-        guards: [
-          { x: 6.5, y: 2.5, waypoints: [{x:6.5,y:2.5},{x:8.5,y:2.5},{x:8.5,y:6.5},{x:6.5,y:6.5}], speed: 2.2, coneAngle: 0.65, coneDist: 4.2 }
-        ],
-        cameras: [
-          { x: 13.5, y: 3.5, baseAngle: Math.PI/2, sweep: 0.8, speed: 1.8, coneDist: 4.5 }
+        enemies: [
+          { x: 450, y: 270, vx: 0, vy: 1.5, minRange: 160, maxRange: 380, isVertical: true },
+          { x: 750, y: 270, vx: 0, vy: -1.5, minRange: 160, maxRange: 380, isVertical: true }
         ],
         lasers: []
       },
 
-      // Sector 2: Laser Rhythm
+      // 2: The Crossfire
       {
-        title: "SECTOR 02: LASER GRID ARRAY",
-        width: 16, height: 10,
-        playerStart: { x: 1.5, y: 8.5 },
-        exit: { x: 14.5, y: 1.5 },
-        empCount: 2,
-        map: [
-          [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-          [1,0,0,0,1,0,0,0,1,0,0,0,0,1,5,1],
-          [1,0,1,0,1,0,1,0,1,0,1,1,0,1,4,1],
-          [1,0,1,0,0,0,1,0,0,0,0,1,0,0,0,1],
-          [1,0,1,1,1,0,1,1,1,1,0,1,1,1,0,1],
-          [1,0,0,0,1,0,0,0,0,1,0,0,0,1,0,1],
-          [1,1,1,0,1,1,1,0,0,1,1,1,0,1,0,1],
-          [1,2,0,0,0,0,1,0,0,0,0,1,0,0,0,1],
-          [1,0,0,1,1,0,0,0,1,0,0,0,0,1,0,1],
-          [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+        title: "SECTOR 02: CROSSFIRE CORRIDOR",
+        playerStart: { x: 100, y: 100 },
+        exit: { x: 880, y: 440 },
+        walls: [
+          { x: 250, y: 0, w: 20, h: 360 },
+          { x: 500, y: 180, w: 20, h: 360 },
+          { x: 750, y: 0, w: 20, h: 360 }
         ],
-        guards: [
-          { x: 5.5, y: 5.5, waypoints: [{x:5.5,y:5.5},{x:8.5,y:5.5},{x:8.5,y:7.5},{x:5.5,y:7.5}], speed: 2.4, coneAngle: 0.7, coneDist: 4.2 }
-        ],
-        cameras: [
-          { x: 3.5, y: 1.5, baseAngle: Math.PI/2, sweep: 0.9, speed: 2.0, coneDist: 4.5 },
-          { x: 11.5, y: 3.5, baseAngle: Math.PI, sweep: 0.8, speed: 1.5, coneDist: 4.5 }
-        ],
-        lasers: [
-          { x1: 9, y1: 3.5, x2: 12, y2: 3.5, period: 2.0, activeTime: 1.0 }
-        ]
-      },
-
-      // Sector 3: Double Patrol Squeeze
-      {
-        title: "SECTOR 03: PATROL CONVERGENCE",
-        width: 16, height: 10,
-        playerStart: { x: 1.5, y: 1.5 },
-        exit: { x: 14.5, y: 8.5 },
-        empCount: 3,
-        map: [
-          [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-          [1,0,0,0,0,0,1,0,0,0,0,1,0,0,2,1],
-          [1,0,1,1,1,0,1,0,1,1,0,1,0,1,1,1],
-          [1,0,1,0,0,0,0,0,0,1,0,0,0,0,0,1],
-          [1,0,1,0,1,1,1,1,0,1,1,1,1,1,0,1],
-          [1,0,0,0,1,0,0,1,0,0,0,0,0,1,0,1],
-          [1,1,1,0,1,0,0,1,1,1,1,1,0,1,4,1],
-          [1,0,0,0,0,0,0,0,0,0,0,1,0,0,5,1],
-          [1,0,1,1,1,1,1,1,1,1,0,0,0,1,1,1],
-          [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
-        ],
-        guards: [
-          { x: 3.5, y: 3.5, waypoints: [{x:3.5,y:3.5},{x:8.5,y:3.5},{x:8.5,y:5.5},{x:3.5,y:5.5}], speed: 2.6, coneAngle: 0.65, coneDist: 4.5 },
-          { x: 12.5, y: 3.5, waypoints: [{x:12.5,y:3.5},{x:12.5,y:7.5},{x:10.5,y:7.5},{x:10.5,y:3.5}], speed: 2.8, coneAngle: 0.7, coneDist: 4.5 }
-        ],
-        cameras: [
-          { x: 1.5, y: 5.5, baseAngle: 0, sweep: 0.8, speed: 1.8, coneDist: 4.2 }
+        enemies: [
+          { x: 375, y: 150, vx: 2, vy: 0, minRange: 300, maxRange: 450 },
+          { x: 625, y: 390, vx: -2, vy: 0, minRange: 550, maxRange: 700 }
         ],
         lasers: []
       },
 
-      // Sector 4: 360-Degree Central Turret Eye
+      // 3: Laser Maze
       {
-        title: "SECTOR 04: THE OCULUS VAULT",
-        width: 16, height: 10,
-        playerStart: { x: 1.5, y: 4.5 },
-        exit: { x: 14.5, y: 4.5 },
-        empCount: 2,
-        map: [
-          [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-          [1,0,0,0,1,0,0,0,0,0,0,1,0,0,2,1],
-          [1,0,1,0,1,0,1,1,1,1,0,1,0,1,0,1],
-          [1,0,1,0,0,0,1,0,0,1,0,0,0,1,0,1],
-          [1,0,1,1,1,0,0,0,0,0,0,1,1,1,4,1],
-          [1,0,1,0,0,0,1,0,0,1,0,0,0,1,5,1],
-          [1,0,1,0,1,0,1,1,1,1,0,1,0,1,0,1],
-          [1,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1],
-          [1,1,1,0,1,1,1,1,1,1,1,1,0,1,1,1],
-          [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+        title: "SECTOR 03: INFRARED NET",
+        playerStart: { x: 80, y: 270 },
+        exit: { x: 900, y: 270 },
+        walls: [
+          { x: 320, y: 180, w: 340, h: 20 },
+          { x: 320, y: 340, w: 340, h: 20 }
         ],
-        guards: [
-          { x: 7.5, y: 1.5, waypoints: [{x:7.5,y:1.5},{x:10.5,y:1.5},{x:10.5,y:7.5},{x:7.5,y:7.5}], speed: 2.7, coneAngle: 0.65, coneDist: 4.2 }
+        enemies: [
+          { x: 490, y: 260, vx: 2.2, vy: 0, minRange: 360, maxRange: 620 },
+          { x: 220, y: 150, vx: 0, vy: 2, minRange: 100, maxRange: 440, isVertical: true },
+          { x: 760, y: 390, vx: 0, vy: -2, minRange: 100, maxRange: 440, isVertical: true }
         ],
-        cameras: [
-          { x: 8.5, y: 4.5, baseAngle: 0, sweep: Math.PI * 2, speed: 1.4, isContinuous: true, coneDist: 5.0 }
+        lasers: [
+          { x1: 490, y1: 80, x2: 490, y2: 180, period: 2.0, activeTime: 1.0 },
+          { x1: 490, y1: 360, x2: 490, y2: 460, period: 2.0, activeTime: 1.0 }
+        ]
+      },
+
+      // 4: The Quad Squad
+      {
+        title: "SECTOR 04: ENFORCER BARRACKS",
+        playerStart: { x: 100, y: 270 },
+        exit: { x: 880, y: 270 },
+        walls: [
+          { x: 400, y: 80, w: 180, h: 20 },
+          { x: 400, y: 440, w: 180, h: 20 },
+          { x: 480, y: 200, w: 20, h: 140 }
+        ],
+        enemies: [
+          { x: 300, y: 160, vx: 0, vy: 2.2, minRange: 120, maxRange: 420, isVertical: true },
+          { x: 300, y: 380, vx: 0, vy: -2.2, minRange: 120, maxRange: 420, isVertical: true },
+          { x: 680, y: 160, vx: 0, vy: 2.2, minRange: 120, maxRange: 420, isVertical: true },
+          { x: 680, y: 380, vx: 0, vy: -2.2, minRange: 120, maxRange: 420, isVertical: true }
         ],
         lasers: []
       },
 
-      // Sector 5: Triple Threat
+      // 5: Rhythm Gateway
       {
-        title: "SECTOR 05: APEX PROTOCOL",
-        width: 16, height: 10,
-        playerStart: { x: 1.5, y: 1.5 },
-        exit: { x: 14.5, y: 8.5 },
-        empCount: 3,
-        map: [
-          [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-          [1,0,0,0,1,0,0,0,0,1,0,0,0,0,2,1],
-          [1,0,1,0,1,0,1,1,0,1,0,1,1,1,0,1],
-          [1,0,1,0,0,0,1,0,0,0,0,0,0,1,0,1],
-          [1,0,1,1,1,0,1,0,1,1,1,1,0,1,0,1],
-          [1,0,0,0,1,0,0,0,1,0,0,1,0,0,0,1],
-          [1,1,1,0,1,1,1,0,1,0,0,1,1,1,4,1],
-          [1,0,0,0,0,0,0,0,1,0,0,0,0,0,5,1],
-          [1,0,1,1,1,1,1,0,0,0,1,1,1,1,1,1],
-          [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+        title: "SECTOR 05: SYNCHRONIZED HARVEST",
+        playerStart: { x: 80, y: 100 },
+        exit: { x: 900, y: 440 },
+        walls: [
+          { x: 300, y: 0, w: 20, h: 280 },
+          { x: 300, y: 360, w: 20, h: 180 },
+          { x: 650, y: 0, w: 20, h: 180 },
+          { x: 650, y: 260, w: 20, h: 280 }
         ],
-        guards: [
-          { x: 5.5, y: 2.5, waypoints: [{x:5.5,y:2.5},{x:8.5,y:2.5},{x:8.5,y:5.5},{x:5.5,y:5.5}], speed: 3.0, coneAngle: 0.75, coneDist: 4.8 },
-          { x: 12.5, y: 4.5, waypoints: [{x:12.5,y:4.5},{x:12.5,y:7.5},{x:9.5,y:7.5},{x:9.5,y:4.5}], speed: 3.0, coneAngle: 0.75, coneDist: 4.8 }
-        ],
-        cameras: [
-          { x: 3.5, y: 3.5, baseAngle: Math.PI/2, sweep: 1.0, speed: 2.2, coneDist: 4.8 },
-          { x: 10.5, y: 1.5, baseAngle: Math.PI/2, sweep: 0.9, speed: 2.0, coneDist: 4.8 }
+        enemies: [
+          { x: 480, y: 140, vx: 2.8, vy: 0, minRange: 350, maxRange: 600 },
+          { x: 480, y: 400, vx: -2.8, vy: 0, minRange: 350, maxRange: 600 },
+          { x: 800, y: 270, vx: 0, vy: 2.5, minRange: 120, maxRange: 420, isVertical: true }
         ],
         lasers: [
-          { x1: 5, y1: 5.5, x2: 8, y2: 5.5, period: 1.8, activeTime: 0.9 }
+          { x1: 300, y1: 280, x2: 300, y2: 360, period: 1.8, activeTime: 0.9 },
+          { x1: 650, y1: 180, x2: 650, y2: 260, period: 1.8, activeTime: 0.9 }
         ]
       },
 
-      // Sector 6: Corridor of Lasers
+      // 6: The Citadel Core
       {
-        title: "SECTOR 06: INFRARED GAUNTLET",
-        width: 16, height: 10,
-        playerStart: { x: 1.5, y: 1.5 },
-        exit: { x: 14.5, y: 8.5 },
-        empCount: 3,
-        map: [
-          [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-          [1,0,0,0,0,0,0,0,1,0,0,0,0,0,2,1],
-          [1,0,1,1,1,1,1,0,1,0,1,1,1,1,0,1],
-          [1,0,1,0,0,0,1,0,0,0,1,0,0,1,0,1],
-          [1,0,1,0,1,0,1,1,1,0,1,0,0,1,0,1],
-          [1,0,0,0,1,0,0,0,1,0,0,0,0,1,0,1],
-          [1,1,1,1,1,1,0,0,1,1,1,1,0,1,4,1],
-          [1,0,0,0,0,0,0,0,0,0,0,0,0,0,5,1],
-          [1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-          [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+        title: "SECTOR 06: VAULT GUARDIANS",
+        playerStart: { x: 100, y: 270 },
+        exit: { x: 880, y: 270 },
+        walls: [
+          { x: 340, y: 140, w: 300, h: 20 },
+          { x: 340, y: 380, w: 300, h: 20 },
+          { x: 340, y: 160, w: 20, h: 220 },
+          { x: 620, y: 160, w: 20, h: 220 }
         ],
-        guards: [
-          { x: 4.5, y: 7.5, waypoints: [{x:4.5,y:7.5},{x:10.5,y:7.5}], speed: 3.2, coneAngle: 0.7, coneDist: 5.0 },
-          { x: 7.5, y: 1.5, waypoints: [{x:7.5,y:1.5},{x:1.5,y:1.5}], speed: 3.0, coneAngle: 0.7, coneDist: 4.5 }
+        enemies: [
+          { x: 480, y: 270, vx: 3, vy: 0, minRange: 380, maxRange: 580 },
+          { x: 220, y: 270, vx: 0, vy: 2.6, minRange: 100, maxRange: 440, isVertical: true },
+          { x: 760, y: 270, vx: 0, vy: -2.6, minRange: 100, maxRange: 440, isVertical: true },
+          { x: 480, y: 80, vx: 3, vy: 0, minRange: 200, maxRange: 780 }
         ],
-        cameras: [
-          { x: 8.5, y: 3.5, baseAngle: Math.PI/2, sweep: 1.1, speed: 2.2, coneDist: 4.8 }
+        lasers: []
+      },
+
+      // 7: Rapid Pulse
+      {
+        title: "SECTOR 07: PULSE CHAMBERS",
+        playerStart: { x: 80, y: 440 },
+        exit: { x: 900, y: 100 },
+        walls: [
+          { x: 240, y: 160, w: 20, h: 380 },
+          { x: 480, y: 0, w: 20, h: 380 },
+          { x: 720, y: 160, w: 20, h: 380 }
+        ],
+        enemies: [
+          { x: 160, y: 200, vx: 0, vy: 3, minRange: 80, maxRange: 460, isVertical: true },
+          { x: 360, y: 300, vx: 0, vy: -3, minRange: 80, maxRange: 460, isVertical: true },
+          { x: 600, y: 200, vx: 0, vy: 3, minRange: 80, maxRange: 460, isVertical: true },
+          { x: 840, y: 300, vx: 0, vy: -3, minRange: 80, maxRange: 460, isVertical: true }
         ],
         lasers: [
-          { x1: 2, y1: 5.5, x2: 5, y2: 5.5, period: 1.6, activeTime: 0.8 },
-          { x1: 9, y1: 5.5, x2: 12, y2: 5.5, period: 1.6, activeTime: 0.8 }
+          { x1: 240, y1: 80, x2: 240, y2: 160, period: 1.5, activeTime: 0.75 },
+          { x1: 720, y1: 80, x2: 720, y2: 160, period: 1.5, activeTime: 0.75 }
         ]
       },
 
-      // Sector 7: Ghost Vault
+      // 8: The Gauntlet
       {
-        title: "SECTOR 07: SHADOW SANCTUM",
-        width: 16, height: 10,
-        playerStart: { x: 1.5, y: 8.5 },
-        exit: { x: 14.5, y: 1.5 },
-        empCount: 2,
-        map: [
-          [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-          [1,0,0,0,1,0,0,0,1,0,0,0,0,1,5,1],
-          [1,0,1,0,1,0,1,0,1,0,1,1,0,1,4,1],
-          [1,0,1,0,0,0,1,0,0,0,0,1,0,0,0,1],
-          [1,0,1,1,1,0,1,1,1,1,0,1,1,1,0,1],
-          [1,0,0,0,1,0,0,0,0,1,0,0,0,1,0,1],
-          [1,1,1,0,1,1,1,0,0,1,1,1,0,1,0,1],
-          [1,2,0,0,0,0,1,0,0,0,0,1,0,0,0,1],
-          [1,0,0,1,1,0,0,0,1,0,0,0,0,1,0,1],
-          [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+        title: "SECTOR 08: THE KILL ZONE",
+        playerStart: { x: 80, y: 270 },
+        exit: { x: 900, y: 270 },
+        walls: [
+          { x: 260, y: 100, w: 460, h: 20 },
+          { x: 260, y: 420, w: 460, h: 20 }
         ],
-        guards: [
-          { x: 3.5, y: 3.5, waypoints: [{x:3.5,y:3.5},{x:6.5,y:3.5},{x:6.5,y:6.5},{x:3.5,y:6.5}], speed: 3.2, coneAngle: 0.75, coneDist: 5.0 },
-          { x: 10.5, y: 4.5, waypoints: [{x:10.5,y:4.5},{x:13.5,y:4.5},{x:13.5,y:7.5},{x:10.5,y:7.5}], speed: 3.4, coneAngle: 0.75, coneDist: 5.0 }
+        enemies: [
+          { x: 360, y: 270, vx: 3.2, vy: 0, minRange: 300, maxRange: 680 },
+          { x: 500, y: 200, vx: -3.2, vy: 0, minRange: 300, maxRange: 680 },
+          { x: 640, y: 340, vx: 3.2, vy: 0, minRange: 300, maxRange: 680 },
+          { x: 170, y: 270, vx: 0, vy: 2.8, minRange: 80, maxRange: 460, isVertical: true },
+          { x: 810, y: 270, vx: 0, vy: -2.8, minRange: 80, maxRange: 460, isVertical: true }
         ],
-        cameras: [
-          { x: 7.5, y: 1.5, baseAngle: Math.PI/2, sweep: 1.2, speed: 2.5, coneDist: 5.0 }
+        lasers: []
+      },
+
+      // 9: Matrix Overdrive
+      {
+        title: "SECTOR 09: OVERCLOCK ANOMALY",
+        playerStart: { x: 80, y: 80 },
+        exit: { x: 900, y: 460 },
+        walls: [
+          { x: 200, y: 180, w: 180, h: 20 },
+          { x: 600, y: 180, w: 180, h: 20 },
+          { x: 400, y: 340, w: 180, h: 20 }
+        ],
+        enemies: [
+          { x: 290, y: 100, vx: 3.5, vy: 0, minRange: 100, maxRange: 480 },
+          { x: 690, y: 100, vx: -3.5, vy: 0, minRange: 500, maxRange: 880 },
+          { x: 490, y: 260, vx: 3.5, vy: 0, minRange: 200, maxRange: 780 },
+          { x: 290, y: 420, vx: -3.5, vy: 0, minRange: 100, maxRange: 480 },
+          { x: 690, y: 420, vx: 3.5, vy: 0, minRange: 500, maxRange: 880 }
         ],
         lasers: [
-          { x1: 1, y1: 4.5, x2: 4, y2: 4.5, period: 1.4, activeTime: 0.7 }
+          { x1: 490, y1: 0, x2: 490, y2: 120, period: 1.4, activeTime: 0.7 },
+          { x1: 490, y1: 420, x2: 490, y2: 540, period: 1.4, activeTime: 0.7 }
         ]
       },
 
-      // Sector 8: Grand Master Core
+      // 10: The Apex Nexus (Final Master Challenge)
       {
-        title: "SECTOR 08: ZERO SIGNAL (FINAL)",
-        width: 16, height: 10,
-        playerStart: { x: 1.5, y: 1.5 },
-        exit: { x: 14.5, y: 8.5 },
-        empCount: 4,
-        map: [
-          [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-          [1,0,0,0,1,0,0,0,0,1,0,0,0,0,2,1],
-          [1,0,1,0,1,0,1,1,0,1,0,1,1,1,0,1],
-          [1,0,1,0,0,0,1,0,0,0,0,0,0,1,0,1],
-          [1,0,1,1,1,0,1,0,1,1,1,1,0,1,0,1],
-          [1,0,0,0,1,0,0,0,1,0,0,1,0,0,0,1],
-          [1,1,1,0,1,1,1,0,1,0,0,1,1,1,4,1],
-          [1,0,0,0,0,0,0,0,1,0,0,0,0,0,5,1],
-          [1,0,1,1,1,1,1,0,0,0,1,1,1,1,1,1],
-          [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+        title: "SECTOR 10: ZERO APEX (FINAL)",
+        playerStart: { x: 80, y: 270 },
+        exit: { x: 900, y: 270 },
+        walls: [
+          { x: 300, y: 100, w: 380, h: 20 },
+          { x: 300, y: 420, w: 380, h: 20 },
+          { x: 480, y: 200, w: 20, h: 140 }
         ],
-        guards: [
-          { x: 5.5, y: 2.5, waypoints: [{x:5.5,y:2.5},{x:8.5,y:2.5},{x:8.5,y:5.5},{x:5.5,y:5.5}], speed: 3.4, coneAngle: 0.8, coneDist: 5.2 },
-          { x: 12.5, y: 4.5, waypoints: [{x:12.5,y:4.5},{x:12.5,y:7.5},{x:9.5,y:7.5},{x:9.5,y:4.5}], speed: 3.5, coneAngle: 0.8, coneDist: 5.2 }
-        ],
-        cameras: [
-          { x: 3.5, y: 3.5, baseAngle: Math.PI/2, sweep: 1.2, speed: 2.4, coneDist: 5.2 },
-          { x: 10.5, y: 1.5, baseAngle: Math.PI/2, sweep: 1.0, speed: 2.2, coneDist: 5.2 }
+        enemies: [
+          { x: 380, y: 180, vx: 3.8, vy: 0, minRange: 200, maxRange: 780 },
+          { x: 580, y: 360, vx: -3.8, vy: 0, minRange: 200, maxRange: 780 },
+          { x: 190, y: 270, vx: 0, vy: 3.5, minRange: 80, maxRange: 460, isVertical: true },
+          { x: 790, y: 270, vx: 0, vy: -3.5, minRange: 80, maxRange: 460, isVertical: true },
+          { x: 490, y: 270, vx: 0, vy: 4.0, minRange: 140, maxRange: 400, isVertical: true }
         ],
         lasers: [
-          { x1: 5, y1: 5.5, x2: 8, y2: 5.5, period: 1.5, activeTime: 0.75 },
-          { x1: 1, y1: 5.5, x2: 4, y2: 5.5, period: 1.5, activeTime: 0.75 }
+          { x1: 300, y1: 200, x2: 300, y2: 340, period: 1.2, activeTime: 0.6 },
+          { x1: 680, y1: 200, x2: 680, y2: 340, period: 1.2, activeTime: 0.6 }
         ]
       }
     ];
 
     // --- GAME ENGINE STATE ---
-    const State = {
+    const Engine = {
       levelIdx: 0,
       sector: null,
-      grid: [],
-      tileW: 58,
-      tileH: 52,
-      ox: 20,
-      oy: 10,
-
-      deaths: 0,
-      totalTime: 0,
-      levelTime: 0,
-      status: 'START', // 'START', 'PLAY', 'WIN', 'DEAD'
+      state: 'START', // 'START', 'PLAY', 'DEAD', 'WIN'
 
       player: {
-        x: 1.5,
-        y: 1.5,
-        angle: 0,
-        speed: 4.2,
-        hasKey: false,
-        empRemaining: 2,
-        dashCooldown: 0,
-        isDashing: false,
-        dashTimer: 0,
-        activeDecoy: null
+        x: 100,
+        y: 270,
+        vx: 0,
+        vy: 0,
+        radius: 12,
+        speed: 4.5,
+        energy: 100,
+        maxEnergy: 100,
+        isAiming: false,
+        aimX: 0,
+        aimY: 0,
+        maxBlinkDist: 280
       },
 
-      guards: [],
-      cameras: [],
+      enemies: [],
+      walls: [],
       lasers: [],
-      gateUnlocked: false,
-
-      alarm: 0, // 0 - 100%
-      alarmStage: 'CLEAR', // 'CLEAR', 'CAUTION', 'ALERT'
+      exit: { x: 880, y: 270 },
 
       particles: [],
-      soundRipples: []
+      slashRays: [],
+      floatingTexts: [],
+      screenShake: 0,
+
+      combo: 0,
+      comboTimer: 0,
+      deaths: 0,
+      totalTime: 0,
+      levelTime: 0
     };
 
     // --- LEVEL LOADER ---
-    function loadSector(idx) {
-      State.levelIdx = idx;
+    function loadLevel(idx) {
+      Engine.levelIdx = idx;
       const sec = SECTORS[idx];
-      State.sector = sec;
-      State.grid = sec.map.map(r => [...r]);
+      Engine.sector = sec;
 
-      const canvas = document.getElementById('gameCanvas');
-      const w = canvas.width;
-      const h = canvas.height;
+      Engine.player.x = sec.playerStart.x;
+      Engine.player.y = sec.playerStart.y;
+      Engine.player.vx = 0;
+      Engine.player.vy = 0;
+      Engine.player.energy = 100;
+      Engine.player.isAiming = false;
 
-      State.tileW = Math.floor((w - 30) / sec.width);
-      State.tileH = Math.floor((h - 20) / sec.height);
-      State.ox = Math.floor((w - State.tileW * sec.width) / 2);
-      State.oy = Math.floor((h - State.tileH * sec.height) / 2);
+      Engine.exit = { ...sec.exit };
+      Engine.walls = sec.walls.map(w => ({ ...w }));
 
-      // Player
-      State.player.x = sec.playerStart.x;
-      State.player.y = sec.playerStart.y;
-      State.player.angle = 0;
-      State.player.hasKey = false;
-      State.player.empRemaining = sec.empCount || 2;
-      State.player.dashCooldown = 0;
-      State.player.isDashing = false;
-      State.player.activeDecoy = null;
-
-      // Guards
-      State.guards = sec.guards.map(g => ({
-        x: g.x,
-        y: g.y,
-        waypoints: g.waypoints.map(wp => ({...wp})),
-        wpIdx: 0,
-        speed: g.speed,
-        angle: 0,
-        coneAngle: g.coneAngle,
-        coneDist: g.coneDist,
-        stunTimer: 0,
-        alertStatus: 'PATROL',
-        searchTimer: 0
+      Engine.enemies = sec.enemies.map(e => ({
+        x: e.x,
+        y: e.y,
+        vx: e.vx || 0,
+        vy: e.vy || 0,
+        minRange: e.minRange,
+        maxRange: e.maxRange,
+        isVertical: !!e.isVertical,
+        alive: true,
+        radius: 14,
+        angle: 0
       }));
 
-      // Cameras
-      State.cameras = sec.cameras.map(c => ({
-        x: c.x,
-        y: c.y,
-        baseAngle: c.baseAngle,
-        currentAngle: c.baseAngle,
-        sweep: c.sweep,
-        speed: c.speed,
-        isContinuous: !!c.isContinuous,
-        coneDist: c.coneDist,
-        freezeTimer: 0
-      }));
-
-      // Lasers
-      State.lasers = (sec.lasers || []).map(l => ({
+      Engine.lasers = sec.lasers.map(l => ({
         x1: l.x1,
         y1: l.y1,
         x2: l.x2,
@@ -827,117 +763,192 @@
         period: l.period,
         activeTime: l.activeTime,
         timer: 0,
-        isActive: true
+        active: true
       }));
 
-      State.gateUnlocked = false;
-      State.alarm = 0;
-      State.alarmStage = 'CLEAR';
-      State.levelTime = 0;
-      State.particles = [];
-      State.soundRipples = [];
+      Engine.particles = [];
+      Engine.slashRays = [];
+      Engine.floatingTexts = [];
+      Engine.combo = 0;
+      Engine.comboTimer = 0;
+      Engine.levelTime = 0;
 
-      // UI
-      document.getElementById('levelLabel').innerText = `SECTOR ${String(idx + 1).padStart(2, '0')}`;
-      document.getElementById('sectorProgressText').innerText = `${idx + 1} / ${SECTORS.length}`;
+      // Update HUD
+      document.getElementById('sectorTag').innerText = `SECTOR ${String(idx + 1).padStart(2, '0')}`;
+      document.getElementById('progressText').innerText = `${idx + 1} / ${SECTORS.length}`;
       updateHUD();
     }
 
-    // --- GRID UTILS ---
-    function gridToScreen(gx, gy) {
-      return {
-        x: State.ox + gx * State.tileW,
-        y: State.oy + gy * State.tileH
-      };
-    }
-
-    function isWall(gx, gy) {
-      const ix = Math.floor(gx);
-      const iy = Math.floor(gy);
-      if (ix < 0 || ix >= State.sector.width || iy < 0 || iy >= State.sector.height) return true;
-      if (State.grid[iy][ix] === 1) return true;
-      if (!State.gateUnlocked && State.grid[iy][ix] === 4) return true;
-      return false;
-    }
-
-    function hasLineOfSight(x1, y1, x2, y2) {
-      const dist = Math.hypot(x2 - x1, y2 - y1);
-      const steps = Math.ceil(dist * 14);
-      for (let i = 1; i < steps; i++) {
-        const t = i / steps;
-        const cx = x1 + (x2 - x1) * t;
-        const cy = y1 + (y2 - y1) * t;
-        if (isWall(cx, cy)) return false;
-      }
-      return true;
-    }
-
-    // --- GADGETS & ACTIONS ---
-    function triggerDash() {
-      const p = State.player;
-      if (p.dashCooldown > 0 || p.isDashing || State.status !== 'PLAY') return;
-
-      p.isDashing = true;
-      p.dashTimer = 0.16;
-      p.dashCooldown = 1.2;
-      sound.playDash();
-
-      const sc = gridToScreen(p.x, p.y);
-      spawnParticles(sc.x, sc.y, '#ff006e', 14, 90);
-    }
-
-    function throwDecoy(targetGx, targetGy) {
-      if (State.status !== 'PLAY') return;
-      State.player.activeDecoy = {
-        x: targetGx,
-        y: targetGy,
-        timer: 4.5
-      };
-      sound.playDecoy();
-
-      const sc = gridToScreen(targetGx, targetGy);
-      State.soundRipples.push({ x: sc.x, y: sc.y, radius: 0, maxRadius: 80, life: 0.8 });
-    }
-
-    function triggerEMP() {
-      const p = State.player;
-      if (p.empRemaining <= 0 || State.status !== 'PLAY') return;
-
-      p.empRemaining--;
-      sound.playEmp();
-
-      State.guards.forEach(g => {
-        g.stunTimer = 4.0;
-        g.alertStatus = 'PATROL';
-      });
-      State.cameras.forEach(c => {
-        c.freezeTimer = 5.0;
-      });
-
-      const sc = gridToScreen(p.x, p.y);
-      spawnParticles(sc.x, sc.y, '#00f3ff', 30, 100);
-      State.soundRipples.push({ x: sc.x, y: sc.y, radius: 0, maxRadius: 160, life: 0.6 });
-      updateHUD();
-    }
-
-    // --- PARTICLES & RIPPLES ---
-    function spawnParticles(x, y, color, count = 1, speed = 40) {
+    // --- PARTICLES & JUICY EFFECTS ---
+    function spawnSparks(x, y, color, count = 12, speed = 120) {
       for (let i = 0; i < count; i++) {
         const angle = Math.random() * Math.PI * 2;
         const spd = (Math.random() * 0.7 + 0.3) * speed;
-        State.particles.push({
-          x: x, y: y,
+        Engine.particles.push({
+          x: x,
+          y: y,
           vx: Math.cos(angle) * spd,
           vy: Math.sin(angle) * spd,
           life: 0.3 + Math.random() * 0.3,
           maxLife: 0.6,
-          color: color
+          color: color,
+          size: 2 + Math.random() * 3
         });
       }
     }
 
+    function addFloatingText(x, y, text, color = '#ffbe0b') {
+      Engine.floatingTexts.push({
+        x: x,
+        y: y,
+        text: text,
+        color: color,
+        life: 0.8,
+        maxLife: 0.8
+      });
+    }
+
+    // Line intersection helper
+    function lineIntersectsLine(x1, y1, x2, y2, x3, y3, x4, y4) {
+      const denom = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1);
+      if (denom === 0) return false;
+      const ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / denom;
+      const ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / denom;
+      return ua >= 0 && ua <= 1 && ub >= 0 && ub <= 1;
+    }
+
+    function lineIntersectsRect(x1, y1, x2, y2, rx, ry, rw, rh) {
+      return (
+        lineIntersectsLine(x1, y1, x2, y2, rx, ry, rx + rw, ry) ||
+        lineIntersectsLine(x1, y1, x2, y2, rx + rw, ry, rx + rw, ry + rh) ||
+        lineIntersectsLine(x1, y1, x2, y2, rx + rw, ry + rh, rx, ry + rh) ||
+        lineIntersectsLine(x1, y1, x2, y2, rx, ry + rh, rx, ry)
+      );
+    }
+
+    function pointRectCollision(px, py, pr, rx, ry, rw, rh) {
+      const closeX = Math.max(rx, Math.min(px, rx + rw));
+      const closeY = Math.max(ry, Math.min(py, ry + rh));
+      return Math.hypot(px - closeX, py - closeY) < pr;
+    }
+
+    // --- CYBER BLINK EXECUTION ---
+    function executeBlink(targetX, targetY) {
+      const p = Engine.player;
+      const dist = Math.hypot(targetX - p.x, targetY - p.y);
+      if (dist < 10) return;
+
+      const angle = Math.atan2(targetY - p.y, targetX - p.x);
+      const blinkDist = Math.min(dist, p.maxBlinkDist);
+      const startX = p.x;
+      const startY = p.y;
+      const endX = p.x + Math.cos(angle) * blinkDist;
+      const endY = p.y + Math.sin(angle) * blinkDist;
+
+      // Check wall occlusion along blink ray
+      let actualEndX = endX;
+      let actualEndY = endY;
+      for (const w of Engine.walls) {
+        if (lineIntersectsRect(startX, startY, endX, endY, w.x, w.y, w.w, w.h)) {
+          // shorten blink to wall
+          for (let step = 0; step <= 20; step++) {
+            const t = step / 20;
+            const cx = startX + (endX - startX) * t;
+            const cy = startY + (endY - startY) * t;
+            if (pointRectCollision(cx, cy, 5, w.x, w.y, w.w, w.h)) {
+              actualEndX = startX + (endX - startX) * Math.max(0, t - 0.08);
+              actualEndY = startY + (endY - startY) * Math.max(0, t - 0.08);
+              break;
+            }
+          }
+        }
+      }
+
+      // Record Neon Slash Trail
+      Engine.slashRays.push({
+        x1: startX,
+        y1: startY,
+        x2: actualEndX,
+        y2: actualEndY,
+        life: 0.25,
+        maxLife: 0.25
+      });
+
+      // Slice through enemies along path
+      let enemiesKilledThisBlink = 0;
+      Engine.enemies.forEach(e => {
+        if (!e.alive) return;
+        // Dist from enemy center to blink segment
+        const A = { x: startX, y: startY };
+        const B = { x: actualEndX, y: actualEndY };
+        const P = { x: e.x, y: e.y };
+        
+        const ABx = B.x - A.x;
+        const ABy = B.y - A.y;
+        const t = Math.max(0, Math.min(1, ((P.x - A.x) * ABx + (P.y - A.y) * ABy) / (ABx * ABx + ABy * ABy || 1)));
+        const closestX = A.x + t * ABx;
+        const closestY = A.y + t * ABy;
+        const d = Math.hypot(P.x - closestX, P.y - closestY);
+
+        if (d < e.radius + 14) {
+          e.alive = false;
+          enemiesKilledThisBlink++;
+          Engine.combo++;
+          Engine.comboTimer = 2.5;
+          Engine.screenShake = 12;
+          spawnSparks(e.x, e.y, '#ff006e', 25, 180);
+          spawnSparks(e.x, e.y, '#00f3ff', 15, 120);
+          addFloatingText(e.x, e.y - 20, `${Engine.combo}x COMBO!`, '#ffbe0b');
+          sound.playSlash();
+        }
+      });
+
+      // Update Player Pos
+      p.x = actualEndX;
+      p.y = actualEndY;
+      sound.playBlink();
+      spawnSparks(actualEndX, actualEndY, '#00f3ff', 10, 80);
+
+      // Check remaining enemies
+      const remaining = Engine.enemies.filter(e => e.alive).length;
+      if (remaining === 0) {
+        addFloatingText(Engine.exit.x, Engine.exit.y - 25, "GATEWAY UNLOCKED!", "#05ffa1");
+      }
+
+      updateHUD();
+    }
+
     // --- INPUT CONTROLLER ---
     const keys = {};
+    const canvas = document.getElementById('gameCanvas');
+
+    canvas.addEventListener('mousedown', (e) => {
+      sound.init();
+      if (Engine.state !== 'PLAY') return;
+      const rect = canvas.getBoundingClientRect();
+      Engine.player.isAiming = true;
+      Engine.player.aimX = e.clientX - rect.left;
+      Engine.player.aimY = e.clientY - rect.top;
+      sound.playSlowMoStart();
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (Engine.player.isAiming) {
+        const rect = canvas.getBoundingClientRect();
+        Engine.player.aimX = e.clientX - rect.left;
+        Engine.player.aimY = e.clientY - rect.top;
+      }
+    });
+
+    window.addEventListener('mouseup', (e) => {
+      if (Engine.player.isAiming && Engine.state === 'PLAY') {
+        const rect = canvas.getBoundingClientRect();
+        const targetX = e.clientX - rect.left;
+        const targetY = e.clientY - rect.top;
+        Engine.player.isAiming = false;
+        executeBlink(targetX, targetY);
+      }
+    });
 
     window.addEventListener('keydown', (e) => {
       sound.init();
@@ -945,24 +956,11 @@
 
       if (e.key === ' ' || e.code === 'Space') {
         e.preventDefault();
-        if (State.status === 'START') {
-          startGame();
-        } else if (State.status === 'DEAD') {
-          retrySector();
-        } else if (State.status === 'WIN') {
-          nextSector();
-        } else {
-          triggerDash();
-        }
+        if (Engine.state === 'START') startGame();
+        else if (Engine.state === 'DEAD') retryLevel();
+        else if (Engine.state === 'WIN') nextLevel();
       } else if (e.key === 'r' || e.key === 'R') {
-        retrySector();
-      } else if (e.key === 'e' || e.key === 'E') {
-        triggerEMP();
-      } else if (e.key === 'f' || e.key === 'F') {
-        // Drop decoy in front of player
-        const dx = State.player.x + Math.cos(State.player.angle) * 2.5;
-        const dy = State.player.y + Math.sin(State.player.angle) * 2.5;
-        if (!isWall(dx, dy)) throwDecoy(dx, dy);
+        retryLevel();
       }
     });
 
@@ -970,44 +968,31 @@
       keys[e.key.toLowerCase()] = false;
     });
 
-    // Click to throw sound decoy at cursor
-    const canvas = document.getElementById('gameCanvas');
-    canvas.addEventListener('mousedown', (e) => {
-      sound.init();
-      if (State.status !== 'PLAY') return;
-
-      const rect = canvas.getBoundingClientRect();
-      const clickX = e.clientX - rect.left;
-      const clickY = e.clientY - rect.top;
-
-      const gx = (clickX - State.ox) / State.tileW;
-      const gy = (clickY - State.oy) / State.tileH;
-
-      if (!isWall(gx, gy) && Math.hypot(gx - State.player.x, gy - State.player.y) <= 6.0) {
-        throwDecoy(gx, gy);
-      }
-    });
-
-    // --- UPDATE LOOP ---
+    // --- GAME ENGINE UPDATE ---
     let lastTime = performance.now();
 
     function update(dt) {
-      if (State.status !== 'PLAY') return;
+      if (Engine.state !== 'PLAY') return;
 
-      State.levelTime += dt;
-      State.totalTime += dt;
-      const p = State.player;
+      const p = Engine.player;
+      const isSlowMo = p.isAiming;
+      const timeScale = isSlowMo ? 0.15 : 1.0;
 
-      // Dash Cooldown
-      if (p.dashCooldown > 0) p.dashCooldown = Math.max(0, p.dashCooldown - dt);
+      Engine.levelTime += dt;
+      Engine.totalTime += dt;
 
-      // Decoy Timer
-      if (p.activeDecoy) {
-        p.activeDecoy.timer -= dt;
-        if (p.activeDecoy.timer <= 0) p.activeDecoy = null;
+      // Screen shake decay
+      if (Engine.screenShake > 0) {
+        Engine.screenShake = Math.max(0, Engine.screenShake - 35 * dt);
       }
 
-      // Player Movement
+      // Combo timer
+      if (Engine.comboTimer > 0) {
+        Engine.comboTimer -= dt;
+        if (Engine.comboTimer <= 0) Engine.combo = 0;
+      }
+
+      // WASD Player Free Move (Real-time speed)
       let mx = 0, my = 0;
       if (keys['w'] || keys['arrowup']) my -= 1;
       if (keys['s'] || keys['arrowdown']) my += 1;
@@ -1019,191 +1004,93 @@
         my *= 0.7071;
       }
 
-      let speed = p.speed;
-      if (p.isDashing) {
-        p.dashTimer -= dt;
-        speed = p.speed * 2.6;
-        if (p.dashTimer <= 0) p.isDashing = false;
+      const moveSpd = p.speed * 60 * dt;
+      const nextPx = p.x + mx * moveSpd;
+      const nextPy = p.y + my * moveSpd;
+
+      // Clamp to bounds & walls
+      if (nextPx >= p.radius && nextPx <= canvas.width - p.radius) {
+        let hit = false;
+        for (const w of Engine.walls) {
+          if (pointRectCollision(nextPx, p.y, p.radius, w.x, w.y, w.w, w.h)) hit = true;
+        }
+        if (!hit) p.x = nextPx;
+      }
+      if (nextPy >= p.radius && nextPy <= canvas.height - p.radius) {
+        let hit = false;
+        for (const w of Engine.walls) {
+          if (pointRectCollision(p.x, nextPy, p.radius, w.x, w.y, w.w, w.h)) hit = true;
+        }
+        if (!hit) p.y = nextPy;
       }
 
-      const moveDist = speed * dt;
-      const nx = p.x + mx * moveDist;
-      const ny = p.y + my * moveDist;
-      const r = 0.28;
+      // Enemy AI Motion (Dilated by slowmo)
+      for (const e of Engine.enemies) {
+        if (!e.alive) continue;
 
-      if (!isWall(nx + (mx > 0 ? r : -r), p.y)) p.x = nx;
-      if (!isWall(p.x, ny + (my > 0 ? r : -r))) p.y = ny;
+        if (e.isVertical) {
+          e.y += e.vy * 60 * dt * timeScale;
+          if (e.y <= e.minRange || e.y >= e.maxRange) e.vy *= -1;
+        } else {
+          e.x += e.vx * 60 * dt * timeScale;
+          if (e.x <= e.minRange || e.x >= e.maxRange) e.vx *= -1;
+        }
 
-      if (mx !== 0 || my !== 0) {
-        p.angle = Math.atan2(my, mx);
+        // Check enemy touching player
+        if (Math.hypot(p.x - e.x, p.y - e.y) < p.radius + e.radius - 2) {
+          triggerDeath("Neutralized by Sentry Blade");
+          return;
+        }
       }
 
-      // Collect Keycard & Exit
-      const cellX = Math.floor(p.x);
-      const cellY = Math.floor(p.y);
-      const tile = State.grid[cellY]?.[cellX];
+      // Lasers
+      for (const l of Engine.lasers) {
+        l.timer = (l.timer + dt * timeScale) % l.period;
+        l.active = l.timer < l.activeTime;
 
-      if (tile === 2 && !p.hasKey) {
-        p.hasKey = true;
-        State.gateUnlocked = true;
-        State.grid[cellY][cellX] = 0;
-        sound.playItem();
-        updateHUD();
-      }
-
-      if (tile === 5) {
-        triggerWin();
-        return;
-      }
-
-      // Security Lasers
-      for (const l of State.lasers) {
-        l.timer = (l.timer + dt) % l.period;
-        l.isActive = l.timer < l.activeTime;
-
-        if (l.isActive) {
-          // Check player collision with laser segment
-          const distToLaser = Math.abs(p.y - l.y1);
-          if (distToLaser < 0.35 && p.x >= l.x1 && p.x <= l.x2 && !p.isDashing) {
-            triggerDeath("Crossed Active Laser Grid");
+        if (l.active) {
+          const dToLaser = Math.abs(p.y - l.y1);
+          if (dToLaser < p.radius && p.x >= Math.min(l.x1, l.x2) && p.x <= Math.max(l.x1, l.x2)) {
+            triggerDeath("Vaporized by Security Laser");
             return;
           }
         }
       }
 
-      // Security Cameras
-      for (const c of State.cameras) {
-        if (c.freezeTimer > 0) {
-          c.freezeTimer = Math.max(0, c.freezeTimer - dt);
-          continue;
-        }
-        if (c.isContinuous) {
-          c.currentAngle = (c.currentAngle + c.speed * dt) % (Math.PI * 2);
-        } else {
-          c.currentAngle = c.baseAngle + Math.sin(State.levelTime * c.speed) * c.sweep;
+      // Check Victory Condition (All enemies dead & reached exit gateway)
+      const enemiesAlive = Engine.enemies.filter(e => e.alive).length;
+      if (enemiesAlive === 0) {
+        if (Math.hypot(p.x - Engine.exit.x, p.y - Engine.exit.y) < p.radius + 18) {
+          triggerWin();
+          return;
         }
       }
 
-      // Patrol Guards Motion & AI
-      for (const g of State.guards) {
-        if (g.stunTimer > 0) {
-          g.stunTimer = Math.max(0, g.stunTimer - dt);
-          g.alertStatus = 'PATROL';
-          continue;
-        }
-
-        let targetX = p.x;
-        let targetY = p.y;
-        if (p.activeDecoy && Math.hypot(p.activeDecoy.x - g.x, p.activeDecoy.y - g.y) < 5.5) {
-          targetX = p.activeDecoy.x;
-          targetY = p.activeDecoy.y;
-          g.alertStatus = 'SUSPICIOUS';
-        }
-
-        if (g.alertStatus === 'SUSPICIOUS') {
-          g.angle = Math.atan2(targetY - g.y, targetX - g.x);
-        } else if (g.alertStatus === 'ALERT') {
-          const moveAngle = Math.atan2(p.y - g.y, p.x - g.x);
-          g.angle = moveAngle;
-          const stepDist = (g.speed * 0.85) * dt;
-          const nx = g.x + Math.cos(moveAngle) * stepDist;
-          const ny = g.y + Math.sin(moveAngle) * stepDist;
-          if (!isWall(nx, ny)) {
-            g.x = nx;
-            g.y = ny;
-          }
-        } else {
-          const wp = g.waypoints[g.wpIdx];
-          const dist = Math.hypot(wp.x - g.x, wp.y - g.y);
-          if (dist < 0.1) {
-            g.wpIdx = (g.wpIdx + 1) % g.waypoints.length;
-          } else {
-            const moveAngle = Math.atan2(wp.y - g.y, wp.x - g.x);
-            g.angle = moveAngle;
-            g.x += Math.cos(moveAngle) * g.speed * dt;
-            g.y += Math.sin(moveAngle) * g.speed * dt;
-          }
-        }
-      }
-
-      // Threat Line-of-Sight Detection
-      let detected = false;
-      let detectionRate = 0;
-
-      // Guard cones
-      for (const g of State.guards) {
-        if (g.stunTimer > 0) continue;
-        const dist = Math.hypot(p.x - g.x, p.y - g.y);
-        if (dist <= g.coneDist) {
-          const angleToP = Math.atan2(p.y - g.y, p.x - g.x);
-          let diff = Math.abs(angleToP - g.angle);
-          while (diff > Math.PI) diff = Math.abs(diff - Math.PI * 2);
-
-          if (diff <= g.coneAngle && hasLineOfSight(g.x, g.y, p.x, p.y)) {
-            detected = true;
-            detectionRate = dist < 2.0 ? 80 : 45;
-            if (p.isDashing) detectionRate *= 0.4;
-            g.alertStatus = State.alarm > 40 ? 'ALERT' : 'SUSPICIOUS';
-            g.angle = angleToP;
-          }
-        }
-      }
-
-      // Camera cones
-      for (const c of State.cameras) {
-        if (c.freezeTimer > 0) continue;
-        const dist = Math.hypot(p.x - c.x, p.y - c.y);
-        if (dist <= c.coneDist) {
-          const angleToP = Math.atan2(p.y - c.y, p.x - c.x);
-          let diff = Math.abs(angleToP - c.currentAngle);
-          while (diff > Math.PI) diff = Math.abs(diff - Math.PI * 2);
-
-          if (diff <= 0.6 && hasLineOfSight(c.x, c.y, p.x, p.y)) {
-            detected = true;
-            detectionRate = Math.max(detectionRate, 55);
-          }
-        }
-      }
-
-      // Alarm build-up & decay
-      const vignette = document.getElementById('vignette');
-      if (detected) {
-        State.alarm = Math.min(100, State.alarm + detectionRate * dt);
-      } else {
-        State.alarm = Math.max(0, State.alarm - 25 * dt);
-      }
-
-      if (State.alarm >= 70) {
-        State.alarmStage = 'ALERT';
-        vignette.className = 'vignette danger';
-      } else if (State.alarm >= 20) {
-        State.alarmStage = 'CAUTION';
-        vignette.className = 'vignette caution';
-      } else {
-        State.alarmStage = 'CLEAR';
-        vignette.className = 'vignette';
-      }
-
-      if (State.alarm >= 100) {
-        triggerDeath("Enforcer Visual Confirmation");
-        return;
-      }
-
-      // Particles & Ripples
-      for (let i = State.particles.length - 1; i >= 0; i--) {
-        const pt = State.particles[i];
+      // Update Particles
+      for (let i = Engine.particles.length - 1; i >= 0; i--) {
+        const pt = Engine.particles[i];
         pt.life -= dt;
         pt.x += pt.vx * dt;
         pt.y += pt.vy * dt;
-        if (pt.life <= 0) State.particles.splice(i, 1);
+        if (pt.life <= 0) Engine.particles.splice(i, 1);
       }
 
-      for (let i = State.soundRipples.length - 1; i >= 0; i--) {
-        const rp = State.soundRipples[i];
-        rp.life -= dt;
-        rp.radius += 100 * dt;
-        if (rp.life <= 0) State.soundRipples.splice(i, 1);
+      for (let i = Engine.slashRays.length - 1; i >= 0; i--) {
+        const sr = Engine.slashRays[i];
+        sr.life -= dt;
+        if (sr.life <= 0) Engine.slashRays.splice(i, 1);
       }
+
+      for (let i = Engine.floatingTexts.length - 1; i >= 0; i--) {
+        const ft = Engine.floatingTexts[i];
+        ft.life -= dt;
+        ft.y -= 25 * dt;
+        if (ft.life <= 0) Engine.floatingTexts.splice(i, 1);
+      }
+
+      // Vignette slowmo
+      const vig = document.getElementById('vignette');
+      vig.className = isSlowMo ? 'screen-vignette slowmo' : 'screen-vignette';
 
       updateHUD();
     }
@@ -1212,289 +1099,268 @@
     const ctx = canvas.getContext('2d');
 
     function render() {
-      ctx.fillStyle = '#05070d';
+      ctx.save();
+
+      // Screen Shake
+      if (Engine.screenShake > 0) {
+        const shakeX = (Math.random() - 0.5) * Engine.screenShake;
+        const shakeY = (Math.random() - 0.5) * Engine.screenShake;
+        ctx.translate(shakeX, shakeY);
+      }
+
+      // Clear dark cyber floor
+      ctx.fillStyle = '#03050a';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      if (!State.sector) return;
-
-      const tw = State.tileW;
-      const th = State.tileH;
-      const ox = State.ox;
-      const oy = State.oy;
-
-      // 1. Map Grid
-      for (let y = 0; y < State.sector.height; y++) {
-        for (let x = 0; x < State.sector.width; x++) {
-          const type = State.grid[y][x];
-          const px = ox + x * tw;
-          const py = oy + y * th;
-
-          if (type === 1) {
-            // Walls
-            ctx.fillStyle = '#0b111e';
-            ctx.fillRect(px, py, tw, th);
-            ctx.strokeStyle = 'rgba(0, 243, 255, 0.2)';
-            ctx.lineWidth = 1;
-            ctx.strokeRect(px + 2, py + 2, tw - 4, th - 4);
-          } else {
-            // Floors
-            ctx.fillStyle = (x + y) % 2 === 0 ? '#070b14' : '#05080f';
-            ctx.fillRect(px, py, tw, th);
-          }
-        }
+      // Cyber Grid Floor Lines
+      ctx.strokeStyle = 'rgba(0, 243, 255, 0.035)';
+      ctx.lineWidth = 1;
+      for (let x = 0; x < canvas.width; x += 35) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, canvas.height);
+        ctx.stroke();
+      }
+      for (let y = 0; y < canvas.height; y += 35) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(canvas.width, y);
+        ctx.stroke();
       }
 
-      // 2. Exit Elevator
-      const ex = State.sector.exit;
-      const exSc = gridToScreen(ex.x, ex.y);
-      ctx.save();
-      ctx.translate(exSc.x, exSc.y);
-      ctx.strokeStyle = '#05ffa1';
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.arc(0, 0, tw * 0.4, 0, Math.PI * 2);
-      ctx.stroke();
-
-      ctx.rotate(State.levelTime * 2);
-      ctx.fillStyle = 'rgba(5, 255, 161, 0.25)';
-      ctx.fillRect(-tw * 0.2, -tw * 0.2, tw * 0.4, tw * 0.4);
-      ctx.restore();
-
-      // 3. Laser Gate Barrier
-      for (let y = 0; y < State.sector.height; y++) {
-        for (let x = 0; x < State.sector.width; x++) {
-          if (State.grid[y][x] === 4) {
-            const gSc = gridToScreen(x, y);
-            if (!State.gateUnlocked) {
-              ctx.strokeStyle = '#ff2a51';
-              ctx.lineWidth = 4;
-              ctx.beginPath();
-              ctx.moveTo(gSc.x, gSc.y + th * 0.5);
-              ctx.lineTo(gSc.x + tw, gSc.y + th * 0.5);
-              ctx.stroke();
-            }
-          }
-        }
+      // 1. Solid Walls
+      for (const w of Engine.walls) {
+        ctx.fillStyle = '#0d1527';
+        ctx.fillRect(w.x, w.y, w.w, w.h);
+        ctx.strokeStyle = 'rgba(0, 243, 255, 0.35)';
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(w.x, w.y, w.w, w.h);
       }
 
-      // 4. Infrared Hazard Lasers
-      for (const l of State.lasers) {
-        if (l.isActive) {
-          const p1 = gridToScreen(l.x1, l.y1);
-          const p2 = gridToScreen(l.x2, l.y2);
+      // 2. Security Lasers
+      for (const l of Engine.lasers) {
+        if (l.active) {
           ctx.strokeStyle = '#ff2a51';
           ctx.lineWidth = 3;
           ctx.beginPath();
-          ctx.moveTo(p1.x, p1.y);
-          ctx.lineTo(p2.x, p2.y);
+          ctx.moveTo(l.x1, l.y1);
+          ctx.lineTo(l.x2, l.y2);
           ctx.stroke();
 
           ctx.strokeStyle = 'rgba(255, 42, 81, 0.4)';
           ctx.lineWidth = 8;
           ctx.stroke();
-        }
-      }
-
-      // 5. Keycards
-      for (let y = 0; y < State.sector.height; y++) {
-        for (let x = 0; x < State.sector.width; x++) {
-          if (State.grid[y][x] === 2) {
-            const sc = gridToScreen(x + 0.5, y + 0.5);
-            ctx.fillStyle = '#ff006e';
-            ctx.beginPath();
-            ctx.arc(sc.x, sc.y, 8, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.strokeStyle = '#fff';
-            ctx.lineWidth = 1.5;
-            ctx.stroke();
-          }
-        }
-      }
-
-      // 6. Camera Cones
-      for (const c of State.cameras) {
-        const cSc = gridToScreen(c.x, c.y);
-        ctx.save();
-        ctx.beginPath();
-        ctx.moveTo(cSc.x, cSc.y);
-        ctx.arc(cSc.x, cSc.y, c.coneDist * tw, c.currentAngle - 0.6, c.currentAngle + 0.6);
-        ctx.closePath();
-        ctx.fillStyle = c.freezeTimer > 0 ? 'rgba(0, 243, 255, 0.08)' : 'rgba(255, 183, 3, 0.25)';
-        ctx.fill();
-        ctx.restore();
-
-        ctx.fillStyle = c.freezeTimer > 0 ? '#00f3ff' : '#ffb703';
-        ctx.beginPath();
-        ctx.arc(cSc.x, cSc.y, 7, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      // 7. Active Decoy Lure
-      if (State.player.activeDecoy) {
-        const dSc = gridToScreen(State.player.activeDecoy.x, State.player.activeDecoy.y);
-        ctx.strokeStyle = '#ffb703';
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        ctx.arc(dSc.x, dSc.y, 10 + Math.sin(State.levelTime * 12) * 4, 0, Math.PI * 2);
-        ctx.stroke();
-      }
-
-      // 8. Sound Ripples
-      for (const rp of State.soundRipples) {
-        ctx.save();
-        ctx.strokeStyle = 'rgba(0, 243, 255, ' + (rp.life * 0.8) + ')';
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        ctx.arc(rp.x, rp.y, rp.radius, 0, Math.PI * 2);
-        ctx.stroke();
-        ctx.restore();
-      }
-
-      // 9. Patrol Guards
-      for (const g of State.guards) {
-        const gSc = gridToScreen(g.x, g.y);
-        if (g.stunTimer <= 0) {
-          ctx.save();
+        } else {
+          // Dormant indicator
+          ctx.strokeStyle = 'rgba(255, 42, 81, 0.15)';
+          ctx.lineWidth = 1;
           ctx.beginPath();
-          ctx.moveTo(gSc.x, gSc.y);
-          ctx.arc(gSc.x, gSc.y, g.coneDist * tw, g.angle - g.coneAngle, g.angle + g.coneAngle);
-          ctx.closePath();
-          ctx.fillStyle = g.alertStatus === 'ALERT' ? 'rgba(255, 42, 81, 0.45)' : 'rgba(255, 42, 81, 0.28)';
-          ctx.fill();
-          ctx.restore();
-        }
-
-        ctx.save();
-        ctx.translate(gSc.x, gSc.y);
-        ctx.rotate(g.angle);
-
-        ctx.fillStyle = g.stunTimer > 0 ? '#18243e' : '#1d1218';
-        ctx.fillRect(-9, -9, 18, 18);
-        ctx.strokeStyle = g.stunTimer > 0 ? '#00f3ff' : '#ff2a51';
-        ctx.lineWidth = 1.5;
-        ctx.strokeRect(-9, -9, 18, 18);
-
-        ctx.fillStyle = g.stunTimer > 0 ? '#00f3ff' : '#ff2a51';
-        ctx.fillRect(3, -3, 6, 6);
-        ctx.restore();
-
-        if (g.alertStatus === 'ALERT') {
-          ctx.font = "bold 14px 'JetBrains Mono'";
-          ctx.fillStyle = '#ff2a51';
-          ctx.fillText("!", gSc.x - 3, gSc.y - 12);
-        } else if (g.alertStatus === 'SUSPICIOUS') {
-          ctx.font = "bold 13px 'JetBrains Mono'";
-          ctx.fillStyle = '#ffb703';
-          ctx.fillText("?", gSc.x - 3, gSc.y - 12);
+          ctx.moveTo(l.x1, l.y1);
+          ctx.lineTo(l.x2, l.y2);
+          ctx.stroke();
         }
       }
 
-      // 10. Operative Player
-      const p = State.player;
-      const pSc = gridToScreen(p.x, p.y);
+      // 3. Exit Gateway
+      const ex = Engine.exit;
+      const enemiesLeft = Engine.enemies.filter(e => e.alive).length;
+      const isUnlocked = enemiesLeft === 0;
 
       ctx.save();
-      ctx.translate(pSc.x, pSc.y);
-      ctx.rotate(p.angle);
-
-      if (p.isDashing) {
-        ctx.fillStyle = 'rgba(255, 0, 110, 0.4)';
-        ctx.beginPath();
-        ctx.arc(-8, 0, 12, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      ctx.fillStyle = '#0e182a';
+      ctx.translate(ex.x, ex.y);
+      ctx.strokeStyle = isUnlocked ? '#05ffa1' : 'rgba(255, 255, 255, 0.15)';
+      ctx.lineWidth = 3;
       ctx.beginPath();
-      ctx.arc(0, 0, 10, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.strokeStyle = '#00f3ff';
-      ctx.lineWidth = 1.5;
+      ctx.arc(0, 0, 24, 0, Math.PI * 2);
       ctx.stroke();
 
-      ctx.fillStyle = '#00f3ff';
-      ctx.fillRect(3, -3, 6, 6);
+      if (isUnlocked) {
+        ctx.rotate(Engine.levelTime * 3);
+        ctx.fillStyle = 'rgba(5, 255, 161, 0.3)';
+        ctx.fillRect(-12, -12, 24, 24);
+      }
       ctx.restore();
 
-      // Particles
-      for (const pt of State.particles) {
+      // 4. Neon Slash Rays
+      for (const sr of Engine.slashRays) {
+        ctx.save();
+        ctx.strokeStyle = '#00f3ff';
+        ctx.lineWidth = (sr.life / sr.maxLife) * 6;
+        ctx.beginPath();
+        ctx.moveTo(sr.x1, sr.y1);
+        ctx.lineTo(sr.x2, sr.y2);
+        ctx.stroke();
+
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = (sr.life / sr.maxLife) * 2;
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      // 5. Enemies (Red Sentries)
+      for (const e of Engine.enemies) {
+        if (!e.alive) continue;
+
+        ctx.save();
+        ctx.translate(e.x, e.y);
+
+        ctx.fillStyle = '#ff2a51';
+        ctx.beginPath();
+        ctx.arc(0, 0, e.radius, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Pulsing threat aura
+        ctx.strokeStyle = 'rgba(255, 42, 81, 0.4)';
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.arc(0, 0, e.radius + 3 + Math.sin(Engine.levelTime * 8) * 2, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      // 6. Player Operative (Cyan Infiltrator)
+      const p = Engine.player;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+
+      ctx.fillStyle = '#00f3ff';
+      ctx.beginPath();
+      ctx.arc(0, 0, p.radius, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // Aiming trajectory & Range Indicator
+      if (p.isAiming) {
+        ctx.restore();
+        ctx.save();
+
+        const dist = Math.hypot(p.aimX - p.x, p.aimY - p.y);
+        const angle = Math.atan2(p.aimY - p.y, p.aimX - p.x);
+        const actualDist = Math.min(dist, p.maxBlinkDist);
+        const endAimX = p.x + Math.cos(angle) * actualDist;
+        const endAimY = p.y + Math.sin(angle) * actualDist;
+
+        // Max range dashed ring
+        ctx.strokeStyle = 'rgba(0, 243, 255, 0.2)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([6, 6]);
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.maxBlinkDist, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Aim Laser Line
+        ctx.strokeStyle = '#00f3ff';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(endAimX, endAimY);
+        ctx.stroke();
+
+        // End Reticle
+        ctx.strokeStyle = '#ff006e';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(endAimX, endAimY, 8, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+      ctx.restore();
+
+      // 7. Particles
+      for (const pt of Engine.particles) {
         ctx.fillStyle = pt.color;
         ctx.globalAlpha = pt.life / pt.maxLife;
         ctx.beginPath();
-        ctx.arc(pt.x, pt.y, 2, 0, Math.PI * 2);
+        ctx.arc(pt.x, pt.y, pt.size, 0, Math.PI * 2);
         ctx.fill();
       }
       ctx.globalAlpha = 1.0;
+
+      // 8. Floating Combo Texts
+      for (const ft of Engine.floatingTexts) {
+        ctx.font = "bold 16px 'Orbitron'";
+        ctx.fillStyle = ft.color;
+        ctx.textAlign = 'center';
+        ctx.globalAlpha = ft.life / ft.maxLife;
+        ctx.fillText(ft.text, ft.x, ft.y);
+      }
+      ctx.globalAlpha = 1.0;
+
+      ctx.restore();
     }
 
-    // --- HUD UPDATER ---
+    // --- HUD UPDATES ---
     function updateHUD() {
-      const alarmBadge = document.getElementById('alarmBadge');
-      const val = Math.round(State.alarm);
-      alarmBadge.innerText = `${val}% ${State.alarmStage}`;
-      alarmBadge.className = `alarm-pill ${State.alarmStage === 'ALERT' ? 'alert' : (State.alarmStage === 'CAUTION' ? 'caution' : '')}`;
+      const remainingEnemies = Engine.enemies.filter(e => e.alive).length;
+      const totalEnemies = Engine.enemies.length;
+      document.getElementById('enemiesText').innerText = `${remainingEnemies}/${totalEnemies}`;
+      document.getElementById('comboText').innerText = Engine.combo > 0 ? `${Engine.combo}x` : '0x';
+      document.getElementById('deathsText').innerText = Engine.deaths;
 
-      document.getElementById('keysText').innerText = State.player.hasKey ? '1/1' : '0/1';
-      document.getElementById('empText').innerText = `${State.player.empRemaining}x`;
-      document.getElementById('deathsText').innerText = State.deaths;
-
-      const sec = Math.floor(State.totalTime);
+      const sec = Math.floor(Engine.totalTime);
       const m = String(Math.floor(sec / 60)).padStart(2, '0');
       const s = String(sec % 60).padStart(2, '0');
-      document.getElementById('timerText').innerText = `${m}:${s}`;
+      document.getElementById('timeText').innerText = `${m}:${s}`;
     }
 
     // --- GAME FLOW ---
     function startGame() {
-      State.status = 'PLAY';
-      document.getElementById('startOverlay').classList.remove('active');
-      sound.playItem();
+      Engine.state = 'PLAY';
+      document.getElementById('startModal').classList.remove('active');
+      sound.playBlink();
     }
 
     function triggerDeath(reason) {
-      State.status = 'DEAD';
-      State.deaths++;
+      Engine.state = 'DEAD';
+      Engine.deaths++;
       sound.playDeath();
-      document.getElementById('deathReasonText').innerText = reason;
-      document.getElementById('deathOverlay').classList.add('active');
+      document.getElementById('vignette').className = 'screen-vignette danger';
+      document.getElementById('deathReason').innerText = reason;
+      document.getElementById('deathModal').classList.add('active');
     }
 
-    function retrySector() {
-      document.getElementById('deathOverlay').classList.remove('active');
-      document.getElementById('victoryOverlay').classList.remove('active');
-      loadSector(State.levelIdx);
-      State.status = 'PLAY';
-      sound.playDash();
+    function retryLevel() {
+      document.getElementById('deathModal').classList.remove('active');
+      document.getElementById('victoryModal').classList.remove('active');
+      loadLevel(Engine.levelIdx);
+      Engine.state = 'PLAY';
+      sound.playBlink();
     }
 
     function triggerWin() {
-      State.status = 'WIN';
+      Engine.state = 'WIN';
       sound.playWin();
 
-      const isFinal = State.levelIdx === SECTORS.length - 1;
-      document.getElementById('vicTitle').innerText = isFinal ? '🏆 OPERATION COMPLETE' : 'SECTOR CLEARED';
-      document.getElementById('vicStatsText').innerText = isFinal
-        ? `You completed all 8 security sectors with ${State.deaths} deaths in ${document.getElementById('timerText').innerText}!`
-        : `Sector ${State.levelIdx + 1} extracted successfully.`;
+      const isFinal = Engine.levelIdx === SECTORS.length - 1;
+      document.getElementById('vicTitle').innerText = isFinal ? '🏆 ALL SECTORS CLEARED' : 'SECTOR PURGED';
+      document.getElementById('vicStats').innerText = isFinal
+        ? `Incredible! Completed all 10 cyber sectors in ${document.getElementById('timeText').innerText} with ${Engine.deaths} deaths!`
+        : `Sector ${Engine.levelIdx + 1} cleared! Gateway unlocked.`;
 
-      document.getElementById('btnNextLevel').innerText = isFinal ? 'PLAY AGAIN [SPACE]' : 'PROCEED TO NEXT SECTOR [SPACE]';
-      document.getElementById('victoryOverlay').classList.add('active');
+      document.getElementById('btnNextLevel').innerText = isFinal ? 'PLAY AGAIN [SPACE / CLICK]' : 'NEXT SECTOR [SPACE / CLICK]';
+      document.getElementById('victoryModal').classList.add('active');
     }
 
-    function nextSector() {
-      document.getElementById('victoryOverlay').classList.remove('active');
-      const nextIdx = (State.levelIdx + 1) % SECTORS.length;
-      loadSector(nextIdx);
-      State.status = 'PLAY';
-      sound.playItem();
+    function nextLevel() {
+      document.getElementById('victoryModal').classList.remove('active');
+      const next = (Engine.levelIdx + 1) % SECTORS.length;
+      loadLevel(next);
+      Engine.state = 'PLAY';
+      sound.playBlink();
     }
 
     // --- BUTTON EVENT LISTENERS ---
     document.getElementById('btnStartGame').addEventListener('click', startGame);
-    document.getElementById('btnRetryGame').addEventListener('click', retrySector);
-    document.getElementById('btnNextLevel').addEventListener('click', nextSector);
-    document.getElementById('btnRestart').addEventListener('click', retrySector);
+    document.getElementById('btnRetryGame').addEventListener('click', retryLevel);
+    document.getElementById('btnNextLevel').addEventListener('click', nextLevel);
+    document.getElementById('btnReset').addEventListener('click', retryLevel);
 
     document.getElementById('btnSound').addEventListener('click', (e) => {
       sound.init();
@@ -1503,19 +1369,19 @@
     });
 
     // --- GAME LOOP ---
-    function loop(now) {
+    function gameLoop(now) {
       const dt = Math.min(0.1, (now - lastTime) / 1000);
       lastTime = now;
 
       update(dt);
       render();
 
-      requestAnimationFrame(loop);
+      requestAnimationFrame(gameLoop);
     }
 
     // Init
-    loadSector(0);
-    requestAnimationFrame(loop);
+    loadLevel(0);
+    requestAnimationFrame(gameLoop);
   </script>
 </body>
 </html>
