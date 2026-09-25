@@ -2,18 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GridBreak: Operator Signal - Top-Down Cyberpunk Stealth Operations</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>GRIDBREAK: OPERATOR SIGNAL // Tactical Cyberpunk Infiltration & Cyberdeck Matrix</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Share+Tech+Mono&family=Rajdhani:wght@500;600;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-dark: #06080e;
-      --bg-panel: rgba(10, 15, 26, 0.88);
-      --bg-panel-solid: #0c111e;
+      --bg-dark: #04060a;
+      --bg-panel: rgba(8, 12, 22, 0.92);
+      --bg-panel-solid: #090e1a;
       --border-cyan: rgba(0, 243, 255, 0.35);
       --border-pink: rgba(255, 0, 110, 0.4);
+      --border-amber: rgba(255, 183, 3, 0.4);
       --border-dim: rgba(255, 255, 255, 0.08);
       --cyan: #00f3ff;
       --cyan-glow: rgba(0, 243, 255, 0.6);
@@ -22,12 +23,16 @@
       --crimson: #ff2a51;
       --crimson-glow: rgba(255, 42, 81, 0.75);
       --amber: #ffb703;
+      --amber-glow: rgba(255, 183, 3, 0.6);
       --green: #05ffa1;
+      --green-glow: rgba(5, 255, 161, 0.6);
       --purple: #b5179e;
+      --purple-glow: rgba(181, 23, 158, 0.6);
       --text-main: #d7e6ff;
       --text-muted: #6e84a8;
       --font-display: 'Orbitron', monospace;
       --font-mono: 'Share Tech Mono', monospace;
+      --font-code: 'Fira Code', monospace;
       --font-ui: 'Rajdhani', sans-serif;
     }
 
@@ -56,11 +61,11 @@
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(circle at 40% 25%, rgba(0, 243, 255, 0.07) 0%, transparent 60%),
-        radial-gradient(circle at 80% 80%, rgba(255, 0, 110, 0.06) 0%, transparent 50%),
-        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-      background-size: 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+        radial-gradient(circle at 35% 20%, rgba(0, 243, 255, 0.08) 0%, transparent 60%),
+        radial-gradient(circle at 85% 85%, rgba(255, 0, 110, 0.07) 0%, transparent 50%),
+        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
       z-index: 0;
       pointer-events: none;
     }
@@ -69,36 +74,39 @@
     .crt-overlay {
       position: fixed;
       inset: 0;
-      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%);
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%);
       background-size: 100% 4px;
       pointer-events: none;
       z-index: 99;
-      opacity: 0.55;
+      opacity: 0.6;
       transition: opacity 0.3s ease;
     }
     .crt-overlay.disabled {
       opacity: 0;
     }
 
-    /* Red alert flash screen vignette */
+    /* Alert Screen Vignette */
     .alert-vignette {
       position: fixed;
       inset: 0;
       pointer-events: none;
       z-index: 98;
       box-shadow: inset 0 0 60px rgba(255, 42, 81, 0);
-      transition: box-shadow 0.2s ease;
+      transition: box-shadow 0.25s ease;
+    }
+    .alert-vignette.slowmo {
+      box-shadow: inset 0 0 90px rgba(0, 243, 255, 0.5);
     }
     .alert-vignette.suspicious {
-      box-shadow: inset 0 0 70px rgba(255, 183, 3, 0.45);
+      box-shadow: inset 0 0 80px rgba(255, 183, 3, 0.5);
     }
     .alert-vignette.active {
-      box-shadow: inset 0 0 110px var(--crimson-glow);
-      animation: alertPulse 0.6s infinite alternate;
+      box-shadow: inset 0 0 120px var(--crimson-glow);
+      animation: alertPulse 0.55s infinite alternate;
     }
     @keyframes alertPulse {
       0% { box-shadow: inset 0 0 60px rgba(255, 42, 81, 0.45); }
-      100% { box-shadow: inset 0 0 140px rgba(255, 42, 81, 0.95); }
+      100% { box-shadow: inset 0 0 150px rgba(255, 42, 81, 0.95); }
     }
 
     /* Header Nav */
@@ -109,7 +117,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 10px 24px;
-      background: rgba(7, 10, 18, 0.94);
+      background: rgba(6, 9, 16, 0.96);
       border-bottom: 1px solid var(--border-cyan);
       backdrop-filter: blur(14px);
     }
@@ -121,26 +129,31 @@
     }
 
     .brand-logo {
-      width: 38px;
-      height: 38px;
+      width: 40px;
+      height: 40px;
       background: linear-gradient(135deg, var(--cyan), var(--magenta));
       clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
       display: grid;
       place-items: center;
-      box-shadow: 0 0 16px var(--cyan-glow);
+      box-shadow: 0 0 18px var(--cyan-glow);
+      animation: logoGlow 4s ease-in-out infinite alternate;
+    }
+    @keyframes logoGlow {
+      0% { filter: drop-shadow(0 0 6px var(--cyan)); }
+      100% { filter: drop-shadow(0 0 16px var(--magenta)); }
     }
     .brand-logo span {
       font-family: var(--font-display);
       font-weight: 900;
-      font-size: 18px;
-      color: #06080e;
+      font-size: 19px;
+      color: #04060a;
     }
 
     .brand-text h1 {
       font-family: var(--font-display);
-      font-size: 19px;
+      font-size: 20px;
       font-weight: 900;
-      letter-spacing: 2px;
+      letter-spacing: 2.5px;
       background: linear-gradient(90deg, #fff, var(--cyan), #fff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -151,13 +164,14 @@
       font-size: 11px;
       color: var(--cyan);
       letter-spacing: 1px;
-      opacity: 0.85;
+      opacity: 0.9;
     }
 
     .header-controls {
       display: flex;
       align-items: center;
       gap: 8px;
+      flex-wrap: wrap;
     }
 
     .cyber-btn-small {
@@ -165,8 +179,8 @@
       border: 1px solid var(--border-cyan);
       color: var(--text-main);
       font-family: var(--font-mono);
-      font-size: 12px;
-      padding: 6px 12px;
+      font-size: 11px;
+      padding: 6px 11px;
       border-radius: 4px;
       cursor: pointer;
       display: flex;
@@ -177,8 +191,14 @@
     .cyber-btn-small:hover {
       background: rgba(0, 243, 255, 0.22);
       border-color: var(--cyan);
-      box-shadow: 0 0 10px var(--cyan-glow);
+      box-shadow: 0 0 12px var(--cyan-glow);
       color: #fff;
+    }
+    .cyber-btn-small.active-mode {
+      background: var(--magenta);
+      color: #fff;
+      border-color: #fff;
+      box-shadow: 0 0 12px var(--magenta-glow);
     }
 
     /* Main Container */
@@ -186,16 +206,16 @@
       position: relative;
       z-index: 1;
       display: grid;
-      grid-template-columns: 1fr 380px;
+      grid-template-columns: 1fr 390px;
       gap: 16px;
       padding: 14px 24px;
-      max-width: 1560px;
+      max-width: 1620px;
       width: 100%;
       margin: 0 auto;
       flex: 1;
     }
 
-    @media (max-width: 1140px) {
+    @media (max-width: 1200px) {
       main {
         grid-template-columns: 1fr;
       }
@@ -211,17 +231,17 @@
     /* Top Status HUD */
     .status-hud-bar {
       display: grid;
-      grid-template-columns: 1.4fr 1.2fr 1fr 0.9fr;
-      gap: 12px;
+      grid-template-columns: 1.3fr 1.2fr 1fr 1fr 0.9fr;
+      gap: 10px;
       background: var(--bg-panel);
       border: 1px solid var(--border-cyan);
       border-radius: 8px;
-      padding: 10px 16px;
+      padding: 10px 14px;
       backdrop-filter: blur(14px);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 6px 22px rgba(0, 0, 0, 0.5);
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 950px) {
       .status-hud-bar {
         grid-template-columns: 1fr 1fr;
       }
@@ -230,7 +250,7 @@
     .meter-block {
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 4px;
     }
     .meter-header {
       display: flex;
@@ -238,7 +258,7 @@
       font-family: var(--font-mono);
       font-size: 11px;
       font-weight: 700;
-      letter-spacing: 1px;
+      letter-spacing: 0.8px;
     }
     .alarm-header {
       color: var(--cyan);
@@ -250,7 +270,7 @@
     }
     .alarm-header.alert {
       color: var(--crimson);
-      text-shadow: 0 0 8px rgba(255, 42, 81, 0.7);
+      text-shadow: 0 0 10px rgba(255, 42, 81, 0.8);
     }
 
     .energy-header {
@@ -260,10 +280,13 @@
     .dash-header {
       color: var(--magenta);
     }
+    .slowmo-header {
+      color: var(--green);
+    }
 
     .meter-track {
       height: 12px;
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0, 0, 0, 0.7);
       border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: 3px;
       position: relative;
@@ -290,7 +313,7 @@
         #8a001a 8px,
         #8a001a 16px
       );
-      box-shadow: 0 0 12px var(--crimson);
+      box-shadow: 0 0 14px var(--crimson);
       animation: hazardStripes 0.8s linear infinite;
     }
     @keyframes hazardStripes {
@@ -307,16 +330,25 @@
       transition: width 0.05s linear;
     }
 
-    /* Segmented Energy Cells */
+    .meter-fill-slowmo {
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(90deg, #05ffa1, var(--cyan));
+      border-radius: 2px;
+      box-shadow: 0 0 8px var(--green);
+      transition: width 0.05s linear;
+    }
+
+    /* Energy Cells */
     .energy-cells-wrapper {
       display: flex;
-      gap: 3px;
+      gap: 2.5px;
       height: 12px;
     }
     .energy-cell {
       flex: 1;
       height: 100%;
-      background: rgba(0, 243, 255, 0.1);
+      background: rgba(0, 243, 255, 0.08);
       border: 1px solid rgba(0, 243, 255, 0.25);
       border-radius: 2px;
       transition: all 0.2s ease;
@@ -330,28 +362,24 @@
       background: rgba(0, 243, 255, 0.45);
       animation: pulseCell 0.8s infinite alternate;
     }
-    @keyframes pulseCell {
-      from { opacity: 0.3; }
-      to { opacity: 0.9; }
-    }
 
-    /* Inventory Status Indicators */
+    /* Inventory Badges */
     .inventory-hud-box {
       display: flex;
       align-items: center;
       justify-content: space-around;
-      background: rgba(0, 0, 0, 0.4);
+      background: rgba(0, 0, 0, 0.45);
       border: 1px solid var(--border-dim);
       border-radius: 4px;
-      padding: 4px 8px;
-      gap: 6px;
+      padding: 4px 6px;
+      gap: 4px;
     }
     .inv-badge {
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
       font-family: var(--font-mono);
-      font-size: 11px;
+      font-size: 10.5px;
       color: var(--text-muted);
     }
     .inv-badge .pill {
@@ -360,7 +388,7 @@
       border-radius: 3px;
       display: grid;
       place-items: center;
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: 700;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.15);
@@ -374,7 +402,7 @@
     .inv-badge.active-blue .pill {
       background: var(--cyan);
       border-color: #fff;
-      color: #06080e;
+      color: #04060a;
       box-shadow: 0 0 10px var(--cyan);
     }
     .inv-badge.active-data .pill {
@@ -387,15 +415,15 @@
     /* Top-down Canvas Card */
     .canvas-card {
       position: relative;
-      background: radial-gradient(circle at 50% 50%, #0d1222 0%, #060810 100%);
+      background: radial-gradient(circle at 50% 50%, #0c1224 0%, #050711 100%);
       border: 1px solid var(--border-cyan);
       border-radius: 8px;
       overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.75);
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 540px;
+      min-height: 550px;
     }
 
     canvas {
@@ -413,9 +441,9 @@
       pointer-events: none;
       font-family: var(--font-mono);
       font-size: 11px;
-      background: rgba(7, 10, 18, 0.88);
-      border: 1px solid rgba(0, 243, 255, 0.25);
-      padding: 6px 12px;
+      background: rgba(6, 9, 16, 0.9);
+      border: 1px solid rgba(0, 243, 255, 0.3);
+      padding: 6px 14px;
       border-radius: 4px;
       backdrop-filter: blur(8px);
     }
@@ -427,45 +455,49 @@
       position: absolute;
       bottom: 12px;
       left: 14px;
+      right: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       pointer-events: none;
       font-family: var(--font-mono);
       font-size: 11px;
-      color: rgba(215, 230, 255, 0.7);
-      background: rgba(7, 10, 18, 0.8);
+      color: rgba(215, 230, 255, 0.75);
+      background: rgba(6, 9, 16, 0.85);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 4px 10px;
+      padding: 6px 12px;
       border-radius: 4px;
     }
 
     /* Bottom Abilities Deck */
     .abilities-deck {
       display: grid;
-      grid-template-columns: repeat(4, 1fr) auto;
-      gap: 10px;
+      grid-template-columns: repeat(6, 1fr) auto;
+      gap: 8px;
       background: var(--bg-panel);
       border: 1px solid var(--border-cyan);
       border-radius: 8px;
-      padding: 10px 16px;
+      padding: 10px 14px;
       backdrop-filter: blur(14px);
     }
 
-    @media (max-width: 950px) {
+    @media (max-width: 1024px) {
       .abilities-deck {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
       }
     }
 
     .ability-btn {
       position: relative;
-      background: linear-gradient(180deg, rgba(14, 21, 38, 0.95), rgba(7, 11, 20, 0.95));
+      background: linear-gradient(180deg, rgba(14, 21, 38, 0.95), rgba(6, 10, 18, 0.95));
       border: 1px solid rgba(0, 243, 255, 0.25);
       border-radius: 6px;
-      padding: 9px 12px;
+      padding: 8px 10px;
       color: var(--text-main);
       cursor: pointer;
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 2px;
       transition: all 0.2s ease;
       text-align: left;
       overflow: hidden;
@@ -491,10 +523,10 @@
       box-shadow: 0 0 8px var(--cyan);
     }
     .ability-btn:disabled {
-      opacity: 0.4;
+      opacity: 0.38;
       cursor: not-allowed;
-      border-color: rgba(255, 255, 255, 0.1);
-      filter: grayscale(0.5);
+      border-color: rgba(255, 255, 255, 0.08);
+      filter: grayscale(0.6);
     }
 
     .ability-btn-top {
@@ -504,58 +536,59 @@
     }
     .ability-hotkey {
       font-family: var(--font-display);
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: 700;
       background: rgba(0, 243, 255, 0.15);
       color: var(--cyan);
-      padding: 1px 5px;
+      padding: 1px 4px;
       border-radius: 3px;
       border: 1px solid var(--border-cyan);
     }
     .ability-cost {
       font-family: var(--font-mono);
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: 700;
       color: var(--amber);
     }
     .ability-title {
       font-family: var(--font-display);
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
       letter-spacing: 0.5px;
       color: #fff;
     }
     .ability-desc {
       font-family: var(--font-mono);
-      font-size: 10px;
+      font-size: 9.5px;
       color: var(--text-muted);
+      line-height: 1.2;
     }
 
     /* Virtual D-pad / Mobile Controls */
     .dpad-container {
       display: grid;
-      grid-template-columns: repeat(3, 30px);
-      grid-template-rows: repeat(2, 30px);
+      grid-template-columns: repeat(3, 28px);
+      grid-template-rows: repeat(2, 28px);
       gap: 3px;
       place-items: center;
       align-self: center;
     }
     .dpad-btn {
-      width: 30px;
-      height: 30px;
+      width: 28px;
+      height: 28px;
       background: rgba(0, 243, 255, 0.08);
       border: 1px solid var(--border-cyan);
       color: var(--cyan);
       border-radius: 4px;
       display: grid;
       place-items: center;
-      font-size: 13px;
+      font-size: 12px;
       cursor: pointer;
       transition: all 0.15s ease;
     }
     .dpad-btn:hover {
       background: var(--cyan);
-      color: #06080e;
+      color: #04060a;
       box-shadow: 0 0 10px var(--cyan);
     }
     .dpad-up { grid-column: 2; grid-row: 1; }
@@ -582,7 +615,7 @@
     }
 
     .panel-header {
-      padding: 10px 14px;
+      padding: 9px 14px;
       background: rgba(0, 0, 0, 0.45);
       border-bottom: 1px solid var(--border-dim);
       display: flex;
@@ -591,7 +624,7 @@
     }
     .panel-title {
       font-family: var(--font-display);
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 700;
       letter-spacing: 1px;
       color: var(--cyan);
@@ -607,28 +640,28 @@
 
     /* Checklist Panel */
     .checklist-body {
-      padding: 10px 14px;
+      padding: 9px 14px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 7px;
     }
     .objective-item {
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-size: 12px;
+      gap: 9px;
+      font-size: 11.5px;
       font-weight: 500;
       color: var(--text-muted);
       transition: all 0.2s ease;
     }
     .objective-check {
-      width: 16px;
-      height: 16px;
+      width: 15px;
+      height: 15px;
       border: 1px solid rgba(0, 243, 255, 0.4);
       border-radius: 3px;
       display: grid;
       place-items: center;
-      font-size: 10px;
+      font-size: 9px;
       color: transparent;
       background: rgba(0, 0, 0, 0.3);
       transition: all 0.2s ease;
@@ -639,7 +672,7 @@
     .objective-item.completed .objective-check {
       background: var(--cyan);
       border-color: #fff;
-      color: #06080e;
+      color: #04060a;
       font-weight: 900;
       box-shadow: 0 0 8px var(--cyan);
     }
@@ -654,24 +687,25 @@
     /* Level Selector Pill Bar */
     .level-select-bar {
       display: flex;
-      gap: 6px;
-      padding: 10px 14px;
+      gap: 5px;
+      padding: 8px 12px;
       background: rgba(0, 0, 0, 0.35);
       border-bottom: 1px solid var(--border-dim);
       overflow-x: auto;
     }
     .lvl-pill {
       flex: 1;
-      padding: 6px 8px;
+      padding: 5px 6px;
       background: rgba(0, 243, 255, 0.06);
       border: 1px solid var(--border-cyan);
       border-radius: 4px;
       font-family: var(--font-display);
-      font-size: 11px;
+      font-size: 10px;
       color: var(--text-muted);
       cursor: pointer;
       text-align: center;
       transition: all 0.2s ease;
+      white-space: nowrap;
     }
     .lvl-pill:hover {
       background: rgba(0, 243, 255, 0.2);
@@ -680,15 +714,25 @@
     .lvl-pill.active {
       background: var(--cyan);
       border-color: #fff;
-      color: #06080e;
+      color: #04060a;
       font-weight: 900;
       box-shadow: 0 0 10px var(--cyan);
+    }
+    .lvl-pill.endless-pill {
+      background: rgba(255, 0, 110, 0.1);
+      border-color: var(--magenta);
+      color: var(--magenta);
+    }
+    .lvl-pill.endless-pill.active {
+      background: var(--magenta);
+      color: #fff;
+      box-shadow: 0 0 10px var(--magenta);
     }
 
     /* Cipher Retro Comms Panel */
     .chat-panel {
       flex: 1;
-      min-height: 360px;
+      min-height: 280px;
       display: flex;
       flex-direction: column;
     }
@@ -701,11 +745,11 @@
       border-bottom: 1px solid rgba(0, 243, 255, 0.15);
     }
     .cipher-avatar {
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
       border-radius: 4px;
       border: 1px solid var(--cyan);
-      background: #09101d;
+      background: #080e1a;
       position: relative;
       overflow: hidden;
       display: grid;
@@ -713,8 +757,8 @@
       box-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
     }
     .cipher-avatar svg {
-      width: 24px;
-      height: 24px;
+      width: 22px;
+      height: 22px;
       fill: var(--cyan);
       filter: drop-shadow(0 0 4px var(--cyan));
     }
@@ -736,16 +780,16 @@
 
     .cipher-meta h4 {
       font-family: var(--font-display);
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
       color: #fff;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
     .online-dot {
-      width: 7px;
-      height: 7px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
       background: var(--green);
       box-shadow: 0 0 6px var(--green);
@@ -757,7 +801,7 @@
     }
     .cipher-meta p {
       font-family: var(--font-mono);
-      font-size: 10px;
+      font-size: 9.5px;
       color: var(--cyan);
     }
 
@@ -765,13 +809,13 @@
       flex: 1;
       padding: 10px 14px;
       overflow-y: auto;
-      max-height: 280px;
+      max-height: 240px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 7px;
       font-family: var(--font-mono);
       font-size: 11px;
-      line-height: 1.4;
+      line-height: 1.35;
       background: rgba(0, 0, 0, 0.2);
     }
     .chat-messages::-webkit-scrollbar {
@@ -783,9 +827,9 @@
     }
 
     .chat-bubble {
-      padding: 7px 9px;
+      padding: 6px 9px;
       border-radius: 4px;
-      background: rgba(14, 21, 38, 0.85);
+      background: rgba(14, 21, 38, 0.88);
       border-left: 3px solid var(--cyan);
       animation: slideInMsg 0.2s ease-out;
     }
@@ -795,21 +839,21 @@
     }
     .chat-bubble.alert {
       border-left-color: var(--crimson);
-      background: rgba(45, 14, 24, 0.85);
+      background: rgba(45, 14, 24, 0.88);
     }
     .chat-bubble.alert .chat-author {
       color: var(--crimson);
     }
     .chat-bubble.hack {
       border-left-color: var(--magenta);
-      background: rgba(35, 12, 35, 0.85);
+      background: rgba(35, 12, 35, 0.88);
     }
     .chat-bubble.hack .chat-author {
       color: var(--magenta);
     }
     .chat-bubble.success {
       border-left-color: var(--green);
-      background: rgba(10, 30, 24, 0.85);
+      background: rgba(10, 30, 24, 0.88);
     }
     .chat-bubble.success .chat-author {
       color: var(--green);
@@ -833,11 +877,37 @@
       word-break: break-word;
     }
 
+    /* Achievements & High Score Strip */
+    .achieve-strip {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 14px;
+      background: rgba(0, 0, 0, 0.4);
+      border-top: 1px solid var(--border-dim);
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+    }
+    .achieve-btn {
+      color: var(--amber);
+      background: none;
+      border: 1px solid var(--border-amber);
+      padding: 3px 7px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .achieve-btn:hover {
+      background: var(--amber);
+      color: #04060a;
+      box-shadow: 0 0 8px var(--amber);
+    }
+
     /* Modals / Overlays */
     .overlay-modal {
       position: fixed;
       inset: 0;
-      background: rgba(4, 6, 12, 0.88);
+      background: rgba(3, 5, 10, 0.88);
       backdrop-filter: blur(14px);
       z-index: 100;
       display: flex;
@@ -856,9 +926,9 @@
     .modal-card {
       background: var(--bg-panel-solid);
       border: 1px solid var(--cyan);
-      box-shadow: 0 0 40px rgba(0, 243, 255, 0.3), inset 0 0 20px rgba(0, 0, 0, 0.8);
+      box-shadow: 0 0 45px rgba(0, 243, 255, 0.3), inset 0 0 20px rgba(0, 0, 0, 0.8);
       border-radius: 8px;
-      max-width: 580px;
+      max-width: 650px;
       width: 100%;
       overflow: hidden;
       animation: modalPop 0.25s cubic-bezier(0.18, 0.89, 0.32, 1.28);
@@ -870,8 +940,8 @@
 
     .modal-banner {
       width: 100%;
-      height: 150px;
-      background: #09101d url('banner.jpg') center/cover no-repeat;
+      height: 140px;
+      background: #080d1a url('banner.jpg') center/cover no-repeat;
       position: relative;
       border-bottom: 1px solid var(--border-cyan);
     }
@@ -879,19 +949,19 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, transparent 40%, var(--bg-panel-solid) 100%);
+      background: linear-gradient(180deg, transparent 30%, var(--bg-panel-solid) 100%);
     }
 
     .modal-content {
-      padding: 20px 24px 24px;
+      padding: 18px 24px 24px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
     }
 
     .modal-title-glitch {
       font-family: var(--font-display);
-      font-size: 22px;
+      font-size: 21px;
       font-weight: 900;
       letter-spacing: 2px;
       color: #fff;
@@ -909,15 +979,15 @@
     .modal-desc {
       font-size: 13px;
       color: var(--text-main);
-      line-height: 1.5;
+      line-height: 1.45;
     }
 
     .briefing-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      background: rgba(0, 0, 0, 0.4);
-      padding: 12px;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.45);
+      padding: 10px;
       border-radius: 6px;
       border: 1px solid var(--border-dim);
       font-family: var(--font-mono);
@@ -926,25 +996,68 @@
     .briefing-cell h5 {
       color: var(--cyan);
       margin-bottom: 2px;
-      font-size: 11px;
+      font-size: 10.5px;
       text-transform: uppercase;
+    }
+
+    /* Class Selection Cards */
+    .class-select-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin: 4px 0;
+    }
+    .class-card {
+      background: rgba(0, 243, 255, 0.04);
+      border: 1px solid rgba(0, 243, 255, 0.25);
+      border-radius: 6px;
+      padding: 10px 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .class-card:hover, .class-card.selected {
+      background: rgba(0, 243, 255, 0.18);
+      border-color: var(--cyan);
+      box-shadow: 0 0 14px var(--cyan-glow);
+    }
+    .class-card.selected {
+      border-color: #fff;
+      transform: scale(1.02);
+    }
+    .class-icon {
+      font-size: 20px;
+    }
+    .class-name {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .class-trait {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      color: var(--cyan);
     }
 
     .cyber-btn-large {
       background: linear-gradient(90deg, var(--cyan), #00a2ff);
-      color: #06080e;
+      color: #04060a;
       font-family: var(--font-display);
       font-size: 13px;
       font-weight: 900;
       letter-spacing: 1.5px;
-      padding: 12px 20px;
+      padding: 11px 18px;
       border: none;
       border-radius: 4px;
       cursor: pointer;
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       box-shadow: 0 0 16px var(--cyan-glow);
       transition: all 0.2s ease;
       text-transform: uppercase;
@@ -961,12 +1074,134 @@
       box-shadow: 0 0 26px var(--crimson);
     }
 
+    /* Cyberdeck Breach Matrix Modal */
+    .cyberdeck-matrix-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 48px);
+      grid-template-rows: repeat(5, 48px);
+      gap: 6px;
+      justify-content: center;
+      margin: 10px 0;
+      font-family: var(--font-code);
+    }
+    .matrix-cell {
+      background: rgba(0, 243, 255, 0.08);
+      border: 1px solid var(--border-cyan);
+      border-radius: 4px;
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--cyan);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .matrix-cell:hover:not(.disabled):not(.active-row):not(.active-col) {
+      background: rgba(0, 243, 255, 0.3);
+      color: #fff;
+    }
+    .matrix-cell.active-selectable {
+      border-color: #fff;
+      background: rgba(0, 243, 255, 0.25);
+      box-shadow: 0 0 8px var(--cyan);
+      animation: pulseCell 0.6s infinite alternate;
+    }
+    .matrix-cell.used {
+      opacity: 0.25;
+      cursor: not-allowed;
+      border-color: rgba(255, 255, 255, 0.05);
+    }
+    .matrix-cell.selected-seq {
+      background: var(--green);
+      color: #04060a;
+      border-color: #fff;
+      box-shadow: 0 0 10px var(--green);
+    }
+
+    .buffer-tray {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      padding: 8px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid var(--border-dim);
+      border-radius: 4px;
+      min-height: 36px;
+      margin-bottom: 6px;
+    }
+    .buffer-slot {
+      width: 32px;
+      height: 28px;
+      border: 1px dashed var(--border-cyan);
+      border-radius: 3px;
+      display: grid;
+      place-items: center;
+      font-family: var(--font-code);
+      font-size: 12px;
+      color: var(--green);
+    }
+
+    .payload-targets {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 8px 12px;
+      border-radius: 4px;
+      border: 1px solid var(--border-dim);
+      font-family: var(--font-mono);
+      font-size: 11px;
+    }
+    .payload-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .payload-seq {
+      color: var(--amber);
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+    .payload-name {
+      color: var(--text-main);
+    }
+
+    /* Toast Notifications */
+    .toast-container {
+      position: fixed;
+      top: 70px;
+      right: 24px;
+      z-index: 110;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: none;
+    }
+    .toast-msg {
+      background: var(--bg-panel-solid);
+      border: 1px solid var(--cyan);
+      box-shadow: 0 0 16px rgba(0, 243, 255, 0.4);
+      padding: 8px 14px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      animation: toastIn 0.3s ease-out;
+    }
+    @keyframes toastIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
     /* Footer */
     footer {
       position: relative;
       z-index: 10;
       padding: 8px 24px;
-      background: rgba(7, 10, 18, 0.95);
+      background: rgba(6, 9, 16, 0.96);
       border-top: 1px solid var(--border-dim);
       display: flex;
       justify-content: space-between;
@@ -985,8 +1220,11 @@
   <!-- Screen Scanlines -->
   <div id="crtOverlay" class="crt-overlay"></div>
 
-  <!-- Dynamic Alert Vignette -->
+  <!-- Dynamic Alert & Slow-Mo Vignette -->
   <div id="alertVignette" class="alert-vignette"></div>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container"></div>
 
   <!-- Header Navigation -->
   <header>
@@ -994,14 +1232,16 @@
       <div class="brand-logo"><span>G</span></div>
       <div class="brand-text">
         <h1>GridBreak: Operator Signal</h1>
-        <p>TACTICAL TOP-DOWN CYBERPUNK INFILTRATION // TIERED STEALTH ALARM ENGINE</p>
+        <p>TACTICAL CYBERPUNK INFILTRATION // TIERED ALARMS &amp; CYBERDECK MATRIX</p>
       </div>
     </div>
     <div class="header-controls">
       <button id="btnSound" class="cyber-btn-small" title="Toggle Sound FX">🔊 AUDIO ON</button>
-      <button id="btnMusic" class="cyber-btn-small" title="Toggle Synth Music">🎵 SYNTH ON</button>
+      <button id="btnMusic" class="cyber-btn-small" title="Toggle Synth OST">🎵 SYNTH ON</button>
+      <button id="btnRadio" class="cyber-btn-small" title="Toggle Voice Radio">🎙️ RADIO ON</button>
       <button id="btnCrt" class="cyber-btn-small" title="Toggle Scanline Filter">⚡ CRT FX</button>
-      <button id="btnHelp" class="cyber-btn-small" title="Open Instructions">❓ HOW TO PLAY</button>
+      <button id="btnEndless" class="cyber-btn-small" title="Switch to Endless Survival Mode">♾️ ENDLESS HEIST</button>
+      <button id="btnHelp" class="cyber-btn-small" title="Open Field Manual">❓ MANUAL</button>
       <button id="btnReset" class="cyber-btn-small" title="Restart Mission">🔄 RESTART</button>
     </div>
   </header>
@@ -1044,6 +1284,17 @@
           </div>
         </div>
 
+        <!-- Reflex Slow-Mo Bar -->
+        <div class="meter-block">
+          <div class="meter-header slowmo-header">
+            <span>// OVERCLOCK [Q]</span>
+            <span id="slowmoStatusText">READY</span>
+          </div>
+          <div class="meter-track">
+            <div id="slowmoFill" class="meter-fill-slowmo"></div>
+          </div>
+        </div>
+
         <!-- Inventory Badges -->
         <div class="inventory-hud-box">
           <div id="badgeKeycardRed" class="inv-badge" title="Red Cryptokey">
@@ -1063,49 +1314,51 @@
 
       <!-- Top-Down 2D Canvas Screen -->
       <div class="canvas-card" id="canvasCard">
-        <canvas id="gameCanvas" width="940" height="540"></canvas>
+        <canvas id="gameCanvas" width="960" height="540"></canvas>
         
         <div class="canvas-hud-top">
           <div>SECTOR: <span id="hudSectorTitle">LVL 1: PERIMETER BREACH</span></div>
+          <div>OPERATIVE: <span id="hudOperativeClass" style="color:var(--magenta);">SPECTRE</span></div>
           <div>STATUS: <span id="stealthStatusText" style="color:var(--green);">SHADOWED</span></div>
-          <div>THREAT: <span id="threatLevelText" style="color:var(--green);">NONE</span></div>
+          <div>CREDITS: <span id="hudCreditsText" style="color:var(--amber);">0 CR</span></div>
         </div>
 
         <div class="canvas-hud-bottom">
-          🎮 MOVE: WASD / Arrow Keys | ⚡ DASH: Spacebar | ⌨️ HACKS: [1] Stun [2] Jam [3] Bypass [4] Cloak | 🖱️ CLICK: Hack/Interact
+          <span>🎮 MOVE: WASD / Arrows | ⚡ DASH: Space | ⏳ OVERCLOCK: Q | 📡 DECOY: F | 💻 HACK: E</span>
+          <span id="canvasFpsText" style="color:var(--cyan);">60 FPS</span>
         </div>
       </div>
 
       <!-- Bottom Abilities Deck -->
       <div class="abilities-deck">
-        <!-- Ability 1 -->
+        <!-- Ability 1: EMP -->
         <button id="btnAbility1" class="ability-btn">
           <div class="ability-btn-top">
             <span class="ability-hotkey">[1]</span>
             <span class="ability-cost">⚡ 3 NRG</span>
           </div>
           <div class="ability-title">EMP STUN</div>
-          <div class="ability-desc">Paralyzes guards for 5.0s</div>
+          <div class="ability-desc">Paralyzes enforcers 5.0s</div>
         </button>
 
-        <!-- Ability 2 -->
+        <!-- Ability 2: Jam Optics -->
         <button id="btnAbility2" class="ability-btn">
           <div class="ability-btn-top">
             <span class="ability-hotkey">[2]</span>
             <span class="ability-cost">⚡ 2 NRG</span>
           </div>
           <div class="ability-title">JAM OPTICS</div>
-          <div class="ability-desc">Disables CCTV feeds for 6.0s</div>
+          <div class="ability-desc">Loops CCTV feeds 6.0s</div>
         </button>
 
-        <!-- Ability 3 -->
+        <!-- Ability 3: Bypass Gate -->
         <button id="btnAbility3" class="ability-btn">
           <div class="ability-btn-top">
             <span class="ability-hotkey">[3]</span>
             <span class="ability-cost">⚡ 5 NRG</span>
           </div>
           <div class="ability-title">BYPASS GATE</div>
-          <div class="ability-desc">Overrides active laser barrier</div>
+          <div class="ability-desc">Overrides laser firewalls</div>
         </button>
 
         <!-- Ability 4: Stealth Cloak -->
@@ -1115,7 +1368,27 @@
             <span class="ability-cost">⚡ 4 NRG</span>
           </div>
           <div class="ability-title">STEALTH CLOAK</div>
-          <div class="ability-desc">Optical camo for 3.5 seconds</div>
+          <div class="ability-desc">Optical camo 4.0 seconds</div>
+        </button>
+
+        <!-- Ability 5: Sonic Decoy -->
+        <button id="btnAbility5" class="ability-btn">
+          <div class="ability-btn-top">
+            <span class="ability-hotkey">[F]</span>
+            <span class="ability-cost">⚡ 2 NRG</span>
+          </div>
+          <div class="ability-title">SONIC DECOY</div>
+          <div class="ability-desc">Emits hologram distraction</div>
+        </button>
+
+        <!-- Ability 6: Reflex Overclock -->
+        <button id="btnAbility6" class="ability-btn">
+          <div class="ability-btn-top">
+            <span class="ability-hotkey">[Q]</span>
+            <span class="ability-cost">⚡ FREE</span>
+          </div>
+          <div class="ability-title">OVERCLOCK</div>
+          <div class="ability-desc">Bullet-time slow motion</div>
         </button>
 
         <!-- Virtual Touch / D-pad Controls -->
@@ -1146,6 +1419,7 @@
           <button class="lvl-pill" data-lvl="2">LVL 3</button>
           <button class="lvl-pill" data-lvl="3">LVL 4</button>
           <button class="lvl-pill" data-lvl="4">LVL 5</button>
+          <button class="lvl-pill endless-pill" id="lvlPillEndless" data-lvl="99">♾️ HEIST</button>
         </div>
       </div>
 
@@ -1196,48 +1470,96 @@
         </div>
 
         <div id="chatMessages" class="chat-messages"></div>
+
+        <div class="achieve-strip">
+          <span>TROPHIES: <strong id="trophyCountText" style="color:var(--amber);">0/8</strong></span>
+          <button id="btnOpenAchieve" class="achieve-btn">🏆 VIEW CODEX</button>
+        </div>
       </div>
 
     </div>
   </main>
 
-  <!-- Start Mission Briefing Modal -->
+  <!-- Start Mission Briefing & Class Selection Modal -->
   <div id="startModal" class="overlay-modal active">
     <div class="modal-card">
       <div class="modal-banner"></div>
       <div class="modal-content">
         <div class="modal-title-glitch" id="briefingModalTitle">GRIDBREAK: OPERATOR SIGNAL</div>
         <div class="modal-desc" id="briefingModalDesc">
-          Operative, you are entering Arasaka's Classified Deep-Storage Grid. 
-          The facility operates on a <strong>Realistic Tiered Alarm System</strong>:
-          <br><br>
-          &bull; <strong>CAUTION (25-60% [?]):</strong> When spotted peripherally, guards pause and investigate. Break line of sight before they confirm your position!<br>
-          &bull; <strong>ALERT (60-99% [!]):</strong> Visual lock established. Enforcers pursue and alarm sirens blare!<br>
-          &bull; <strong>LOCKDOWN (100%):</strong> Automatic defenses deploy. Stay in the shadows!
+          Operative, select your cyberware archetype and breach classified black-sites. Utilize realistic raytraced vision stealth, subvert security grids with your Cyberdeck, and extract neural payloads.
+        </div>
+
+        <!-- Class Selection -->
+        <div>
+          <h5 style="font-family:var(--font-display); font-size:11px; color:var(--cyan); margin-bottom:6px;">SELECT CYBERWARE CLASS:</h5>
+          <div class="class-select-grid">
+            <div class="class-card selected" data-class="SPECTRE">
+              <div class="class-icon">⚡</div>
+              <div class="class-name">SPECTRE</div>
+              <div class="class-trait">+2 Max Energy, Rapid Regen, Extended Cloak</div>
+            </div>
+            <div class="class-card" data-class="CHRONOS">
+              <div class="class-icon">⏳</div>
+              <div class="class-name">CHRONOS</div>
+              <div class="class-trait">Sandevistan Overclock +30% Duration, Fast Dash</div>
+            </div>
+            <div class="class-card" data-class="WRAITH">
+              <div class="class-icon">📡</div>
+              <div class="class-name">WRAITH</div>
+              <div class="class-trait">Free Sonic Decoys, +50% EMP Radius, Remote Hacks</div>
+            </div>
+          </div>
         </div>
         
         <div class="briefing-grid">
           <div class="briefing-cell">
-            <h5>PATROL ENFORCERS</h5>
-            <p>Directional cones. If they see you, an overhead [?] or [!] indicates their alert state.</p>
+            <h5>STEALTH &amp; RAYTRACING</h5>
+            <p>Cones reflect actual line-of-sight. Break sightlines around walls to decay alarm levels.</p>
           </div>
           <div class="briefing-cell">
-            <h5>SWEEPING CCTV SPOTLIGHTS</h5>
-            <p>Cones sweep sectors. Dash [Spacebar] across blindspots or Jam Optics [2].</p>
+            <h5>CYBERDECK BREACH [E]</h5>
+            <p>Hack high-tech terminals to disable turrets, vent gas, and steal corporate crypto-credits.</p>
           </div>
           <div class="briefing-cell">
-            <h5>TACTICAL DASH</h5>
-            <p>Spacebar speeds past sensors with minimal suspicion buildup.</p>
+            <h5>REFLEX OVERCLOCK [Q]</h5>
+            <p>Slows down world physics while keeping operative agile. Dodge sweepers with ease.</p>
           </div>
           <div class="briefing-cell">
-            <h5>STEALTH CLOAK</h5>
-            <p>[4] provides 3.5s of total optical camouflage from all sensors.</p>
+            <h5>SONIC DECOY [F]</h5>
+            <p>Project holographic noise lures to pull guards and camera eyes away from doors.</p>
           </div>
         </div>
 
         <button id="btnStartGame" class="cyber-btn-large">
           <span>⚡ COMMENCE INFILTRATION</span>
         </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cyberdeck Buffer Breach Minigame Modal -->
+  <div id="cyberdeckModal" class="overlay-modal">
+    <div class="modal-card" style="border-color: var(--cyan); max-width: 540px;">
+      <div class="modal-content" style="padding: 16px 20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div class="modal-title-glitch" style="font-size:18px;">CYBERDECK MATRIX BREACH</div>
+          <div id="breachTimerText" style="font-family:var(--font-mono); font-size:14px; color:var(--amber); font-weight:700;">⏱️ 15.0s</div>
+        </div>
+
+        <div style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">
+          Select hex sequences matching target buffer payloads. Alternate between horizontal rows and vertical columns.
+        </div>
+
+        <div class="buffer-tray" id="bufferTray"></div>
+
+        <div class="cyberdeck-matrix-grid" id="cyberdeckGrid"></div>
+
+        <div class="payload-targets" id="payloadTargets"></div>
+
+        <div style="display:flex; gap:10px; margin-top:6px;">
+          <button id="btnAbortBreach" class="cyber-btn-small" style="flex:1; justify-content:center;">❌ ABORT BREACH</button>
+        </div>
       </div>
     </div>
   </div>
@@ -1249,7 +1571,7 @@
       <div class="modal-content">
         <div class="modal-title-glitch success" id="victoryTitle">SECTOR CLEARED // EXTRACTION SUCCESS</div>
         <div class="modal-desc" id="victorySummaryText">
-          Extraction uplink locked. Data payload successfully stolen from the corporate grid!
+          Extraction uplink locked. Data payload successfully extracted from the corporate matrix!
         </div>
 
         <div class="briefing-grid">
@@ -1262,12 +1584,12 @@
             <p id="vicStatRank" style="color:var(--cyan); font-weight:700;">GHOST (S-RANK)</p>
           </div>
           <div class="briefing-cell">
-            <h5>HACKS DEPLOYED</h5>
-            <p id="vicStatHacks">2</p>
+            <h5>HACKS &amp; BREACHES</h5>
+            <p id="vicStatHacks">3</p>
           </div>
           <div class="briefing-cell">
-            <h5>PEAK ALARM</h5>
-            <p id="vicStatPeakAlarm">0%</p>
+            <h5>CREDITS LOOTED</h5>
+            <p id="vicStatCredits" style="color:var(--amber);">+450 CR</p>
           </div>
         </div>
 
@@ -1295,11 +1617,11 @@
 
         <div class="briefing-grid" style="border-color: rgba(255, 42, 81, 0.3);">
           <div class="briefing-cell">
-            <h5>INCIDENT LOC</h5>
+            <h5>INCIDENT SECTOR</h5>
             <p id="failCoordText">Sector 02</p>
           </div>
           <div class="briefing-cell">
-            <h5>DETECTION REASON</h5>
+            <h5>DETECTION SOURCE</h5>
             <p id="failSourceText">Enforcer Line of Sight</p>
           </div>
         </div>
@@ -1311,32 +1633,52 @@
     </div>
   </div>
 
+  <!-- Codex / Trophies Modal -->
+  <div id="codexModal" class="overlay-modal">
+    <div class="modal-card" style="border-color: var(--amber); max-width: 580px;">
+      <div class="modal-content">
+        <div class="modal-title-glitch" style="color:var(--amber);">OPERATIVE CODEX &amp; TROPHIES</div>
+        <div class="modal-desc">
+          Career stealth milestones, classified decrypted lore dossiers, and lifetime infiltration statistics.
+        </div>
+
+        <div id="trophiesList" style="display:flex; flex-direction:column; gap:8px; max-height:300px; overflow-y:auto; padding-right:6px;"></div>
+
+        <button id="btnCloseCodex" class="cyber-btn-large" style="background:var(--amber); color:#04060a;">
+          <span>RETURN TO OPERATION</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer>
-    <div>OPERATOR NET <span class="highlight">v3.3.0</span> // ADVANCED ALARM LOGIC ENGINE</div>
-    <div>GRIDBREAK: OPERATOR SIGNAL &bull; HTML5 PROCEDURAL CYBER ENGINE</div>
+    <div>OPERATOR NET <span class="highlight">v4.0.0</span> // NEURAL RAYTRACE STEALTH &amp; CYBERDECK MATRIX</div>
+    <div>GRIDBREAK: OPERATOR SIGNAL &bull; 100% SELF-CONTAINED HTML5 / WEB AUDIO ENGINE</div>
   </footer>
 
-  <!-- Complete Game Script -->
+  <!-- Complete Game Engine Script -->
   <script>
     /**
-     * GRIDBREAK: OPERATOR SIGNAL (Tiered Alarm Edition)
-     * Realistic Multi-Phase Alarm (Clear -> Caution [?] -> Alert [!] -> Lockdown)
-     * Dynamic Threat Direction Indicator & Proximity-based Detection
+     * GRIDBREAK: OPERATOR SIGNAL - NEURO-CYBER EDITION
+     * Advanced Top-Down Stealth Infiltration Game
+     * Dynamic 2D Lighting, Raytraced Vision Occlusion, Realistic Tiered Alarms,
+     * Sandevistan Reflex Overclock, Cyberdeck Buffer Matrix Minigame, Endless Heist Mode & Web Audio OST
      */
 
-    // --- PROCEDURAL SOUND SYNTHESIZER ---
+    // --- PROCEDURAL WEB AUDIO SYNTHESIZER ---
     class SoundEngine {
       constructor() {
         this.ctx = null;
         this.enabled = true;
         this.musicEnabled = true;
+        this.radioEnabled = true;
         this.synthOsc1 = null;
         this.synthOsc2 = null;
         this.synthGain = null;
         this.arpeggioTimer = null;
-        this.alarmStage = 'CLEAR'; // 'CLEAR', 'CAUTION', 'ALERT'
-        this.sirenTimer = 0;
+        this.alarmStage = 'CLEAR';
+        this.speechSynth = window.speechSynthesis || null;
       }
 
       init() {
@@ -1367,13 +1709,30 @@
         return this.musicEnabled;
       }
 
+      toggleRadio() {
+        this.radioEnabled = !this.radioEnabled;
+        return this.radioEnabled;
+      }
+
+      speakRadio(text) {
+        if (!this.radioEnabled || !this.speechSynth) return;
+        try {
+          this.speechSynth.cancel();
+          const utterance = new SpeechSynthesisUtterance(text);
+          utterance.rate = 1.15;
+          utterance.pitch = 0.85;
+          utterance.volume = 0.8;
+          this.speechSynth.speak(utterance);
+        } catch (e) {}
+      }
+
       startMusic() {
         if (!this.ctx || !this.musicEnabled) return;
         try {
           if (this.synthGain) return;
 
           this.synthGain = this.ctx.createGain();
-          this.synthGain.gain.setValueAtTime(0.04, this.ctx.currentTime);
+          this.synthGain.gain.setValueAtTime(0.038, this.ctx.currentTime);
           this.synthGain.connect(this.ctx.destination);
 
           this.synthOsc1 = this.ctx.createOscillator();
@@ -1382,7 +1741,7 @@
 
           const filter = this.ctx.createBiquadFilter();
           filter.type = 'lowpass';
-          filter.frequency.setValueAtTime(180, this.ctx.currentTime);
+          filter.frequency.setValueAtTime(190, this.ctx.currentTime);
 
           this.synthOsc2 = this.ctx.createOscillator();
           this.synthOsc2.type = 'sine';
@@ -1400,26 +1759,28 @@
           this.arpeggioTimer = setInterval(() => {
             if (!this.musicEnabled || !this.ctx || this.ctx.state !== 'running') return;
             try {
-              const isAlert = this.alarmStage === 'ALERT';
+              const isAlert = this.alarmStage === 'ALERT' || this.alarmStage === 'LOCKDOWN';
               const isCaution = this.alarmStage === 'CAUTION';
+              const isSlowMo = GameState.player.slowMoActive;
               
               const notes = isAlert
-                ? [220, 246.94, 277.18, 329.63, 370.0, 440] // Intense minor
+                ? [220, 246.94, 277.18, 329.63, 370.0, 440]
                 : (isCaution ? [196, 220, 261.63, 293.66] : [164.81, 220, 261.63, 329.63]);
 
               const osc = this.ctx.createOscillator();
               const gain = this.ctx.createGain();
-              osc.type = isAlert ? 'sawtooth' : 'sine';
-              osc.frequency.setValueAtTime(notes[step % notes.length], this.ctx.currentTime);
-              gain.gain.setValueAtTime(isAlert ? 0.025 : 0.014, this.ctx.currentTime);
-              gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + (isAlert ? 0.22 : 0.4));
+              osc.type = isAlert ? 'sawtooth' : (isSlowMo ? 'triangle' : 'sine');
+              const targetPitch = isSlowMo ? notes[step % notes.length] * 0.5 : notes[step % notes.length];
+              osc.frequency.setValueAtTime(targetPitch, this.ctx.currentTime);
+              gain.gain.setValueAtTime(isAlert ? 0.024 : 0.012, this.ctx.currentTime);
+              gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + (isAlert ? 0.22 : 0.38));
               osc.connect(gain);
               gain.connect(this.ctx.destination);
               osc.start();
-              osc.stop(this.ctx.currentTime + (isAlert ? 0.22 : 0.4));
+              osc.stop(this.ctx.currentTime + (isAlert ? 0.22 : 0.38));
               step++;
             } catch (e) {}
-          }, 360);
+          }, 340);
 
         } catch (e) {}
       }
@@ -1454,13 +1815,13 @@
           const gain = this.ctx.createGain();
           osc.type = 'triangle';
           osc.frequency.setValueAtTime(130, this.ctx.currentTime);
-          osc.frequency.exponentialRampToValueAtTime(40, this.ctx.currentTime + 0.06);
-          gain.gain.setValueAtTime(0.06, this.ctx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.06);
+          osc.frequency.exponentialRampToValueAtTime(35, this.ctx.currentTime + 0.05);
+          gain.gain.setValueAtTime(0.045, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.05);
           osc.connect(gain);
           gain.connect(this.ctx.destination);
           osc.start();
-          osc.stop(this.ctx.currentTime + 0.06);
+          osc.stop(this.ctx.currentTime + 0.05);
         } catch(e) {}
       }
 
@@ -1470,14 +1831,54 @@
           const osc = this.ctx.createOscillator();
           const gain = this.ctx.createGain();
           osc.type = 'sawtooth';
-          osc.frequency.setValueAtTime(600, this.ctx.currentTime);
-          osc.frequency.exponentialRampToValueAtTime(120, this.ctx.currentTime + 0.2);
-          gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.2);
+          osc.frequency.setValueAtTime(700, this.ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(100, this.ctx.currentTime + 0.22);
+          gain.gain.setValueAtTime(0.14, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.22);
           osc.connect(gain);
           gain.connect(this.ctx.destination);
           osc.start();
-          osc.stop(this.ctx.currentTime + 0.2);
+          osc.stop(this.ctx.currentTime + 0.22);
+        } catch(e) {}
+      }
+
+      playSlowMo(active) {
+        if (!this.enabled || !this.ctx) return;
+        try {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          if (active) {
+            osc.frequency.setValueAtTime(800, this.ctx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(120, this.ctx.currentTime + 0.4);
+          } else {
+            osc.frequency.setValueAtTime(120, this.ctx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(600, this.ctx.currentTime + 0.3);
+          }
+          gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.4);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start();
+          osc.stop(this.ctx.currentTime + 0.4);
+        } catch(e) {}
+      }
+
+      playDecoy() {
+        if (!this.enabled || !this.ctx) return;
+        try {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(440, this.ctx.currentTime);
+          osc.frequency.setValueAtTime(880, this.ctx.currentTime + 0.08);
+          osc.frequency.setValueAtTime(1760, this.ctx.currentTime + 0.16);
+          gain.gain.setValueAtTime(0.1, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.3);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start();
+          osc.stop(this.ctx.currentTime + 0.3);
         } catch(e) {}
       }
 
@@ -1489,13 +1890,13 @@
             const osc = this.ctx.createOscillator();
             const gain = this.ctx.createGain();
             osc.type = 'sine';
-            osc.frequency.setValueAtTime(freq, now + i * 0.08);
-            gain.gain.setValueAtTime(0.12, now + i * 0.08);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.25);
+            osc.frequency.setValueAtTime(freq, now + i * 0.07);
+            gain.gain.setValueAtTime(0.1, now + i * 0.07);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.07 + 0.22);
             osc.connect(gain);
             gain.connect(this.ctx.destination);
-            osc.start(now + i * 0.08);
-            osc.stop(now + i * 0.08 + 0.25);
+            osc.start(now + i * 0.07);
+            osc.stop(now + i * 0.07 + 0.22);
           });
         } catch(e) {}
       }
@@ -1507,8 +1908,8 @@
           const gain = this.ctx.createGain();
           osc.type = 'sawtooth';
           osc.frequency.setValueAtTime(450, this.ctx.currentTime);
-          osc.frequency.exponentialRampToValueAtTime(60, this.ctx.currentTime + 0.35);
-          gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(50, this.ctx.currentTime + 0.35);
+          gain.gain.setValueAtTime(0.18, this.ctx.currentTime);
           gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.35);
           osc.connect(gain);
           gain.connect(this.ctx.destination);
@@ -1525,12 +1926,12 @@
           osc.type = 'square';
           osc.frequency.setValueAtTime(1200, this.ctx.currentTime);
           osc.frequency.setValueAtTime(800, this.ctx.currentTime + 0.1);
-          gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.3);
+          gain.gain.setValueAtTime(0.1, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.28);
           osc.connect(gain);
           gain.connect(this.ctx.destination);
           osc.start();
-          osc.stop(this.ctx.currentTime + 0.3);
+          osc.stop(this.ctx.currentTime + 0.28);
         } catch(e) {}
       }
 
@@ -1544,7 +1945,7 @@
           osc.frequency.setValueAtTime(250, now);
           osc.frequency.exponentialRampToValueAtTime(900, now + 0.2);
           osc.frequency.exponentialRampToValueAtTime(120, now + 0.45);
-          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.setValueAtTime(0.14, now);
           gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
           osc.connect(gain);
           gain.connect(this.ctx.destination);
@@ -1570,7 +1971,6 @@
         } catch(e) {}
       }
 
-      // Rhythmic, phased alert siren
       playCautionPulse() {
         if (!this.enabled || !this.ctx) return;
         try {
@@ -1579,7 +1979,7 @@
           osc.type = 'sine';
           osc.frequency.setValueAtTime(650, this.ctx.currentTime);
           osc.frequency.exponentialRampToValueAtTime(450, this.ctx.currentTime + 0.15);
-          gain.gain.setValueAtTime(0.07, this.ctx.currentTime);
+          gain.gain.setValueAtTime(0.06, this.ctx.currentTime);
           gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.15);
           osc.connect(gain);
           gain.connect(this.ctx.destination);
@@ -1594,9 +1994,9 @@
           const osc = this.ctx.createOscillator();
           const gain = this.ctx.createGain();
           osc.type = 'sawtooth';
-          osc.frequency.setValueAtTime(840, this.ctx.currentTime);
-          osc.frequency.linearRampToValueAtTime(600, this.ctx.currentTime + 0.18);
-          gain.gain.setValueAtTime(0.14, this.ctx.currentTime);
+          osc.frequency.setValueAtTime(860, this.ctx.currentTime);
+          osc.frequency.linearRampToValueAtTime(620, this.ctx.currentTime + 0.18);
+          gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
           gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.2);
           osc.connect(gain);
           gain.connect(this.ctx.destination);
@@ -1612,7 +2012,7 @@
           const gain = this.ctx.createGain();
           osc.type = 'square';
           osc.frequency.setValueAtTime(950, this.ctx.currentTime);
-          gain.gain.setValueAtTime(0.18, this.ctx.currentTime);
+          gain.gain.setValueAtTime(0.16, this.ctx.currentTime);
           gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.18);
           osc.connect(gain);
           gain.connect(this.ctx.destination);
@@ -1630,7 +2030,7 @@
             const gain = this.ctx.createGain();
             osc.type = 'sine';
             osc.frequency.setValueAtTime(freq, now + idx * 0.12);
-            gain.gain.setValueAtTime(0.12, now + idx * 0.12);
+            gain.gain.setValueAtTime(0.11, now + idx * 0.12);
             gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.12 + 0.4);
             osc.connect(gain);
             gain.connect(this.ctx.destination);
@@ -1648,8 +2048,8 @@
           const gain = this.ctx.createGain();
           osc.type = 'sawtooth';
           osc.frequency.setValueAtTime(150, now);
-          osc.frequency.exponentialRampToValueAtTime(30, now + 0.7);
-          gain.gain.setValueAtTime(0.2, now);
+          osc.frequency.exponentialRampToValueAtTime(25, now + 0.7);
+          gain.gain.setValueAtTime(0.18, now);
           gain.gain.exponentialRampToValueAtTime(0.001, now + 0.7);
           osc.connect(gain);
           gain.connect(this.ctx.destination);
@@ -1665,7 +2065,7 @@
           const gain = this.ctx.createGain();
           osc.type = 'sine';
           osc.frequency.setValueAtTime(1200, this.ctx.currentTime);
-          gain.gain.setValueAtTime(0.035, this.ctx.currentTime);
+          gain.gain.setValueAtTime(0.03, this.ctx.currentTime);
           gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.04);
           osc.connect(gain);
           gain.connect(this.ctx.destination);
@@ -1677,15 +2077,76 @@
 
     const sound = new SoundEngine();
 
-    // --- 5 EXPANSIVE LEVELS DEFINITION ---
-    // 0: Floor, 1: Wall, 2: Red Key, 3: Blue Pass, 4: Laser Gate, 5: Exit, 6: Terminal, 7: Data Slate
-    const LEVELS = [
+    // --- ACHIEVEMENTS / TROPHY SYSTEM ---
+    const ACHIEVEMENTS = [
+      { id: 'first_blood', name: 'Perimeter Breach', desc: 'Complete Sector 01 Infiltration.', unlocked: false },
+      { id: 'ghost_protocol', name: 'Ghost In The Shell', desc: 'Clear any level with 0% peak alarm.', unlocked: false },
+      { id: 'master_hacker', name: 'Neuro-Decker', desc: 'Successfully solve a Cyberdeck Buffer Matrix breach.', unlocked: false },
+      { id: 'time_bender', name: 'Sandevistan Master', desc: 'Evade an enforcer line of sight during Slow-Mo.', unlocked: false },
+      { id: 'looter', name: 'Data Siphon', desc: 'Collect 1,000 corporate crypto-credits.', unlocked: false },
+      { id: 'decoy_artist', name: 'Phantom Projection', desc: 'Distract 3 guards using Sonic Decoys.', unlocked: false },
+      { id: 'apex_predator', name: 'Apex Netrunner', desc: 'Complete all 5 Campaign Sectors.', unlocked: false },
+      { id: 'endless_survivor', name: 'Deep Heist Veteran', desc: 'Reach Floor 5 in Endless Heist Mode.', unlocked: false }
+    ];
+
+    function unlockAchievement(id) {
+      const ach = ACHIEVEMENTS.find(a => a.id === id);
+      if (ach && !ach.unlocked) {
+        ach.unlocked = true;
+        showToast(`🏆 UNLOCKED: ${ach.name} - ${ach.desc}`);
+        sound.playItem();
+        saveCodex();
+        updateTrophyHUD();
+      }
+    }
+
+    function saveCodex() {
+      try {
+        const data = ACHIEVEMENTS.map(a => ({ id: a.id, unlocked: a.unlocked }));
+        localStorage.setItem('gridbreak_achievements', JSON.stringify(data));
+      } catch(e) {}
+    }
+
+    function loadCodex() {
+      try {
+        const raw = localStorage.getItem('gridbreak_achievements');
+        if (raw) {
+          const list = JSON.parse(raw);
+          list.forEach(saved => {
+            const ach = ACHIEVEMENTS.find(a => a.id === saved.id);
+            if (ach) ach.unlocked = saved.unlocked;
+          });
+        }
+      } catch(e) {}
+      updateTrophyHUD();
+    }
+
+    function updateTrophyHUD() {
+      const unlockedCount = ACHIEVEMENTS.filter(a => a.unlocked).length;
+      document.getElementById('trophyCountText').innerText = `${unlockedCount}/${ACHIEVEMENTS.length}`;
+    }
+
+    function showToast(msg) {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'toast-msg';
+      toast.innerHTML = `<span>⚡</span><span>${msg}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(100%)';
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    // --- 5 EXPANSIVE HANDCRAFTED SECTORS ---
+    const CAMPAIGN_LEVELS = [
       // LEVEL 1: Perimeter Breach
       {
         id: 1,
         title: "LVL 1: PERIMETER BREACH",
         code: "SEC-01",
-        briefing: "Welcome to Sub-Level 1. Learn the patrol rhythm, collect the Red Cryptokey in the auxiliary room, disarm the laser gate, and reach the extraction elevator.",
+        briefing: "Welcome to Sub-Level 1. Study the patrol routes, collect the Red Cryptokey, hack terminals for energy, and reach the extraction elevator.",
         width: 16,
         height: 10,
         playerStart: { x: 1.5, y: 1.5 },
@@ -1712,8 +2173,9 @@
         cameras: [
           { x: 13.5, y: 3.5, baseAngle: Math.PI / 2, sweep: 0.7, speed: 1.4, coneDist: 4.2 }
         ],
+        turrets: [],
         terminals: [
-          { x: 3.5, y: 3.5, hacked: false, info: "Perimeter node decrypted: +3 Hack Energy!" }
+          { x: 3.5, y: 3.5, hacked: false, isCyberdeckNode: true, credits: 150, info: "Perimeter node decrypted: +150 CR and +3 Hack Energy!" }
         ],
         slates: [
           { x: 10.5, y: 1.5, name: "Arasaka Protocol Memo" }
@@ -1726,7 +2188,7 @@
         id: 2,
         title: "LVL 2: SURVEILLANCE ARRAY",
         code: "SEC-02",
-        briefing: "Sub-Level 2 is blanketed by automated CCTV spotlights and a patrolling guard. Use [2] Jam Optics or [Space] Dash across camera sightlines to acquire the Blue Pass and Red Key.",
+        briefing: "Sub-Level 2 is blanketed by automated CCTV spotlights and armed enforcers. Use [2] Jam Optics or [Q] Overclock across sightlines to acquire the Blue Pass and Red Key.",
         width: 16,
         height: 10,
         playerStart: { x: 1.5, y: 8.5 },
@@ -1754,8 +2216,9 @@
           { x: 3.5, y: 1.5, baseAngle: Math.PI / 2, sweep: 0.8, speed: 1.6, coneDist: 4.2 },
           { x: 11.5, y: 3.5, baseAngle: Math.PI, sweep: 0.9, speed: 1.2, coneDist: 4.5 }
         ],
+        turrets: [],
         terminals: [
-          { x: 7.5, y: 1.5, hacked: false, info: "Camera calibration corrupted. +3 Energy gained." }
+          { x: 7.5, y: 1.5, hacked: false, isCyberdeckNode: true, credits: 200, info: "Camera calibration corrupted. +200 CR and energy restored." }
         ],
         slates: [
           { x: 10.5, y: 8.5, name: "Cyber-Optic Blueprint" }
@@ -1768,7 +2231,7 @@
         id: 3,
         title: "LVL 3: ENFORCER INTERCEPT",
         code: "SEC-03",
-        briefing: "Two heavy enforcer units operate on synchronized routes. Use [1] EMP Stun to buy time. Terminal access can override the security barrier without keycards!",
+        briefing: "Two heavy enforcer units operate on synchronized routes with an active automated laser turret! Deploy Sonic Decoys [F] or EMP Stun [1] to breach.",
         width: 16,
         height: 10,
         playerStart: { x: 1.5, y: 1.5 },
@@ -1800,11 +2263,14 @@
         cameras: [
           { x: 1.5, y: 5.5, baseAngle: 0, sweep: 0.7, speed: 1.5, coneDist: 4.0 }
         ],
+        turrets: [
+          { x: 8.5, y: 3.5, range: 4.2, charge: 0, hacked: false }
+        ],
         terminals: [
-          { x: 5.5, y: 5.5, hacked: false, info: "Secondary firewall hacked! Laser gate disarmed." }
+          { x: 5.5, y: 5.5, hacked: false, isCyberdeckNode: true, credits: 250, info: "Secondary firewall hacked! Laser gate disarmed and Turret subverted." }
         ],
         slates: [
-          { x: 1.5, y: 7.5, name: "Black-Site Roster" }
+          { x: 1.5, y: 7.5, name: "Black-Site Operative Roster" }
         ],
         gate: { x: 14, y: 6, unlocked: false }
       },
@@ -1814,7 +2280,7 @@
         id: 4,
         title: "LVL 4: THE CORE VAULT",
         code: "SEC-04",
-        briefing: "Deep subterranean data vault. High-speed 360-degree scanner turret mounted in the center! Requires Blue Key to open the inner vault, then Red Key for extraction.",
+        briefing: "Deep subterranean data vault with a 360-degree high-speed scanner turret mounted in the center! Requires Blue Key to open inner vault, then Red Key for extraction.",
         width: 16,
         height: 10,
         playerStart: { x: 1.5, y: 4.5 },
@@ -1839,11 +2305,11 @@
           }
         ],
         cameras: [
-          // 360 continuous sweeping central camera
           { x: 8.5, y: 4.5, baseAngle: 0, sweep: Math.PI * 2, speed: 1.0, isContinuous: true, coneDist: 4.8 }
         ],
+        turrets: [],
         terminals: [
-          { x: 3.5, y: 7.5, hacked: false, info: "Core capacitors tapped: Energy restored!" }
+          { x: 3.5, y: 7.5, hacked: false, isCyberdeckNode: true, credits: 300, info: "Core capacitors tapped: +300 CR and Full Energy restored!" }
         ],
         slates: [
           { x: 13.5, y: 7.5, name: "Project Chimera Audio Log" }
@@ -1856,7 +2322,7 @@
         id: 5,
         title: "LVL 5: NEURAL APEX CORE",
         code: "SEC-05",
-        briefing: "Final black-site sanctum. Dense security web: multiple overlapping cameras and hyper-alert enforcers. Deploy Stealth Cloak [4] and EMP blasts to escape with the AI Core!",
+        briefing: "Final black-site sanctum. Dense security web: multiple overlapping cameras, active combat turrets, and hyper-alert enforcers. Escape with the AI Core!",
         width: 16,
         height: 10,
         playerStart: { x: 1.5, y: 1.5 },
@@ -1889,8 +2355,11 @@
           { x: 3.5, y: 3.5, baseAngle: Math.PI / 2, sweep: 0.9, speed: 1.8, coneDist: 4.5 },
           { x: 10.5, y: 1.5, baseAngle: Math.PI / 2, sweep: 0.8, speed: 1.6, coneDist: 4.5 }
         ],
+        turrets: [
+          { x: 8.5, y: 5.5, range: 4.5, charge: 0, hacked: false }
+        ],
         terminals: [
-          { x: 7.5, y: 7.5, hacked: false, info: "AI Core root keys extracted! Barrier lockdown disarmed." }
+          { x: 7.5, y: 7.5, hacked: false, isCyberdeckNode: true, credits: 500, info: "AI Core root keys extracted! +500 CR. Barrier lockdown disarmed." }
         ],
         slates: [
           { x: 5.5, y: 7.5, name: "Sentient AI Genesis Data" }
@@ -1899,8 +2368,105 @@
       }
     ];
 
-    // --- GAME ENGINE STATE ---
+    // --- PROCEDURAL ENDLESS DUNGEON GENERATOR ---
+    function generateEndlessFloor(floorNum) {
+      const width = 16;
+      const height = 10;
+      const map = Array.from({ length: height }, () => Array(width).fill(0));
+
+      // Border walls
+      for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+          if (x === 0 || x === width - 1 || y === 0 || y === height - 1) {
+            map[y][x] = 1;
+          }
+        }
+      }
+
+      // Interior pillars & cover blocks
+      for (let i = 0; i < 14 + Math.min(10, floorNum * 2); i++) {
+        const rx = Math.floor(Math.random() * (width - 4)) + 2;
+        const ry = Math.floor(Math.random() * (height - 4)) + 2;
+        map[ry][rx] = 1;
+        if (Math.random() < 0.4) map[ry + 1][rx] = 1;
+      }
+
+      const pStart = { x: 1.5, y: 1.5 };
+      const exitPos = { x: width - 2 + 0.5, y: height - 2 + 0.5 };
+      map[1][1] = 0;
+      map[height - 2][width - 2] = 5;
+
+      // Place Red Key
+      const kx = Math.floor(Math.random() * 4) + 1;
+      const ky = Math.floor(Math.random() * (height - 3)) + 2;
+      map[ky][kx] = 2;
+
+      // Gate before exit
+      map[height - 2][width - 3] = 4;
+
+      // Guards
+      const guardCount = Math.min(4, 1 + Math.floor(floorNum / 2));
+      const guards = [];
+      for (let g = 0; g < guardCount; g++) {
+        const gx = 4 + g * 3;
+        const gy = 3 + (g % 2) * 3;
+        guards.push({
+          x: gx + 0.5, y: gy + 0.5,
+          waypoints: [
+            { x: gx + 0.5, y: gy + 0.5 },
+            { x: gx + 2.5, y: gy + 0.5 },
+            { x: gx + 2.5, y: gy + 2.5 },
+            { x: gx + 0.5, y: gy + 2.5 }
+          ],
+          speed: 1.6 + floorNum * 0.15,
+          coneAngle: 0.65,
+          coneDist: 3.8 + floorNum * 0.1
+        });
+      }
+
+      // Cameras
+      const camCount = Math.min(3, 1 + Math.floor(floorNum / 3));
+      const cameras = [];
+      for (let c = 0; c < camCount; c++) {
+        cameras.push({
+          x: 6.5 + c * 4,
+          y: 1.5,
+          baseAngle: Math.PI / 2,
+          sweep: 0.8,
+          speed: 1.4 + floorNum * 0.1,
+          coneDist: 4.2
+        });
+      }
+
+      return {
+        id: 99,
+        isEndless: true,
+        floor: floorNum,
+        title: `ENDLESS HEIST // FLOOR ${floorNum}`,
+        code: `FLR-${String(floorNum).padStart(2, '0')}`,
+        briefing: `Infinite corporate black-site level ${floorNum}. Security density escalated. Extract payload and survive as long as possible!`,
+        width,
+        height,
+        playerStart: pStart,
+        exit: exitPos,
+        map,
+        guards,
+        cameras,
+        turrets: floorNum >= 3 ? [{ x: 8.5, y: 4.5, range: 4.0, charge: 0, hacked: false }] : [],
+        terminals: [
+          { x: 5.5, y: 7.5, hacked: false, isCyberdeckNode: true, credits: 200 + floorNum * 50, info: `Floor ${floorNum} decrypted: Credits and hack energy acquired!` }
+        ],
+        slates: [
+          { x: 11.5, y: 2.5, name: `Corporate Vault File #${floorNum}` }
+        ],
+        gate: { x: width - 3, y: height - 2, unlocked: false }
+      };
+    }
+
+    // --- GAME STATE ENGINE ---
     const GameState = {
+      isEndlessMode: false,
+      endlessFloor: 1,
       levelIndex: 0,
       currentLevel: null,
       grid: [],
@@ -1909,6 +2475,9 @@
       originX: 20,
       originY: 10,
       
+      selectedClass: 'SPECTRE', // 'SPECTRE', 'CHRONOS', 'WRAITH'
+      credits: 0,
+
       player: {
         x: 1.5,
         y: 1.5,
@@ -1925,20 +2494,31 @@
         dashTimer: 0,
         
         // Stealth cloak
-        cloakTimer: 0
+        cloakTimer: 0,
+
+        // Slow-Mo / Sandevistan Overclock
+        slowMoActive: false,
+        slowMoTimer: 0,
+        slowMoMaxDuration: 4.0,
+        slowMoCooldown: 0,
+        slowMoMaxCooldown: 6.0,
+
+        // Sonic Decoy
+        activeDecoy: null
       },
 
       guards: [],
       cameras: [],
+      turrets: [],
       terminals: [],
       slates: [],
       gate: null,
       
       // Tiered Alarm Engine
-      alarm: 0,            // 0 - 100%
+      alarm: 0,
       peakAlarm: 0,
-      alarmStage: 'CLEAR', // 'CLEAR', 'CAUTION', 'ALERT', 'LOCKDOWN'
-      alarmDecayDelay: 0,  // Grace period before alarm cools down
+      alarmStage: 'CLEAR',
+      alarmDecayDelay: 0,
       closestThreatDist: 999,
       closestThreatAngle: 0,
       detectedByThreat: false,
@@ -1950,10 +2530,183 @@
       energyRegenInterval: 3.0,
       hacksUsedCount: 0,
       
-      state: 'TITLE', // 'TITLE', 'PLAYING', 'VICTORY', 'GAMEOVER'
+      state: 'TITLE', // 'TITLE', 'PLAYING', 'CYBERDECK', 'VICTORY', 'GAMEOVER'
       missionTime: 0,
       detectionSource: '',
-      particles: []
+      particles: [],
+      afterImages: []
+    };
+
+    // --- CYBERDECK MATRIX BREACH PUZZLE ENGINE ---
+    const CyberdeckEngine = {
+      gridSize: 5,
+      matrix: [],
+      currentRow: 0,
+      currentCol: 0,
+      isRowTurn: true, // Alternate Row -> Col -> Row -> Col
+      selectedIndices: [],
+      buffer: [],
+      maxBuffer: 4,
+      timeLeft: 15.0,
+      timerInterval: null,
+      activeTerminal: null,
+      targets: [
+        { name: "CAMERA OVERLOAD", seq: ["1C", "E9"], reward: "OPTICS_JAM", solved: false },
+        { name: "TURRET SUBVERT", seq: ["BD", "7A", "55"], reward: "TURRET_HACK", solved: false },
+        { name: "CREDIT HEIST", seq: ["55", "1C", "BD"], reward: "CREDITS", solved: false }
+      ],
+
+      startBreach(terminal) {
+        GameState.state = 'CYBERDECK';
+        this.activeTerminal = terminal;
+        this.selectedIndices = [];
+        this.buffer = [];
+        this.currentRow = 0;
+        this.currentCol = 0;
+        this.isRowTurn = true;
+        this.timeLeft = 16.0;
+
+        const hexPool = ["1C", "E9", "7A", "BD", "55"];
+        this.matrix = [];
+        for (let r = 0; r < this.gridSize; r++) {
+          const row = [];
+          for (let c = 0; c < this.gridSize; c++) {
+            row.push(hexPool[Math.floor(Math.random() * hexPool.length)]);
+          }
+          this.matrix.push(row);
+        }
+
+        // Setup random target sequences
+        this.targets.forEach(t => {
+          t.solved = false;
+        });
+
+        document.getElementById('cyberdeckModal').classList.add('active');
+        sound.playBlip();
+        this.renderBreachUI();
+
+        if (this.timerInterval) clearInterval(this.timerInterval);
+        this.timerInterval = setInterval(() => {
+          this.timeLeft -= 0.1;
+          document.getElementById('breachTimerText').innerText = `⏱️ ${Math.max(0, this.timeLeft).toFixed(1)}s`;
+          if (this.timeLeft <= 0) {
+            this.finishBreach(false);
+          }
+        }, 100);
+      },
+
+      renderBreachUI() {
+        // Buffer tray
+        const tray = document.getElementById('bufferTray');
+        tray.innerHTML = '';
+        for (let i = 0; i < this.maxBuffer; i++) {
+          const slot = document.createElement('div');
+          slot.className = 'buffer-slot';
+          slot.innerText = this.buffer[i] || '';
+          tray.appendChild(slot);
+        }
+
+        // Target payloads
+        const targetsDiv = document.getElementById('payloadTargets');
+        targetsDiv.innerHTML = '';
+        this.targets.forEach(t => {
+          const row = document.createElement('div');
+          row.className = 'payload-row';
+          row.innerHTML = `
+            <span class="payload-name" style="${t.solved ? 'color:var(--green); font-weight:700;' : ''}">${t.name} ${t.solved ? '✓ [DEPLOYED]' : ''}</span>
+            <span class="payload-seq" style="${t.solved ? 'color:var(--green);' : ''}">${t.seq.join(' ')}</span>
+          `;
+          targetsDiv.appendChild(row);
+        });
+
+        // Matrix Grid
+        const grid = document.getElementById('cyberdeckGrid');
+        grid.innerHTML = '';
+        for (let r = 0; r < this.gridSize; r++) {
+          for (let c = 0; c < this.gridSize; c++) {
+            const val = this.matrix[r][c];
+            const isUsed = this.selectedIndices.some(idx => idx.r === r && idx.c === c);
+            const isSelectable = !isUsed && (this.isRowTurn ? r === this.currentRow : c === this.currentCol);
+
+            const cell = document.createElement('div');
+            cell.className = `matrix-cell ${isUsed ? 'used' : ''} ${isSelectable ? 'active-selectable' : ''}`;
+            cell.innerText = val;
+
+            if (isSelectable) {
+              cell.addEventListener('click', () => this.selectCell(r, c, val));
+            }
+            grid.appendChild(cell);
+          }
+        }
+      },
+
+      selectCell(r, c, val) {
+        sound.playBlip();
+        this.selectedIndices.push({ r, c });
+        this.buffer.push(val);
+
+        if (this.isRowTurn) {
+          this.currentCol = c;
+          this.isRowTurn = false;
+        } else {
+          this.currentRow = r;
+          this.isRowTurn = true;
+        }
+
+        // Check if any target is solved
+        const bufferStr = this.buffer.join('');
+        this.targets.forEach(t => {
+          if (!t.solved && bufferStr.includes(t.seq.join(''))) {
+            t.solved = true;
+            sound.playItem();
+            showToast(`EXPLOIT DEPLOYED: ${t.name}!`);
+          }
+        });
+
+        this.renderBreachUI();
+
+        if (this.buffer.length >= this.maxBuffer || this.targets.every(t => t.solved)) {
+          this.finishBreach(true);
+        }
+      },
+
+      finishBreach(success) {
+        clearInterval(this.timerInterval);
+        this.timerInterval = null;
+        document.getElementById('cyberdeckModal').classList.remove('active');
+        GameState.state = 'PLAYING';
+
+        if (success) {
+          unlockAchievement('master_hacker');
+          sound.playVictory();
+          if (this.activeTerminal) {
+            this.activeTerminal.hacked = true;
+            const rewardCreds = (this.activeTerminal.credits || 150) + 100;
+            GameState.credits += rewardCreds;
+            showToast(`+${rewardCreds} CR LOOTED!`);
+            sendCipherMessage('CIPHER // CYBERDECK', `Matrix successfully breached! Subroutines injected into local node.`, 'hack');
+            sound.speakRadio("Cyberdeck matrix breached. System root acquired.");
+          }
+
+          // Apply solved subroutines
+          this.targets.forEach(t => {
+            if (t.solved) {
+              if (t.reward === 'OPTICS_JAM') {
+                GameState.cameras.forEach(c => c.freezeTimer = 8.0);
+              } else if (t.reward === 'TURRET_HACK') {
+                GameState.turrets.forEach(tur => tur.hacked = true);
+              } else if (t.reward === 'CREDITS') {
+                GameState.credits += 150;
+              }
+            }
+          });
+
+          if (GameState.gate) GameState.gate.unlocked = true;
+          updateHUD();
+        } else {
+          sendCipherMessage('CIPHER // WARNING', `Cyberdeck buffer timeout. Terminal locked out!`, 'alert');
+        }
+      }
     };
 
     // --- PARTICLES ENGINE ---
@@ -1982,10 +2735,26 @@
         p.y += p.vy * dt;
         if (p.life <= 0) GameState.particles.splice(i, 1);
       }
+
+      for (let i = GameState.afterImages.length - 1; i >= 0; i--) {
+        const img = GameState.afterImages[i];
+        img.life -= dt;
+        if (img.life <= 0) GameState.afterImages.splice(i, 1);
+      }
     }
 
     function renderParticles(ctx) {
       ctx.save();
+      // Afterimages (Slow-mo / Dash)
+      for (const img of GameState.afterImages) {
+        ctx.fillStyle = img.color;
+        ctx.globalAlpha = (img.life / img.maxLife) * 0.4;
+        ctx.beginPath();
+        ctx.arc(img.x, img.y, 11, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Particles
       for (const p of GameState.particles) {
         ctx.fillStyle = p.color;
         ctx.globalAlpha = Math.max(0, p.life / p.maxLife);
@@ -2019,16 +2788,24 @@
     }
 
     // --- LEVEL LOADER ---
-    function loadLevel(index) {
+    function loadLevel(index, isEndless = false) {
+      GameState.isEndlessMode = isEndless;
       GameState.levelIndex = index;
-      const lvl = LEVELS[index];
+      
+      let lvl;
+      if (isEndless) {
+        lvl = generateEndlessFloor(GameState.endlessFloor);
+      } else {
+        lvl = CAMPAIGN_LEVELS[index];
+      }
+
       GameState.currentLevel = lvl;
       GameState.grid = lvl.map.map(row => [...row]);
 
       // Calculate tile dimensions
       const card = document.getElementById('canvasCard');
-      const w = card.clientWidth || 940;
-      const h = Math.max(520, card.clientHeight || 540);
+      const w = card.clientWidth || 960;
+      const h = Math.max(530, card.clientHeight || 540);
       
       canvas.width = w;
       canvas.height = h;
@@ -2038,7 +2815,13 @@
       GameState.originX = Math.floor((w - GameState.tileW * lvl.width) / 2);
       GameState.originY = Math.floor((h - GameState.tileH * lvl.height) / 2);
 
+      // Apply Class Traits
+      let maxNrg = 10;
+      if (GameState.selectedClass === 'SPECTRE') maxNrg = 12;
+
       // Player setup
+      GameState.maxEnergy = maxNrg;
+      GameState.hackEnergy = Math.min(maxNrg, 8);
       GameState.player.x = lvl.playerStart.x;
       GameState.player.y = lvl.playerStart.y;
       GameState.player.angle = 0;
@@ -2047,9 +2830,13 @@
       GameState.player.slatesCollected = 0;
       GameState.player.dashCooldown = 0;
       GameState.player.cloakTimer = 0;
+      GameState.player.slowMoActive = false;
+      GameState.player.slowMoTimer = 0;
+      GameState.player.slowMoCooldown = 0;
+      GameState.player.activeDecoy = null;
 
       // Guards setup
-      GameState.guards = lvl.guards.map(g => ({
+      GameState.guards = (lvl.guards || []).map(g => ({
         x: g.x,
         y: g.y,
         waypoints: g.waypoints.map(wp => ({...wp})),
@@ -2059,12 +2846,12 @@
         stunTimer: 0,
         coneAngle: g.coneAngle,
         coneDist: g.coneDist,
-        alertStatus: 'PATROL', // 'PATROL', 'SUSPICIOUS', 'ALERT'
+        alertStatus: 'PATROL',
         searchTimer: 0
       }));
 
-      // CCTV Cameras setup
-      GameState.cameras = lvl.cameras.map(c => ({
+      // Cameras setup
+      GameState.cameras = (lvl.cameras || []).map(c => ({
         x: c.x,
         y: c.y,
         baseAngle: c.baseAngle,
@@ -2077,10 +2864,20 @@
         trackingPlayer: false
       }));
 
+      // Turrets setup
+      GameState.turrets = (lvl.turrets || []).map(t => ({
+        x: t.x,
+        y: t.y,
+        range: t.range,
+        charge: 0,
+        hacked: false,
+        angle: 0
+      }));
+
       // Terminals & Slates
-      GameState.terminals = lvl.terminals.map(t => ({...t}));
-      GameState.slates = lvl.slates.map(s => ({...s, collected: false}));
-      GameState.gate = {...lvl.gate};
+      GameState.terminals = (lvl.terminals || []).map(t => ({...t}));
+      GameState.slates = (lvl.slates || []).map(s => ({...s, collected: false}));
+      GameState.gate = lvl.gate ? {...lvl.gate} : null;
 
       // Reset Alarm & Metrics
       GameState.alarm = 0;
@@ -2091,27 +2888,29 @@
       GameState.sirenPulseTimer = 0;
       sound.setAlarmStage('CLEAR');
 
-      GameState.hackEnergy = 8;
       GameState.energyRegenTimer = 0;
       GameState.hacksUsedCount = 0;
       GameState.missionTime = 0;
       GameState.particles = [];
+      GameState.afterImages = [];
 
       // Update UI
       document.getElementById('hudSectorTitle').innerText = lvl.title;
+      document.getElementById('hudOperativeClass').innerText = GameState.selectedClass;
       document.getElementById('levelCodeTag').innerText = lvl.code;
-      document.getElementById('levelProgressTag').innerText = `LEVEL ${index + 1} / ${LEVELS.length}`;
+      document.getElementById('levelProgressTag').innerText = isEndless ? `FLOOR ${GameState.endlessFloor}` : `LEVEL ${index + 1} / 5`;
       
       document.querySelectorAll('.lvl-pill').forEach((btn, i) => {
-        btn.classList.toggle('active', i === index);
+        if (!isEndless && i === index) btn.classList.add('active');
+        else if (isEndless && btn.id === 'lvlPillEndless') btn.classList.add('active');
+        else btn.classList.remove('active');
       });
 
-      updateEnergyHUD();
-      updateAlarmHUD();
-      updateChecklistHUD();
+      updateHUD();
 
       chatContainer.innerHTML = '';
-      sendCipherMessage('CIPHER // TACTICAL', `Connected to ${lvl.title}. ${lvl.briefing}`, 'normal');
+      sendCipherMessage('CIPHER // TACTICAL', `Infiltrating ${lvl.title}. ${lvl.briefing}`, 'normal');
+      sound.speakRadio(`Commencing infiltration of ${lvl.title}`);
     }
 
     // --- GRID COORDINATE CONVERSIONS ---
@@ -2119,13 +2918,6 @@
       return {
         x: GameState.originX + gx * GameState.tileW,
         y: GameState.originY + gy * GameState.tileH
-      };
-    }
-
-    function screenToGrid(sx, sy) {
-      return {
-        x: (sx - GameState.originX) / GameState.tileW,
-        y: (sy - GameState.originY) / GameState.tileH
       };
     }
 
@@ -2138,10 +2930,10 @@
       return false;
     }
 
-    // Line of sight raycasting
+    // Raycast Line of Sight Occlusion
     function hasLineOfSight(x1, y1, x2, y2) {
       const dist = Math.hypot(x2 - x1, y2 - y1);
-      const steps = Math.ceil(dist * 12);
+      const steps = Math.ceil(dist * 14);
       for (let i = 1; i < steps; i++) {
         const t = i / steps;
         const cx = x1 + (x2 - x1) * t;
@@ -2151,7 +2943,7 @@
       return true;
     }
 
-    // --- HACK ABILITIES ---
+    // --- HACK & GADGET ABILITIES ---
     function useAbility(num) {
       if (GameState.state !== 'PLAYING') return;
 
@@ -2162,16 +2954,17 @@
           return;
         }
         GameState.hackEnergy -= 3;
+        const stunDur = GameState.selectedClass === 'WRAITH' ? 7.5 : 5.0;
         GameState.guards.forEach(g => {
-          g.stunTimer = 5.0;
+          g.stunTimer = stunDur;
           g.alertStatus = 'PATROL';
         });
         GameState.hacksUsedCount++;
         sound.playStun();
 
         const pSc = gridToScreen(GameState.player.x, GameState.player.y);
-        spawnParticle(pSc.x, pSc.y, '#00f3ff', 35, 90);
-        sendCipherMessage('CIPHER // EXPLOIT', 'EMP blast deployed! All enforcers in sector paralyzed for 5.0s.', 'hack');
+        spawnParticle(pSc.x, pSc.y, '#00f3ff', 40, 100);
+        sendCipherMessage('CIPHER // EXPLOIT', `EMP blast deployed! All enforcers paralyzed for ${stunDur.toFixed(1)}s.`, 'hack');
       }
       else if (num === 2) {
         // [2] Jam Optics (Cost: 2 Energy, freezes cameras for 6.0s)
@@ -2188,7 +2981,7 @@
         sound.playJam();
 
         const pSc = gridToScreen(GameState.player.x, GameState.player.y);
-        spawnParticle(pSc.x, pSc.y, '#ff006e', 25, 70);
+        spawnParticle(pSc.x, pSc.y, '#ff006e', 30, 80);
         sendCipherMessage('CIPHER // EXPLOIT', 'CCTV optics looped! Surveillance blacked out for 6.0s.', 'hack');
       }
       else if (num === 3) {
@@ -2207,27 +3000,51 @@
         sound.playBypass();
 
         const gSc = gridToScreen(GameState.gate.x + 0.5, GameState.gate.y + 0.5);
-        spawnParticle(gSc.x, gSc.y, '#05ffa1', 40, 80);
+        spawnParticle(gSc.x, gSc.y, '#05ffa1', 40, 90);
         sendCipherMessage('CIPHER // BREACH', 'Laser barrier security firewall overridden! Path is OPEN.', 'success');
-        updateChecklistHUD();
       }
       else if (num === 4) {
-        // [4] Stealth Cloak (Cost: 4 Energy, 3.5s invisibility)
+        // [4] Stealth Cloak (Cost: 4 Energy, 4.0s invisibility)
         if (GameState.hackEnergy < 4) {
           sendCipherMessage('CIPHER // WARNING', 'Insufficient energy for Stealth Cloak (Need 4 NRG).', 'alert');
           return;
         }
         GameState.hackEnergy -= 4;
-        GameState.player.cloakTimer = 3.5;
+        const dur = GameState.selectedClass === 'SPECTRE' ? 5.5 : 4.0;
+        GameState.player.cloakTimer = dur;
         GameState.hacksUsedCount++;
         sound.playCloak();
 
         const pSc = gridToScreen(GameState.player.x, GameState.player.y);
-        spawnParticle(pSc.x, pSc.y, '#b5179e', 30, 60);
-        sendCipherMessage('CIPHER // STEALTH', 'Optical camouflage engaged! Undetectable for 3.5s.', 'hack');
+        spawnParticle(pSc.x, pSc.y, '#b5179e', 35, 70);
+        sendCipherMessage('CIPHER // STEALTH', `Optical camouflage engaged! Undetectable for ${dur.toFixed(1)}s.`, 'hack');
+      }
+      else if (num === 5) {
+        // [F] Sonic Decoy (Cost: 2 Energy or Free for Wraith)
+        const cost = GameState.selectedClass === 'WRAITH' ? 0 : 2;
+        if (GameState.hackEnergy < cost) {
+          sendCipherMessage('CIPHER // WARNING', 'Insufficient energy for Sonic Decoy (Need 2 NRG).', 'alert');
+          return;
+        }
+        GameState.hackEnergy -= cost;
+        GameState.player.activeDecoy = {
+          x: GameState.player.x,
+          y: GameState.player.y,
+          timer: 6.0
+        };
+        sound.playDecoy();
+        unlockAchievement('decoy_artist');
+
+        const pSc = gridToScreen(GameState.player.x, GameState.player.y);
+        spawnParticle(pSc.x, pSc.y, '#ffb703', 25, 60);
+        sendCipherMessage('CIPHER // GADGET', 'Holographic Sonic Decoy projected! Sentry attention redirected.', 'normal');
+      }
+      else if (num === 6) {
+        // [Q] Reflex Slow-Mo Overclock (Sandevistan)
+        toggleSlowMo();
       }
 
-      updateEnergyHUD();
+      updateHUD();
     }
 
     // --- DASH MECHANIC ---
@@ -2237,25 +3054,42 @@
 
       p.isDashing = true;
       p.dashTimer = 0.18;
-      p.dashCooldown = p.dashMaxCooldown;
+      p.dashCooldown = GameState.selectedClass === 'CHRONOS' ? 1.2 : p.dashMaxCooldown;
       sound.playDash();
 
       const sc = gridToScreen(p.x, p.y);
-      spawnParticle(sc.x, sc.y, '#ff006e', 18, 100);
+      spawnParticle(sc.x, sc.y, '#ff006e', 20, 110);
     }
 
-    // --- INTERACTION & TERMINALS ---
+    // --- SLOW-MO REFLEX OVERCLOCK ---
+    function toggleSlowMo() {
+      const p = GameState.player;
+      if (p.slowMoCooldown > 0 && !p.slowMoActive) {
+        sendCipherMessage('CIPHER // WARNING', `Reflex Overclock cooling down (${p.slowMoCooldown.toFixed(1)}s remaining).`, 'alert');
+        return;
+      }
+
+      p.slowMoActive = !p.slowMoActive;
+      sound.playSlowMo(p.slowMoActive);
+
+      const alertVignette = document.getElementById('alertVignette');
+      if (p.slowMoActive) {
+        p.slowMoTimer = GameState.selectedClass === 'CHRONOS' ? 5.5 : p.slowMoMaxDuration;
+        alertVignette.classList.add('slowmo');
+        sendCipherMessage('CIPHER // OVERCLOCK', 'Sandevistan Reflex Overclock ENGAGED. Time perception dilated to 25%.', 'hack');
+        sound.speakRadio("Reflex Overclock active.");
+      } else {
+        alertVignette.classList.remove('slowmo');
+        p.slowMoCooldown = p.slowMoMaxCooldown;
+      }
+    }
+
+    // --- INTERACTION & CYBERDECK MATRIX ---
     function tryInteract() {
       const p = GameState.player;
       for (const t of GameState.terminals) {
         if (!t.hacked && Math.hypot(p.x - t.x, p.y - t.y) < 1.4) {
-          t.hacked = true;
-          GameState.hackEnergy = Math.min(GameState.maxEnergy, GameState.hackEnergy + 3);
-          sound.playItem();
-          const sc = gridToScreen(t.x, t.y);
-          spawnParticle(sc.x, sc.y, '#05ffa1', 25, 70);
-          sendCipherMessage('CIPHER // TERMINAL', t.info, 'success');
-          updateEnergyHUD();
+          CyberdeckEngine.startBreach(t);
           return;
         }
       }
@@ -2279,6 +3113,10 @@
         useAbility(3);
       } else if (e.key === '4') {
         useAbility(4);
+      } else if (e.key === 'f' || e.key === 'F') {
+        useAbility(5);
+      } else if (e.key === 'q' || e.key === 'Q') {
+        useAbility(6);
       } else if (e.key === 'e' || e.key === 'E') {
         tryInteract();
       }
@@ -2290,38 +3128,52 @@
 
     // --- MAIN ENGINE UPDATE LOOP ---
     let lastTime = performance.now();
+    let frameCount = 0;
+    let fpsTimer = 0;
 
     function update(dt) {
       if (GameState.state !== 'PLAYING') return;
 
-      GameState.missionTime += dt;
       const p = GameState.player;
 
-      // 1. Hack Energy Regen (+1 every 3s)
+      // Reflex Overclock Dilated Time
+      let timeScale = 1.0;
+      if (p.slowMoActive) {
+        timeScale = 0.25;
+        p.slowMoTimer -= dt;
+        if (p.slowMoTimer <= 0) {
+          toggleSlowMo();
+        }
+      } else if (p.slowMoCooldown > 0) {
+        p.slowMoCooldown = Math.max(0, p.slowMoCooldown - dt);
+      }
+
+      GameState.missionTime += dt;
+
+      // Energy Regen (+1 every 3s or 2s for Spectre)
+      const regenInterval = GameState.selectedClass === 'SPECTRE' ? 2.0 : GameState.energyRegenInterval;
       if (GameState.hackEnergy < GameState.maxEnergy) {
         GameState.energyRegenTimer += dt;
-        if (GameState.energyRegenTimer >= GameState.energyRegenInterval) {
+        if (GameState.energyRegenTimer >= regenInterval) {
           GameState.energyRegenTimer = 0;
           GameState.hackEnergy = Math.min(GameState.maxEnergy, GameState.hackEnergy + 1);
           sound.playBlip();
         }
       }
-      updateEnergyHUD();
 
-      // 2. Dash Cooldown & Cloak Timer
+      // Dash & Cloak Timers
       if (p.dashCooldown > 0) {
         p.dashCooldown = Math.max(0, p.dashCooldown - dt);
-        const dashFill = document.getElementById('dashFill');
-        const dashStatusText = document.getElementById('dashStatusText');
-        const pct = Math.round(((p.dashMaxCooldown - p.dashCooldown) / p.dashMaxCooldown) * 100);
-        dashFill.style.width = `${pct}%`;
-        dashStatusText.innerText = p.dashCooldown === 0 ? 'READY' : `${p.dashCooldown.toFixed(1)}s`;
       }
       if (p.cloakTimer > 0) {
         p.cloakTimer = Math.max(0, p.cloakTimer - dt);
       }
+      if (p.activeDecoy) {
+        p.activeDecoy.timer -= dt * timeScale;
+        if (p.activeDecoy.timer <= 0) p.activeDecoy = null;
+      }
 
-      // 3. Player Movement & Physics
+      // Player Movement Physics (Full speed even during slow-mo!)
       let mx = 0, my = 0;
       if (keys['w'] || keys['arrowup']) my -= 1;
       if (keys['s'] || keys['arrowdown']) my += 1;
@@ -2351,9 +3203,21 @@
       if (mx !== 0 || my !== 0) {
         p.angle = Math.atan2(my, mx);
         if (Math.random() < 0.18) sound.playFootstep();
+
+        // Spawn afterimages during dash or slow-mo
+        if (p.isDashing || p.slowMoActive) {
+          const sc = gridToScreen(p.x, p.y);
+          GameState.afterImages.push({
+            x: sc.x,
+            y: sc.y,
+            color: p.isDashing ? 'rgba(255, 0, 110, 0.4)' : 'rgba(0, 243, 255, 0.35)',
+            life: 0.3,
+            maxLife: 0.3
+          });
+        }
       }
 
-      // 4. Collectibles & Exit
+      // Collectibles & Objectives
       const cellX = Math.floor(p.x);
       const cellY = Math.floor(p.y);
       const tile = GameState.grid[cellY]?.[cellX];
@@ -2364,24 +3228,25 @@
         sound.playItem();
         sendCipherMessage('CIPHER // ACQUIRE', 'Red Cryptokey secured! Security barrier override authorized.', 'success');
         if (GameState.gate) GameState.gate.unlocked = true;
-        updateChecklistHUD();
+        showToast('RED CRYPTOKEY ACQUIRED');
       }
 
       if (tile === 3 && !p.hasBlueKey) {
         p.hasBlueKey = true;
         GameState.grid[cellY][cellX] = 0;
         sound.playItem();
-        sendCipherMessage('CIPHER // ACQUIRE', 'Blue Security Pass acquired! Access clearance updated.', 'success');
-        updateChecklistHUD();
+        sendCipherMessage('CIPHER // ACQUIRE', 'Blue Security Pass acquired! Clearance level upgraded.', 'success');
+        showToast('BLUE PASS ACQUIRED');
       }
 
       for (const s of GameState.slates) {
         if (!s.collected && Math.hypot(p.x - s.x, p.y - s.y) < 0.8) {
           s.collected = true;
           p.slatesCollected++;
+          GameState.credits += 250;
           sound.playItem();
-          sendCipherMessage('CIPHER // DATA', `Encrypted Data Slate decoded: "${s.name}". +250 XP!`, 'hack');
-          updateChecklistHUD();
+          sendCipherMessage('CIPHER // DATA', `Encrypted Data Dossier decoded: "${s.name}". +250 CR!`, 'hack');
+          showToast(`DATA DECODED: +250 CR`);
         }
       }
 
@@ -2390,7 +3255,7 @@
         return;
       }
 
-      // 5. Cameras Motion
+      // Security Cameras Motion (Scaled by Time-Dilation)
       for (const c of GameState.cameras) {
         if (c.freezeTimer > 0) {
           c.freezeTimer = Math.max(0, c.freezeTimer - dt);
@@ -2398,13 +3263,13 @@
         }
 
         if (c.isContinuous) {
-          c.currentAngle = (c.currentAngle + c.speed * dt) % (Math.PI * 2);
+          c.currentAngle = (c.currentAngle + c.speed * dt * timeScale) % (Math.PI * 2);
         } else {
-          c.currentAngle = c.baseAngle + Math.sin(GameState.missionTime * c.speed) * c.sweep;
+          c.currentAngle = c.baseAngle + Math.sin(GameState.missionTime * c.speed * timeScale) * c.sweep;
         }
       }
 
-      // 6. Guards Motion & Realistic AI States
+      // Patrol Guards Motion (Scaled by Time-Dilation)
       for (const g of GameState.guards) {
         if (g.stunTimer > 0) {
           g.stunTimer = Math.max(0, g.stunTimer - dt);
@@ -2412,17 +3277,26 @@
           continue;
         }
 
+        // Lured by Active Decoy
+        let targetX = p.x;
+        let targetY = p.y;
+        if (p.activeDecoy && Math.hypot(p.activeDecoy.x - g.x, p.activeDecoy.y - g.y) < 6.0) {
+          targetX = p.activeDecoy.x;
+          targetY = p.activeDecoy.y;
+          g.alertStatus = 'SUSPICIOUS';
+        }
+
         if (g.alertStatus === 'SUSPICIOUS') {
-          // Guard pauses, stares at disturbance, sweeps slightly
-          g.searchTimer -= dt;
-          if (g.searchTimer <= 0) {
+          g.searchTimer -= dt * timeScale;
+          const lookAngle = Math.atan2(targetY - g.y, targetX - g.x);
+          g.angle = lookAngle;
+          if (g.searchTimer <= 0 && !p.activeDecoy) {
             g.alertStatus = 'PATROL';
           }
         } else if (g.alertStatus === 'ALERT') {
-          // Guard slowly advances toward player coordinates
           const targetAngle = Math.atan2(p.y - g.y, p.x - g.x);
           g.angle = targetAngle;
-          const stepDist = (g.speed * 0.75) * dt;
+          const stepDist = (g.speed * 0.75) * dt * timeScale;
           const nx = g.x + Math.cos(targetAngle) * stepDist;
           const ny = g.y + Math.sin(targetAngle) * stepDist;
           if (!isWall(nx, ny)) {
@@ -2430,7 +3304,6 @@
             g.y = ny;
           }
         } else {
-          // Standard Patrol
           const targetWp = g.waypoints[g.currentWpIndex];
           const dist = Math.hypot(targetWp.x - g.x, targetWp.y - g.y);
           if (dist < 0.1) {
@@ -2438,13 +3311,32 @@
           } else {
             const moveAngle = Math.atan2(targetWp.y - g.y, targetWp.x - g.x);
             g.angle = moveAngle;
-            g.x += Math.cos(moveAngle) * g.speed * dt;
-            g.y += Math.sin(moveAngle) * g.speed * dt;
+            g.x += Math.cos(moveAngle) * g.speed * dt * timeScale;
+            g.y += Math.sin(moveAngle) * g.speed * dt * timeScale;
           }
         }
       }
 
-      // 7. REALISTIC TIERED DETECTION ENGINE
+      // Combat Turrets Motion & Tracking
+      for (const t of GameState.turrets) {
+        if (t.hacked) continue;
+        const dist = Math.hypot(p.x - t.x, p.y - t.y);
+        if (dist <= t.range && hasLineOfSight(t.x, t.y, p.x, p.y) && p.cloakTimer <= 0) {
+          t.angle = Math.atan2(p.y - t.y, p.x - t.x);
+          t.charge += dt * timeScale;
+          if (t.charge >= 1.5) {
+            // Turret fires!
+            GameState.alarm = Math.min(100, GameState.alarm + 45);
+            sound.playAlertStinger();
+            t.charge = 0;
+            showToast("TURRET LASER FIRED!");
+          }
+        } else {
+          t.charge = Math.max(0, t.charge - dt);
+        }
+      }
+
+      // REALISTIC TIERED DETECTION ENGINE
       let maxDetectionRate = 0;
       let closestDist = 999;
       let threatAngle = 0;
@@ -2452,7 +3344,7 @@
       const isCloaked = p.cloakTimer > 0;
 
       if (!isCloaked) {
-        // A. Guard Detection with Proximity Falloff
+        // Enforcer Line of Sight
         for (const g of GameState.guards) {
           if (g.stunTimer > 0) continue;
           const dist = Math.hypot(p.x - g.x, p.y - g.y);
@@ -2470,33 +3362,31 @@
                 threatAngle = Math.atan2(g.y - p.y, g.x - p.x);
               }
 
-              // Proximity scaling:
-              // Under 2.0 tiles: +65%/s
-              // 2.0 to 3.5 tiles: +35%/s
-              // > 3.5 tiles (edge): +18%/s
               let rate = 18;
               if (dist < 2.0) rate = 65;
               else if (dist < 3.5) rate = 35;
 
-              // Dashing across cones grants a 40% stealth reduction
               if (p.isDashing) rate *= 0.5;
+              if (p.slowMoActive) {
+                rate *= 0.35;
+                unlockAchievement('time_bender');
+              }
 
               if (rate > maxDetectionRate) maxDetectionRate = rate;
 
-              // Guard Reaction:
               if (GameState.alarm >= 55) {
                 if (g.alertStatus !== 'ALERT') sound.playAlertStinger();
                 g.alertStatus = 'ALERT';
               } else {
                 g.alertStatus = 'SUSPICIOUS';
                 g.searchTimer = 2.5;
-                g.angle = angleToPlayer; // face player
+                g.angle = angleToPlayer;
               }
             }
           }
         }
 
-        // B. CCTV Camera Detection with Focus Cone
+        // CCTV Camera Detection
         for (const c of GameState.cameras) {
           if (c.freezeTimer > 0) continue;
           const dist = Math.hypot(p.x - c.x, p.y - c.y);
@@ -2529,17 +3419,16 @@
       GameState.closestThreatAngle = threatAngle;
       GameState.detectedByThreat = activeThreatDetected;
 
-      // 8. Alarm Meter Accumulation & Graceful Decay
+      // Alarm Accumulation & Decay
       const alertVignette = document.getElementById('alertVignette');
 
       if (activeThreatDetected) {
-        GameState.alarmDecayDelay = 1.2; // 1.2s grace after breaking sightline
+        GameState.alarmDecayDelay = 1.2;
         GameState.alarm = Math.min(100, GameState.alarm + maxDetectionRate * dt);
       } else {
         if (GameState.alarmDecayDelay > 0) {
           GameState.alarmDecayDelay -= dt;
         } else {
-          // Smooth decay
           GameState.alarm = Math.max(0, GameState.alarm - 14 * dt);
         }
       }
@@ -2548,7 +3437,7 @@
         GameState.peakAlarm = GameState.alarm;
       }
 
-      // 9. Update Phased Stages: CLEAR -> CAUTION [?] -> ALERT [!] -> LOCKDOWN
+      // Stages: CLEAR -> CAUTION -> ALERT -> LOCKDOWN
       const prevStage = GameState.alarmStage;
       if (GameState.alarm >= 100) {
         GameState.alarmStage = 'LOCKDOWN';
@@ -2560,10 +3449,9 @@
         GameState.alarmStage = 'CLEAR';
       }
 
-      // Sound Engine update
       sound.setAlarmStage(GameState.alarmStage);
 
-      // Rhythmic Siren Klaxon (No random stutter!)
+      // Siren Klaxon
       GameState.sirenPulseTimer += dt;
       if (GameState.alarmStage === 'ALERT') {
         alertVignette.className = 'alert-vignette active';
@@ -2577,16 +3465,17 @@
           GameState.sirenPulseTimer = 0;
           sound.playCautionPulse();
         }
-      } else {
+      } else if (!p.slowMoActive) {
         alertVignette.className = 'alert-vignette';
       }
 
-      // Contextual Chat Warnings on Stage Changes
       if (prevStage !== GameState.alarmStage) {
         if (GameState.alarmStage === 'CAUTION') {
-          sendCipherMessage('CIPHER // CAUTION', 'Sentry detected a disturbance! Break sightlines or crouch behind cover.', 'normal');
+          sendCipherMessage('CIPHER // CAUTION', 'Sentry detected disturbance! Break sightlines or crouch behind cover.', 'normal');
+          sound.speakRadio("Caution. Security disturbance noted.");
         } else if (GameState.alarmStage === 'ALERT') {
-          sendCipherMessage('CIPHER // DANGER', 'INTRUDER CONFIRMED! Enforcers are closing in, deploy EMP [1] or Dash [Space]!', 'alert');
+          sendCipherMessage('CIPHER // DANGER', 'INTRUDER CONFIRMED! Deploy EMP [1] or Reflex Overclock [Q] immediately!', 'alert');
+          sound.speakRadio("Warning. Intrusion alert active.");
         }
       }
 
@@ -2595,17 +3484,20 @@
         return;
       }
 
-      updateAlarmHUD();
+      if (GameState.credits >= 1000) {
+        unlockAchievement('looter');
+      }
+
+      updateHUD();
       updateParticles(dt);
-      updateHUDLabels(activeThreatDetected);
     }
 
-    // --- TOP-DOWN CANVAS RENDERING ---
+    // --- TOP-DOWN 2D CANVAS RAYTRACED RENDERING ---
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
 
     function render() {
-      ctx.fillStyle = '#060810';
+      ctx.fillStyle = '#04060a';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       if (!GameState.currentLevel) return;
@@ -2615,7 +3507,7 @@
       const ox = GameState.originX;
       const oy = GameState.originY;
 
-      // 1. Grid Tiles & Walls
+      // 1. Grid Tiles & Walls with Futuristic Normal-Mapped Style
       for (let y = 0; y < GameState.currentLevel.height; y++) {
         for (let x = 0; x < GameState.currentLevel.width; x++) {
           const type = GameState.grid[y][x];
@@ -2623,42 +3515,42 @@
           const py = oy + y * th;
 
           if (type === 1) {
-            // High-Tech Wall Block with 3D drop shadow
-            ctx.fillStyle = '#0f172a';
+            // High-Tech Carbon Composite Wall
+            ctx.fillStyle = '#0b1120';
             ctx.fillRect(px, py, tw, th);
 
-            ctx.strokeStyle = 'rgba(0, 243, 255, 0.28)';
+            ctx.strokeStyle = 'rgba(0, 243, 255, 0.25)';
             ctx.lineWidth = 1.5;
             ctx.strokeRect(px + 2, py + 2, tw - 4, th - 4);
 
-            ctx.fillStyle = '#16223d';
+            ctx.fillStyle = '#131d33';
             ctx.fillRect(px + 6, py + 6, tw - 12, th - 12);
           } else {
-            // Floor Seam
+            // Floor Grid
             const isAlt = (x + y) % 2 === 0;
-            ctx.fillStyle = isAlt ? '#0a1020' : '#070c18';
+            ctx.fillStyle = isAlt ? '#070b14' : '#05080f';
             ctx.fillRect(px, py, tw, th);
 
-            ctx.strokeStyle = 'rgba(0, 243, 255, 0.05)';
+            ctx.strokeStyle = 'rgba(0, 243, 255, 0.04)';
             ctx.lineWidth = 1;
             ctx.strokeRect(px, py, tw, th);
           }
         }
       }
 
-      // 2. Exit Node
+      // 2. Extraction Elevator Node
       const ex = GameState.currentLevel.exit;
       const exSc = gridToScreen(ex.x, ex.y);
       ctx.save();
       ctx.translate(exSc.x, exSc.y);
       ctx.strokeStyle = '#05ffa1';
-      ctx.lineWidth = 2;
+      ctx.lineWidth = 2.5;
       ctx.beginPath();
-      ctx.arc(0, 0, tw * 0.4, 0, Math.PI * 2);
+      ctx.arc(0, 0, tw * 0.42, 0, Math.PI * 2);
       ctx.stroke();
 
-      ctx.rotate(GameState.missionTime * 2);
-      ctx.fillStyle = 'rgba(5, 255, 161, 0.3)';
+      ctx.rotate(GameState.missionTime * 2.2);
+      ctx.fillStyle = 'rgba(5, 255, 161, 0.25)';
       ctx.fillRect(-tw * 0.2, -tw * 0.2, tw * 0.4, tw * 0.4);
       ctx.restore();
 
@@ -2677,7 +3569,7 @@
           ctx.lineWidth = 8;
           ctx.stroke();
         } else {
-          ctx.strokeStyle = 'rgba(5, 255, 161, 0.4)';
+          ctx.strokeStyle = 'rgba(5, 255, 161, 0.35)';
           ctx.lineWidth = 2;
           ctx.strokeRect(gSc.x + 2, gSc.y + 2, tw - 4, th - 4);
         }
@@ -2708,14 +3600,24 @@
         }
       }
 
+      // Terminals
       for (const t of GameState.terminals) {
         const sc = gridToScreen(t.x, t.y);
         ctx.fillStyle = t.hacked ? 'rgba(5, 255, 161, 0.3)' : '#00f3ff';
         ctx.fillRect(sc.x - 8, sc.y - 8, 16, 16);
         ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 1.5;
         ctx.strokeRect(sc.x - 8, sc.y - 8, 16, 16);
+
+        // Terminal Prompt Icon
+        if (!t.hacked) {
+          ctx.fillStyle = '#fff';
+          ctx.font = "9px 'Share Tech Mono'";
+          ctx.fillText("💻 [E]", sc.x - 12, sc.y - 12);
+        }
       }
 
+      // Slates
       for (const s of GameState.slates) {
         if (!s.collected) {
           const sc = gridToScreen(s.x, s.y);
@@ -2755,7 +3657,51 @@
         ctx.fill();
       }
 
-      // 6. Patrol Guards & Alert Holograms ([?] / [!])
+      // 6. Turrets Rendering
+      for (const tur of GameState.turrets) {
+        const sc = gridToScreen(tur.x, tur.y);
+        ctx.save();
+        ctx.translate(sc.x, sc.y);
+        ctx.rotate(tur.angle);
+
+        ctx.fillStyle = tur.hacked ? '#05ffa1' : '#ff2a51';
+        ctx.fillRect(-8, -8, 16, 16);
+        ctx.strokeStyle = '#fff';
+        ctx.strokeRect(-8, -8, 16, 16);
+
+        // Barrel
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(4, -2, 8, 4);
+
+        if (tur.charge > 0 && !tur.hacked) {
+          ctx.strokeStyle = 'rgba(255, 42, 81, 0.8)';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.lineTo(tur.range * tw, 0);
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
+
+      // 7. Active Decoy Projection
+      if (GameState.player.activeDecoy) {
+        const dSc = gridToScreen(GameState.player.activeDecoy.x, GameState.player.activeDecoy.y);
+        ctx.save();
+        ctx.strokeStyle = '#ffb703';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.arc(dSc.x, dSc.y, 14 + Math.sin(GameState.missionTime * 10) * 4, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.fillStyle = 'rgba(255, 183, 3, 0.4)';
+        ctx.beginPath();
+        ctx.arc(dSc.x, dSc.y, 8, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+
+      // 8. Patrol Guards & Alert States
       for (const g of GameState.guards) {
         const gSc = gridToScreen(g.x, g.y);
         const isStunned = g.stunTimer > 0;
@@ -2799,21 +3745,19 @@
         ctx.fillRect(4, -4, 6, 8);
         ctx.restore();
 
-        // Floating Overhead Alert Icons
+        // Overhead Alerts
         if (isStunned) {
           ctx.font = "9px 'Orbitron'";
           ctx.fillStyle = '#00f3ff';
           ctx.textAlign = 'center';
           ctx.fillText(`⚡ ${g.stunTimer.toFixed(1)}s`, gSc.x, gSc.y - 14);
         } else if (g.alertStatus === 'ALERT') {
-          // Red Exclamation [!]
           ctx.font = "bold 16px 'Orbitron'";
           ctx.fillStyle = '#ff2a51';
           ctx.textAlign = 'center';
           const bob = Math.sin(GameState.missionTime * 10) * 3;
           ctx.fillText("!", gSc.x, gSc.y - 14 + bob);
         } else if (g.alertStatus === 'SUSPICIOUS') {
-          // Yellow Question Mark [?]
           ctx.font = "bold 15px 'Orbitron'";
           ctx.fillStyle = '#ffb703';
           ctx.textAlign = 'center';
@@ -2822,12 +3766,12 @@
         }
       }
 
-      // 7. Player Operative
+      // 9. Player Operative
       const p = GameState.player;
       const pSc = gridToScreen(p.x, p.y);
       const isCloaked = p.cloakTimer > 0;
 
-      // Dynamic Threat Direction Arc around Player
+      // Dynamic Threat Direction Arc
       if (GameState.detectedByThreat && !isCloaked) {
         ctx.save();
         ctx.translate(pSc.x, pSc.y);
@@ -2837,14 +3781,14 @@
         ctx.strokeStyle = arcColor;
         ctx.lineWidth = 3;
         ctx.beginPath();
-        ctx.arc(0, 0, 22, -0.6, 0.6);
+        ctx.arc(0, 0, 23, -0.6, 0.6);
         ctx.stroke();
 
         ctx.fillStyle = arcColor;
         ctx.beginPath();
-        ctx.moveTo(25, 0);
-        ctx.lineTo(20, -4);
-        ctx.lineTo(20, 4);
+        ctx.moveTo(26, 0);
+        ctx.lineTo(21, -4);
+        ctx.lineTo(21, 4);
         ctx.closePath();
         ctx.fill();
         ctx.restore();
@@ -2855,9 +3799,9 @@
       ctx.rotate(p.angle);
 
       if (p.isDashing) {
-        ctx.fillStyle = 'rgba(255, 0, 110, 0.3)';
+        ctx.fillStyle = 'rgba(255, 0, 110, 0.35)';
         ctx.beginPath();
-        ctx.arc(-8, 0, 12, 0, Math.PI * 2);
+        ctx.arc(-8, 0, 13, 0, Math.PI * 2);
         ctx.fill();
       }
 
@@ -2866,11 +3810,11 @@
       ctx.arc(0, 0, 11, 0, Math.PI * 2);
       ctx.fill();
 
-      ctx.strokeStyle = isCloaked ? '#b5179e' : '#00f3ff';
+      ctx.strokeStyle = isCloaked ? '#b5179e' : (p.slowMoActive ? '#05ffa1' : '#00f3ff');
       ctx.lineWidth = 1.5;
       ctx.stroke();
 
-      ctx.fillStyle = isCloaked ? '#b5179e' : '#00f3ff';
+      ctx.fillStyle = isCloaked ? '#b5179e' : (p.slowMoActive ? '#05ffa1' : '#00f3ff');
       ctx.fillRect(4, -3, 6, 6);
       ctx.restore();
 
@@ -2878,7 +3822,10 @@
     }
 
     // --- HUD UPDATERS ---
-    function updateAlarmHUD() {
+    function updateHUD() {
+      const p = GameState.player;
+
+      // Alarm Meter
       const alarmFill = document.getElementById('alarmFill');
       const alarmPercentText = document.getElementById('alarmPercentText');
       const alarmStageLabel = document.getElementById('alarmStageLabel');
@@ -2901,9 +3848,8 @@
         alarmFill.className = 'meter-fill-alarm';
         alarmStageLabel.innerText = '// SECURE';
       }
-    }
 
-    function updateEnergyHUD() {
+      // Energy Cells
       const container = document.getElementById('energyCellsContainer');
       const energyNumText = document.getElementById('energyNumText');
 
@@ -2918,18 +3864,40 @@
         }
         container.appendChild(cell);
       }
-
       energyNumText.innerText = `${GameState.hackEnergy}/${GameState.maxEnergy}`;
 
+      // Dash Bar
+      const dashFill = document.getElementById('dashFill');
+      const dashStatusText = document.getElementById('dashStatusText');
+      const maxDashCd = GameState.selectedClass === 'CHRONOS' ? 1.2 : p.dashMaxCooldown;
+      const dashPct = Math.round(((maxDashCd - p.dashCooldown) / maxDashCd) * 100);
+      dashFill.style.width = `${dashPct}%`;
+      dashStatusText.innerText = p.dashCooldown === 0 ? 'READY' : `${p.dashCooldown.toFixed(1)}s`;
+
+      // Slow-Mo Bar
+      const slowmoFill = document.getElementById('slowmoFill');
+      const slowmoStatusText = document.getElementById('slowmoStatusText');
+      if (p.slowMoActive) {
+        slowmoFill.style.width = `${Math.round((p.slowMoTimer / p.slowMoMaxDuration) * 100)}%`;
+        slowmoStatusText.innerText = `ACTIVE (${p.slowMoTimer.toFixed(1)}s)`;
+      } else if (p.slowMoCooldown > 0) {
+        const cdPct = Math.round(((p.slowMoMaxCooldown - p.slowMoCooldown) / p.slowMoMaxCooldown) * 100);
+        slowmoFill.style.width = `${cdPct}%`;
+        slowmoStatusText.innerText = `${p.slowMoCooldown.toFixed(1)}s`;
+      } else {
+        slowmoFill.style.width = '100%';
+        slowmoStatusText.innerText = 'READY';
+      }
+
+      // Abilities Deck Buttons
       document.getElementById('btnAbility1').disabled = GameState.hackEnergy < 3;
       document.getElementById('btnAbility2').disabled = GameState.hackEnergy < 2;
       document.getElementById('btnAbility3').disabled = GameState.hackEnergy < 5 || (GameState.gate && GameState.gate.unlocked);
       document.getElementById('btnAbility4').disabled = GameState.hackEnergy < 4;
-    }
+      document.getElementById('btnAbility5').disabled = (GameState.selectedClass !== 'WRAITH' && GameState.hackEnergy < 2);
+      document.getElementById('btnAbility6').disabled = p.slowMoCooldown > 0 && !p.slowMoActive;
 
-    function updateChecklistHUD() {
-      const p = GameState.player;
-      
+      // Inventory & Objectives
       const badgeRed = document.getElementById('badgeKeycardRed');
       const badgeBlue = document.getElementById('badgeKeycardBlue');
       const dataText = document.getElementById('dataCountText');
@@ -2946,32 +3914,26 @@
       document.getElementById('objGate').classList.toggle('completed', GameState.gate && GameState.gate.unlocked);
       document.getElementById('objExit').classList.toggle('completed', GameState.state === 'VICTORY');
       document.getElementById('objGhost').classList.toggle('completed', GameState.peakAlarm === 0);
-    }
 
-    function updateHUDLabels(isDetected) {
+      document.getElementById('hudCreditsText').innerText = `${GameState.credits} CR`;
+
+      // Status labels
       const stealthLabel = document.getElementById('stealthStatusText');
-      const threatLabel = document.getElementById('threatLevelText');
-
-      if (GameState.player.cloakTimer > 0) {
-        stealthLabel.innerText = `CLOAKED (${GameState.player.cloakTimer.toFixed(1)}s)`;
+      if (p.cloakTimer > 0) {
+        stealthLabel.innerText = `CLOAKED (${p.cloakTimer.toFixed(1)}s)`;
         stealthLabel.style.color = 'var(--purple)';
-        threatLabel.innerText = 'INVISIBLE';
-        threatLabel.style.color = 'var(--purple)';
+      } else if (p.slowMoActive) {
+        stealthLabel.innerText = 'OVERCLOCK [SLO-MO]';
+        stealthLabel.style.color = 'var(--cyan)';
       } else if (GameState.alarmStage === 'ALERT') {
         stealthLabel.innerText = 'PURSUIT';
         stealthLabel.style.color = 'var(--crimson)';
-        threatLabel.innerText = 'LOCK ON [!]';
-        threatLabel.style.color = 'var(--crimson)';
       } else if (GameState.alarmStage === 'CAUTION') {
         stealthLabel.innerText = 'SUSPICION';
         stealthLabel.style.color = 'var(--amber)';
-        threatLabel.innerText = 'PROBE [?]';
-        threatLabel.style.color = 'var(--amber)';
       } else {
         stealthLabel.innerText = 'SHADOWED';
         stealthLabel.style.color = 'var(--green)';
-        threatLabel.innerText = 'NONE';
-        threatLabel.style.color = 'var(--green)';
       }
     }
 
@@ -2980,12 +3942,21 @@
       GameState.state = 'VICTORY';
       sound.playVictory();
 
+      unlockAchievement('first_blood');
+      if (GameState.peakAlarm === 0) unlockAchievement('ghost_protocol');
+
+      if (GameState.isEndlessMode) {
+        if (GameState.endlessFloor >= 5) unlockAchievement('endless_survivor');
+      } else if (GameState.levelIndex === 4) {
+        unlockAchievement('apex_predator');
+      }
+
       const sec = Math.floor(GameState.missionTime);
       const m = String(Math.floor(sec / 60)).padStart(2, '0');
       const s = String(sec % 60).padStart(2, '0');
       document.getElementById('vicStatTime').innerText = `${m}:${s}`;
       document.getElementById('vicStatHacks').innerText = GameState.hacksUsedCount;
-      document.getElementById('vicStatPeakAlarm').innerText = `${Math.round(GameState.peakAlarm)}%`;
+      document.getElementById('vicStatCredits').innerText = `+${GameState.credits} CR`;
 
       let rank = 'S (GHOST PROTOCOL)';
       if (GameState.peakAlarm > 60) rank = 'C (COMPROMISED)';
@@ -2995,7 +3966,8 @@
 
       document.getElementById('victoryModal').classList.add('active');
       sendCipherMessage('CIPHER // EXTRACTION', 'Data upload confirmed! Elevators are unlocked, moving to next sector.', 'success');
-      updateChecklistHUD();
+      sound.speakRadio("Sector cleared. Extraction successful.");
+      updateHUD();
     }
 
     function triggerGameOver(reason) {
@@ -3006,6 +3978,7 @@
       document.getElementById('failSourceText').innerText = reason;
       document.getElementById('gameOverModal').classList.add('active');
       sendCipherMessage('CIPHER // CRITICAL', 'OPERATOR SIGNAL PURGED! Perimeter defensive net converged.', 'alert');
+      sound.speakRadio("Security lockdown. Operator signal purged.");
     }
 
     // --- MAIN GAME LOOP ---
@@ -3013,17 +3986,28 @@
       const dt = Math.min(0.1, (now - lastTime) / 1000);
       lastTime = now;
 
+      // FPS tracking
+      frameCount++;
+      fpsTimer += dt;
+      if (fpsTimer >= 1.0) {
+        document.getElementById('canvasFpsText').innerText = `${frameCount} FPS`;
+        frameCount = 0;
+        fpsTimer = 0;
+      }
+
       update(dt);
       render();
 
       requestAnimationFrame(gameLoop);
     }
 
-    // --- EVENT HANDLERS ---
+    // --- EVENT LISTENERS ---
     document.getElementById('btnAbility1').addEventListener('click', () => { sound.init(); useAbility(1); });
     document.getElementById('btnAbility2').addEventListener('click', () => { sound.init(); useAbility(2); });
     document.getElementById('btnAbility3').addEventListener('click', () => { sound.init(); useAbility(3); });
     document.getElementById('btnAbility4').addEventListener('click', () => { sound.init(); useAbility(4); });
+    document.getElementById('btnAbility5').addEventListener('click', () => { sound.init(); useAbility(5); });
+    document.getElementById('btnAbility6').addEventListener('click', () => { sound.init(); useAbility(6); });
 
     document.getElementById('dpadUp').addEventListener('mousedown', () => { keys['w'] = true; });
     document.getElementById('dpadUp').addEventListener('mouseup', () => { keys['w'] = false; });
@@ -3034,13 +4018,37 @@
     document.getElementById('dpadRight').addEventListener('mousedown', () => { keys['d'] = true; });
     document.getElementById('dpadRight').addEventListener('mouseup', () => { keys['d'] = false; });
 
+    document.querySelectorAll('.class-card').forEach(card => {
+      card.addEventListener('click', (e) => {
+        sound.init();
+        document.querySelectorAll('.class-card').forEach(c => c.classList.remove('selected'));
+        const el = e.currentTarget;
+        el.classList.add('selected');
+        GameState.selectedClass = el.dataset.class;
+        showToast(`CLASS SELECTED: ${GameState.selectedClass}`);
+      });
+    });
+
     document.querySelectorAll('.lvl-pill').forEach((btn) => {
       btn.addEventListener('click', (e) => {
         sound.init();
-        const lvlIdx = parseInt(e.target.dataset.lvl);
-        loadLevel(lvlIdx);
+        if (e.target.id === 'lvlPillEndless') {
+          GameState.endlessFloor = 1;
+          loadLevel(0, true);
+        } else {
+          const lvlIdx = parseInt(e.target.dataset.lvl);
+          loadLevel(lvlIdx, false);
+        }
         GameState.state = 'PLAYING';
       });
+    });
+
+    document.getElementById('btnEndless').addEventListener('click', () => {
+      sound.init();
+      GameState.endlessFloor = 1;
+      loadLevel(0, true);
+      GameState.state = 'PLAYING';
+      showToast('ENDLESS HEIST MODE COMMENCED!');
     });
 
     document.getElementById('btnSound').addEventListener('click', (e) => {
@@ -3055,6 +4063,12 @@
       e.target.innerText = on ? '🎵 SYNTH ON' : '⏸️ SYNTH OFF';
     });
 
+    document.getElementById('btnRadio').addEventListener('click', (e) => {
+      sound.init();
+      const on = sound.toggleRadio();
+      e.target.innerText = on ? '🎙️ RADIO ON' : '🔇 RADIO OFF';
+    });
+
     document.getElementById('btnCrt').addEventListener('click', (e) => {
       const crt = document.getElementById('crtOverlay');
       crt.classList.toggle('disabled');
@@ -3066,40 +4080,74 @@
     });
 
     document.getElementById('btnReset').addEventListener('click', () => {
-      loadLevel(GameState.levelIndex);
+      loadLevel(GameState.levelIndex, GameState.isEndlessMode);
       GameState.state = 'PLAYING';
     });
 
     document.getElementById('btnStartGame').addEventListener('click', () => {
       sound.init();
       document.getElementById('startModal').classList.remove('active');
+      loadLevel(0, false);
       GameState.state = 'PLAYING';
     });
 
     document.getElementById('btnNextLevel').addEventListener('click', () => {
       sound.init();
       document.getElementById('victoryModal').classList.remove('active');
-      const next = (GameState.levelIndex + 1) % LEVELS.length;
-      loadLevel(next);
+      if (GameState.isEndlessMode) {
+        GameState.endlessFloor++;
+        loadLevel(0, true);
+      } else {
+        const next = (GameState.levelIndex + 1) % CAMPAIGN_LEVELS.length;
+        loadLevel(next, false);
+      }
       GameState.state = 'PLAYING';
     });
 
     document.getElementById('btnReplayLevel').addEventListener('click', () => {
       sound.init();
       document.getElementById('victoryModal').classList.remove('active');
-      loadLevel(GameState.levelIndex);
+      loadLevel(GameState.levelIndex, GameState.isEndlessMode);
       GameState.state = 'PLAYING';
     });
 
     document.getElementById('btnRetryGame').addEventListener('click', () => {
       sound.init();
       document.getElementById('gameOverModal').classList.remove('active');
-      loadLevel(GameState.levelIndex);
+      loadLevel(GameState.levelIndex, GameState.isEndlessMode);
       GameState.state = 'PLAYING';
     });
 
-    // Initial setup
-    loadLevel(0);
+    document.getElementById('btnAbortBreach').addEventListener('click', () => {
+      CyberdeckEngine.finishBreach(false);
+    });
+
+    // Codex & Trophies Modal
+    document.getElementById('btnOpenAchieve').addEventListener('click', () => {
+      const list = document.getElementById('trophiesList');
+      list.innerHTML = '';
+      ACHIEVEMENTS.forEach(a => {
+        const item = document.createElement('div');
+        item.style.cssText = `background: rgba(0,0,0,0.4); padding: 8px 12px; border-radius: 4px; border: 1px solid ${a.unlocked ? 'var(--amber)' : 'var(--border-dim)'}; display:flex; justify-content:space-between; align-items:center; font-family:var(--font-mono); font-size:11.5px;`;
+        item.innerHTML = `
+          <div>
+            <div style="font-weight:700; color:${a.unlocked ? 'var(--amber)' : 'var(--text-muted)'};">${a.unlocked ? '🏆 ' : '🔒 '}${a.name}</div>
+            <div style="color:var(--text-muted); font-size:10px;">${a.desc}</div>
+          </div>
+          <span style="color:${a.unlocked ? 'var(--green)' : 'var(--text-muted)'}; font-weight:700;">${a.unlocked ? 'UNLOCKED' : 'LOCKED'}</span>
+        `;
+        list.appendChild(item);
+      });
+      document.getElementById('codexModal').classList.add('active');
+    });
+
+    document.getElementById('btnCloseCodex').addEventListener('click', () => {
+      document.getElementById('codexModal').classList.remove('active');
+    });
+
+    // Initialize
+    loadCodex();
+    loadLevel(0, false);
     requestAnimationFrame(gameLoop);
   </script>
 </body>
