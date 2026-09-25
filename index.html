@@ -3,37 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>GRIDBREAK: OPERATOR SIGNAL // Tactical Cyberpunk Infiltration & Cyberdeck Matrix</title>
+  <title>GRIDBREAK // Minimalist Hardcore Cyber Stealth</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Share+Tech+Mono&family=Rajdhani:wght@500;600;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;900&family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-dark: #04060a;
-      --bg-panel: rgba(8, 12, 22, 0.92);
-      --bg-panel-solid: #090e1a;
-      --border-cyan: rgba(0, 243, 255, 0.35);
-      --border-pink: rgba(255, 0, 110, 0.4);
-      --border-amber: rgba(255, 183, 3, 0.4);
-      --border-dim: rgba(255, 255, 255, 0.08);
+      --bg: #07090e;
+      --bg-darker: #030407;
+      --panel-bg: rgba(11, 15, 25, 0.85);
       --cyan: #00f3ff;
-      --cyan-glow: rgba(0, 243, 255, 0.6);
+      --cyan-glow: rgba(0, 243, 255, 0.5);
       --magenta: #ff006e;
-      --magenta-glow: rgba(255, 0, 110, 0.6);
+      --magenta-glow: rgba(255, 0, 110, 0.5);
       --crimson: #ff2a51;
-      --crimson-glow: rgba(255, 42, 81, 0.75);
+      --crimson-glow: rgba(255, 42, 81, 0.6);
       --amber: #ffb703;
-      --amber-glow: rgba(255, 183, 3, 0.6);
       --green: #05ffa1;
-      --green-glow: rgba(5, 255, 161, 0.6);
-      --purple: #b5179e;
-      --purple-glow: rgba(181, 23, 158, 0.6);
-      --text-main: #d7e6ff;
-      --text-muted: #6e84a8;
-      --font-display: 'Orbitron', monospace;
-      --font-mono: 'Share Tech Mono', monospace;
-      --font-code: 'Fira Code', monospace;
-      --font-ui: 'Rajdhani', sans-serif;
+      --text: #e2edff;
+      --text-dim: #7084a5;
+      --font-title: 'Orbitron', monospace;
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-ui: 'Inter', sans-serif;
     }
 
     * {
@@ -45,385 +36,158 @@
     }
 
     body {
-      background-color: var(--bg-dark);
-      color: var(--text-main);
+      background-color: var(--bg);
+      color: var(--text);
       font-family: var(--font-ui);
-      min-height: 100vh;
-      overflow-x: hidden;
+      height: 100vh;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
-      position: relative;
+      align-items: center;
+      justify-content: center;
     }
 
-    /* Ambient cyber backdrop */
+    /* Ambient Background */
     body::before {
       content: '';
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(circle at 35% 20%, rgba(0, 243, 255, 0.08) 0%, transparent 60%),
-        radial-gradient(circle at 85% 85%, rgba(255, 0, 110, 0.07) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(0, 243, 255, 0.04) 0%, transparent 70%),
         linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-      background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
+      background-size: 100% 100%, 30px 30px, 30px 30px;
       z-index: 0;
       pointer-events: none;
     }
 
-    /* CRT scanlines */
-    .crt-overlay {
+    /* Red Screen Flash Vignette on Alert / Death */
+    .vignette {
       position: fixed;
       inset: 0;
-      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%);
+      pointer-events: none;
+      z-index: 50;
+      box-shadow: inset 0 0 0 rgba(255, 42, 81, 0);
+      transition: box-shadow 0.15s ease;
+    }
+    .vignette.danger {
+      box-shadow: inset 0 0 90px rgba(255, 42, 81, 0.75);
+    }
+    .vignette.caution {
+      box-shadow: inset 0 0 70px rgba(255, 183, 3, 0.45);
+    }
+
+    /* CRT Scanline Filter */
+    .scanlines {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%);
       background-size: 100% 4px;
       pointer-events: none;
-      z-index: 99;
-      opacity: 0.6;
-      transition: opacity 0.3s ease;
-    }
-    .crt-overlay.disabled {
-      opacity: 0;
+      z-index: 60;
+      opacity: 0.5;
     }
 
-    /* Alert Screen Vignette */
-    .alert-vignette {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 98;
-      box-shadow: inset 0 0 60px rgba(255, 42, 81, 0);
-      transition: box-shadow 0.25s ease;
-    }
-    .alert-vignette.slowmo {
-      box-shadow: inset 0 0 90px rgba(0, 243, 255, 0.5);
-    }
-    .alert-vignette.suspicious {
-      box-shadow: inset 0 0 80px rgba(255, 183, 3, 0.5);
-    }
-    .alert-vignette.active {
-      box-shadow: inset 0 0 120px var(--crimson-glow);
-      animation: alertPulse 0.55s infinite alternate;
-    }
-    @keyframes alertPulse {
-      0% { box-shadow: inset 0 0 60px rgba(255, 42, 81, 0.45); }
-      100% { box-shadow: inset 0 0 150px rgba(255, 42, 81, 0.95); }
-    }
-
-    /* Header Nav */
-    header {
+    /* Game Master Frame */
+    .game-container {
       position: relative;
       z-index: 10;
       display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      max-width: 1040px;
+      padding: 10px 16px;
+    }
+
+    /* Clean Minimalist Top Header HUD */
+    .hud-bar {
+      display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 24px;
-      background: rgba(6, 9, 16, 0.96);
-      border-bottom: 1px solid var(--border-cyan);
-      backdrop-filter: blur(14px);
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .brand-logo {
-      width: 40px;
-      height: 40px;
-      background: linear-gradient(135deg, var(--cyan), var(--magenta));
-      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-      display: grid;
-      place-items: center;
-      box-shadow: 0 0 18px var(--cyan-glow);
-      animation: logoGlow 4s ease-in-out infinite alternate;
-    }
-    @keyframes logoGlow {
-      0% { filter: drop-shadow(0 0 6px var(--cyan)); }
-      100% { filter: drop-shadow(0 0 16px var(--magenta)); }
-    }
-    .brand-logo span {
-      font-family: var(--font-display);
-      font-weight: 900;
-      font-size: 19px;
-      color: #04060a;
-    }
-
-    .brand-text h1 {
-      font-family: var(--font-display);
-      font-size: 20px;
-      font-weight: 900;
-      letter-spacing: 2.5px;
-      background: linear-gradient(90deg, #fff, var(--cyan), #fff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-transform: uppercase;
-    }
-    .brand-text p {
+      width: 100%;
+      background: var(--panel-bg);
+      border: 1px solid rgba(0, 243, 255, 0.25);
+      border-radius: 8px;
+      padding: 8px 18px;
+      backdrop-filter: blur(12px);
       font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--cyan);
-      letter-spacing: 1px;
-      opacity: 0.9;
+      font-size: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
     }
 
-    .header-controls {
+    .hud-title {
+      font-family: var(--font-title);
+      font-weight: 900;
+      font-size: 14px;
+      letter-spacing: 2px;
+      color: var(--cyan);
       display: flex;
       align-items: center;
       gap: 8px;
-      flex-wrap: wrap;
+    }
+    .hud-title span {
+      background: var(--cyan);
+      color: var(--bg-darker);
+      font-size: 10px;
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-weight: 900;
     }
 
-    .cyber-btn-small {
-      background: rgba(0, 243, 255, 0.08);
-      border: 1px solid var(--border-cyan);
-      color: var(--text-main);
-      font-family: var(--font-mono);
-      font-size: 11px;
-      padding: 6px 11px;
-      border-radius: 4px;
-      cursor: pointer;
+    .hud-stats {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .stat-badge {
       display: flex;
       align-items: center;
       gap: 6px;
-      transition: all 0.2s ease;
     }
-    .cyber-btn-small:hover {
-      background: rgba(0, 243, 255, 0.22);
-      border-color: var(--cyan);
-      box-shadow: 0 0 12px var(--cyan-glow);
+    .stat-badge strong {
       color: #fff;
     }
-    .cyber-btn-small.active-mode {
-      background: var(--magenta);
-      color: #fff;
-      border-color: #fff;
-      box-shadow: 0 0 12px var(--magenta-glow);
-    }
 
-    /* Main Container */
-    main {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      grid-template-columns: 1fr 390px;
-      gap: 16px;
-      padding: 14px 24px;
-      max-width: 1620px;
-      width: 100%;
-      margin: 0 auto;
-      flex: 1;
-    }
-
-    @media (max-width: 1200px) {
-      main {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* Left Gameplay Viewport */
-    .game-stage-wrapper {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    /* Top Status HUD */
-    .status-hud-bar {
-      display: grid;
-      grid-template-columns: 1.3fr 1.2fr 1fr 1fr 0.9fr;
-      gap: 10px;
-      background: var(--bg-panel);
-      border: 1px solid var(--border-cyan);
-      border-radius: 8px;
-      padding: 10px 14px;
-      backdrop-filter: blur(14px);
-      box-shadow: 0 6px 22px rgba(0, 0, 0, 0.5);
-    }
-
-    @media (max-width: 950px) {
-      .status-hud-bar {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    .meter-block {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .meter-header {
-      display: flex;
-      justify-content: space-between;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.8px;
-    }
-    .alarm-header {
-      color: var(--cyan);
-      transition: color 0.2s ease;
-    }
-    .alarm-header.caution {
-      color: var(--amber);
-      text-shadow: 0 0 8px rgba(255, 183, 3, 0.5);
-    }
-    .alarm-header.alert {
-      color: var(--crimson);
-      text-shadow: 0 0 10px rgba(255, 42, 81, 0.8);
-    }
-
-    .energy-header {
-      color: var(--cyan);
-      text-shadow: 0 0 8px rgba(0, 243, 255, 0.4);
-    }
-    .dash-header {
-      color: var(--magenta);
-    }
-    .slowmo-header {
-      color: var(--green);
-    }
-
-    .meter-track {
-      height: 12px;
-      background: rgba(0, 0, 0, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 3px;
-      position: relative;
-      overflow: hidden;
-      padding: 1px;
-    }
-    .meter-fill-alarm {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #05ffa1, #00f3ff);
-      border-radius: 2px;
-      box-shadow: 0 0 10px var(--cyan);
-      transition: width 0.1s linear, background 0.3s ease;
-    }
-    .meter-fill-alarm.caution {
-      background: linear-gradient(90deg, #00f3ff, #ffb703);
-      box-shadow: 0 0 10px var(--amber);
-    }
-    .meter-fill-alarm.high-alert {
-      background: repeating-linear-gradient(
-        45deg,
-        #ff0037,
-        #ff0037 8px,
-        #8a001a 8px,
-        #8a001a 16px
-      );
-      box-shadow: 0 0 14px var(--crimson);
-      animation: hazardStripes 0.8s linear infinite;
-    }
-    @keyframes hazardStripes {
-      from { background-position: 0 0; }
-      to { background-position: 24px 0; }
-    }
-
-    .meter-fill-dash {
-      height: 100%;
-      width: 100%;
-      background: linear-gradient(90deg, #b5179e, var(--magenta));
-      border-radius: 2px;
-      box-shadow: 0 0 8px var(--magenta);
-      transition: width 0.05s linear;
-    }
-
-    .meter-fill-slowmo {
-      height: 100%;
-      width: 100%;
-      background: linear-gradient(90deg, #05ffa1, var(--cyan));
-      border-radius: 2px;
-      box-shadow: 0 0 8px var(--green);
-      transition: width 0.05s linear;
-    }
-
-    /* Energy Cells */
-    .energy-cells-wrapper {
-      display: flex;
-      gap: 2.5px;
-      height: 12px;
-    }
-    .energy-cell {
-      flex: 1;
-      height: 100%;
-      background: rgba(0, 243, 255, 0.08);
-      border: 1px solid rgba(0, 243, 255, 0.25);
-      border-radius: 2px;
-      transition: all 0.2s ease;
-    }
-    .energy-cell.filled {
-      background: var(--cyan);
-      border-color: #fff;
-      box-shadow: 0 0 8px var(--cyan);
-    }
-    .energy-cell.charging {
-      background: rgba(0, 243, 255, 0.45);
-      animation: pulseCell 0.8s infinite alternate;
-    }
-
-    /* Inventory Badges */
-    .inventory-hud-box {
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      background: rgba(0, 0, 0, 0.45);
-      border: 1px solid var(--border-dim);
+    .alarm-pill {
+      padding: 3px 8px;
       border-radius: 4px;
-      padding: 4px 6px;
-      gap: 4px;
-    }
-    .inv-badge {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      font-family: var(--font-mono);
-      font-size: 10.5px;
-      color: var(--text-muted);
-    }
-    .inv-badge .pill {
-      width: 18px;
-      height: 18px;
-      border-radius: 3px;
-      display: grid;
-      place-items: center;
-      font-size: 9.5px;
       font-weight: 700;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(5, 255, 161, 0.15);
+      color: var(--green);
+      border: 1px solid var(--green);
+      transition: all 0.2s ease;
     }
-    .inv-badge.active-red .pill {
-      background: var(--crimson);
-      border-color: #fff;
-      color: #fff;
-      box-shadow: 0 0 10px var(--crimson);
+    .alarm-pill.caution {
+      background: rgba(255, 183, 3, 0.2);
+      color: var(--amber);
+      border-color: var(--amber);
     }
-    .inv-badge.active-blue .pill {
-      background: var(--cyan);
-      border-color: #fff;
-      color: #04060a;
-      box-shadow: 0 0 10px var(--cyan);
+    .alarm-pill.alert {
+      background: rgba(255, 42, 81, 0.25);
+      color: var(--crimson);
+      border-color: var(--crimson);
+      box-shadow: 0 0 10px var(--crimson-glow);
+      animation: blink 0.5s infinite alternate;
     }
-    .inv-badge.active-data .pill {
-      background: var(--purple);
-      border-color: #fff;
-      color: #fff;
-      box-shadow: 0 0 10px var(--purple);
+    @keyframes blink {
+      from { opacity: 0.7; }
+      to { opacity: 1; }
     }
 
-    /* Top-down Canvas Card */
-    .canvas-card {
+    /* Screen Canvas Card */
+    .canvas-wrapper {
       position: relative;
-      background: radial-gradient(circle at 50% 50%, #0c1224 0%, #050711 100%);
-      border: 1px solid var(--border-cyan);
+      border: 1px solid rgba(0, 243, 255, 0.35);
       border-radius: 8px;
       overflow: hidden;
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.75);
+      background: #05070d;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 243, 255, 0.1);
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 550px;
     }
 
     canvas {
@@ -431,1726 +195,297 @@
       cursor: crosshair;
     }
 
-    /* In-Canvas HUD elements */
-    .canvas-hud-top {
+    /* On-Screen Overlay Prompts */
+    .canvas-overlay {
       position: absolute;
-      top: 12px;
-      left: 14px;
-      display: flex;
-      gap: 12px;
-      pointer-events: none;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      background: rgba(6, 9, 16, 0.9);
-      border: 1px solid rgba(0, 243, 255, 0.3);
-      padding: 6px 14px;
-      border-radius: 4px;
-      backdrop-filter: blur(8px);
-    }
-    .canvas-hud-top span {
-      color: var(--cyan);
-    }
-
-    .canvas-hud-bottom {
-      position: absolute;
-      bottom: 12px;
-      left: 14px;
-      right: 14px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      pointer-events: none;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: rgba(215, 230, 255, 0.75);
-      background: rgba(6, 9, 16, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 6px 12px;
-      border-radius: 4px;
-    }
-
-    /* Bottom Abilities Deck */
-    .abilities-deck {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr) auto;
-      gap: 8px;
-      background: var(--bg-panel);
-      border: 1px solid var(--border-cyan);
-      border-radius: 8px;
-      padding: 10px 14px;
-      backdrop-filter: blur(14px);
-    }
-
-    @media (max-width: 1024px) {
-      .abilities-deck {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    .ability-btn {
-      position: relative;
-      background: linear-gradient(180deg, rgba(14, 21, 38, 0.95), rgba(6, 10, 18, 0.95));
-      border: 1px solid rgba(0, 243, 255, 0.25);
-      border-radius: 6px;
-      padding: 8px 10px;
-      color: var(--text-main);
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      transition: all 0.2s ease;
-      text-align: left;
-      overflow: hidden;
-    }
-    .ability-btn::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: var(--cyan);
-      opacity: 0.4;
-      transition: opacity 0.2s ease;
-    }
-    .ability-btn:hover:not(:disabled) {
-      border-color: var(--cyan);
-      box-shadow: 0 0 14px var(--cyan-glow);
-      transform: translateY(-2px);
-    }
-    .ability-btn:hover:not(:disabled)::after {
-      opacity: 1;
-      box-shadow: 0 0 8px var(--cyan);
-    }
-    .ability-btn:disabled {
-      opacity: 0.38;
-      cursor: not-allowed;
-      border-color: rgba(255, 255, 255, 0.08);
-      filter: grayscale(0.6);
-    }
-
-    .ability-btn-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .ability-hotkey {
-      font-family: var(--font-display);
-      font-size: 9.5px;
-      font-weight: 700;
-      background: rgba(0, 243, 255, 0.15);
-      color: var(--cyan);
-      padding: 1px 4px;
-      border-radius: 3px;
-      border: 1px solid var(--border-cyan);
-    }
-    .ability-cost {
-      font-family: var(--font-mono);
-      font-size: 9.5px;
-      font-weight: 700;
-      color: var(--amber);
-    }
-    .ability-title {
-      font-family: var(--font-display);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      color: #fff;
-    }
-    .ability-desc {
-      font-family: var(--font-mono);
-      font-size: 9.5px;
-      color: var(--text-muted);
-      line-height: 1.2;
-    }
-
-    /* Virtual D-pad / Mobile Controls */
-    .dpad-container {
-      display: grid;
-      grid-template-columns: repeat(3, 28px);
-      grid-template-rows: repeat(2, 28px);
-      gap: 3px;
-      place-items: center;
-      align-self: center;
-    }
-    .dpad-btn {
-      width: 28px;
-      height: 28px;
-      background: rgba(0, 243, 255, 0.08);
-      border: 1px solid var(--border-cyan);
-      color: var(--cyan);
-      border-radius: 4px;
-      display: grid;
-      place-items: center;
-      font-size: 12px;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-    .dpad-btn:hover {
-      background: var(--cyan);
-      color: #04060a;
-      box-shadow: 0 0 10px var(--cyan);
-    }
-    .dpad-up { grid-column: 2; grid-row: 1; }
-    .dpad-left { grid-column: 1; grid-row: 2; }
-    .dpad-down { grid-column: 2; grid-row: 2; }
-    .dpad-right { grid-column: 3; grid-row: 2; }
-
-    /* Right Sidebar (Checklist, Level Select, Cipher Chat) */
-    .sidebar-wrapper {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .sidebar-panel {
-      background: var(--bg-panel);
-      border: 1px solid var(--border-cyan);
-      border-radius: 8px;
-      backdrop-filter: blur(14px);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-    }
-
-    .panel-header {
-      padding: 9px 14px;
-      background: rgba(0, 0, 0, 0.45);
-      border-bottom: 1px solid var(--border-dim);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .panel-title {
-      font-family: var(--font-display);
-      font-size: 11.5px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      color: var(--cyan);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .panel-tag {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--text-muted);
-    }
-
-    /* Checklist Panel */
-    .checklist-body {
-      padding: 9px 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-    }
-    .objective-item {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      font-size: 11.5px;
-      font-weight: 500;
-      color: var(--text-muted);
-      transition: all 0.2s ease;
-    }
-    .objective-check {
-      width: 15px;
-      height: 15px;
-      border: 1px solid rgba(0, 243, 255, 0.4);
-      border-radius: 3px;
-      display: grid;
-      place-items: center;
-      font-size: 9px;
-      color: transparent;
-      background: rgba(0, 0, 0, 0.3);
-      transition: all 0.2s ease;
-    }
-    .objective-item.completed {
-      color: #fff;
-    }
-    .objective-item.completed .objective-check {
-      background: var(--cyan);
-      border-color: #fff;
-      color: #04060a;
-      font-weight: 900;
-      box-shadow: 0 0 8px var(--cyan);
-    }
-    .objective-item.bonus {
-      color: rgba(255, 183, 3, 0.85);
-    }
-    .objective-item.bonus.completed .objective-check {
-      background: var(--amber);
-      box-shadow: 0 0 8px var(--amber);
-    }
-
-    /* Level Selector Pill Bar */
-    .level-select-bar {
-      display: flex;
-      gap: 5px;
-      padding: 8px 12px;
-      background: rgba(0, 0, 0, 0.35);
-      border-bottom: 1px solid var(--border-dim);
-      overflow-x: auto;
-    }
-    .lvl-pill {
-      flex: 1;
-      padding: 5px 6px;
-      background: rgba(0, 243, 255, 0.06);
-      border: 1px solid var(--border-cyan);
-      border-radius: 4px;
-      font-family: var(--font-display);
-      font-size: 10px;
-      color: var(--text-muted);
-      cursor: pointer;
-      text-align: center;
-      transition: all 0.2s ease;
-      white-space: nowrap;
-    }
-    .lvl-pill:hover {
-      background: rgba(0, 243, 255, 0.2);
-      color: #fff;
-    }
-    .lvl-pill.active {
-      background: var(--cyan);
-      border-color: #fff;
-      color: #04060a;
-      font-weight: 900;
-      box-shadow: 0 0 10px var(--cyan);
-    }
-    .lvl-pill.endless-pill {
-      background: rgba(255, 0, 110, 0.1);
-      border-color: var(--magenta);
-      color: var(--magenta);
-    }
-    .lvl-pill.endless-pill.active {
-      background: var(--magenta);
-      color: #fff;
-      box-shadow: 0 0 10px var(--magenta);
-    }
-
-    /* Cipher Retro Comms Panel */
-    .chat-panel {
-      flex: 1;
-      min-height: 280px;
-      display: flex;
-      flex-direction: column;
-    }
-    .cipher-profile-bar {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 14px;
-      background: rgba(0, 243, 255, 0.05);
-      border-bottom: 1px solid rgba(0, 243, 255, 0.15);
-    }
-    .cipher-avatar {
-      width: 34px;
-      height: 34px;
-      border-radius: 4px;
-      border: 1px solid var(--cyan);
-      background: #080e1a;
-      position: relative;
-      overflow: hidden;
-      display: grid;
-      place-items: center;
-      box-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
-    }
-    .cipher-avatar svg {
-      width: 22px;
-      height: 22px;
-      fill: var(--cyan);
-      filter: drop-shadow(0 0 4px var(--cyan));
-    }
-    .cipher-avatar::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: #fff;
-      animation: avatarScan 2s linear infinite;
-      opacity: 0.7;
-    }
-    @keyframes avatarScan {
-      0% { top: 0; }
-      100% { top: 100%; }
-    }
-
-    .cipher-meta h4 {
-      font-family: var(--font-display);
-      font-size: 12px;
-      font-weight: 700;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .online-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--green);
-      box-shadow: 0 0 6px var(--green);
-      animation: blink 2s infinite;
-    }
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-    .cipher-meta p {
-      font-family: var(--font-mono);
-      font-size: 9.5px;
-      color: var(--cyan);
-    }
-
-    .chat-messages {
-      flex: 1;
-      padding: 10px 14px;
-      overflow-y: auto;
-      max-height: 240px;
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      line-height: 1.35;
-      background: rgba(0, 0, 0, 0.2);
-    }
-    .chat-messages::-webkit-scrollbar {
-      width: 4px;
-    }
-    .chat-messages::-webkit-scrollbar-thumb {
-      background: var(--border-cyan);
-      border-radius: 2px;
-    }
-
-    .chat-bubble {
-      padding: 6px 9px;
-      border-radius: 4px;
-      background: rgba(14, 21, 38, 0.88);
-      border-left: 3px solid var(--cyan);
-      animation: slideInMsg 0.2s ease-out;
-    }
-    @keyframes slideInMsg {
-      from { opacity: 0; transform: translateY(4px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .chat-bubble.alert {
-      border-left-color: var(--crimson);
-      background: rgba(45, 14, 24, 0.88);
-    }
-    .chat-bubble.alert .chat-author {
-      color: var(--crimson);
-    }
-    .chat-bubble.hack {
-      border-left-color: var(--magenta);
-      background: rgba(35, 12, 35, 0.88);
-    }
-    .chat-bubble.hack .chat-author {
-      color: var(--magenta);
-    }
-    .chat-bubble.success {
-      border-left-color: var(--green);
-      background: rgba(10, 30, 24, 0.88);
-    }
-    .chat-bubble.success .chat-author {
-      color: var(--green);
-    }
-
-    .chat-bubble-header {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 2px;
-      font-size: 9px;
-    }
-    .chat-author {
-      font-weight: 700;
-      color: var(--cyan);
-    }
-    .chat-time {
-      color: var(--text-muted);
-    }
-    .chat-content {
-      color: var(--text-main);
-      word-break: break-word;
-    }
-
-    /* Achievements & High Score Strip */
-    .achieve-strip {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px 14px;
-      background: rgba(0, 0, 0, 0.4);
-      border-top: 1px solid var(--border-dim);
-      font-family: var(--font-mono);
-      font-size: 10.5px;
-    }
-    .achieve-btn {
-      color: var(--amber);
-      background: none;
-      border: 1px solid var(--border-amber);
-      padding: 3px 7px;
-      border-radius: 3px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .achieve-btn:hover {
-      background: var(--amber);
-      color: #04060a;
-      box-shadow: 0 0 8px var(--amber);
-    }
-
-    /* Modals / Overlays */
-    .overlay-modal {
-      position: fixed;
       inset: 0;
-      background: rgba(3, 5, 10, 0.88);
-      backdrop-filter: blur(14px);
-      z-index: 100;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      padding: 20px;
+      justify-content: center;
+      background: rgba(4, 6, 12, 0.88);
+      backdrop-filter: blur(8px);
+      z-index: 20;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.25s ease;
+      transition: opacity 0.2s ease;
+      text-align: center;
+      padding: 20px;
     }
-    .overlay-modal.active {
+    .canvas-overlay.active {
       opacity: 1;
       pointer-events: auto;
     }
 
-    .modal-card {
-      background: var(--bg-panel-solid);
-      border: 1px solid var(--cyan);
-      box-shadow: 0 0 45px rgba(0, 243, 255, 0.3), inset 0 0 20px rgba(0, 0, 0, 0.8);
-      border-radius: 8px;
-      max-width: 650px;
-      width: 100%;
-      overflow: hidden;
-      animation: modalPop 0.25s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-    }
-    @keyframes modalPop {
-      from { transform: scale(0.92); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-
-    .modal-banner {
-      width: 100%;
-      height: 140px;
-      background: #080d1a url('banner.jpg') center/cover no-repeat;
-      position: relative;
-      border-bottom: 1px solid var(--border-cyan);
-    }
-    .modal-banner::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, transparent 30%, var(--bg-panel-solid) 100%);
-    }
-
-    .modal-content {
-      padding: 18px 24px 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .modal-title-glitch {
-      font-family: var(--font-display);
-      font-size: 21px;
+    .overlay-title {
+      font-family: var(--font-title);
+      font-size: 26px;
       font-weight: 900;
       letter-spacing: 2px;
-      color: #fff;
-      text-transform: uppercase;
+      margin-bottom: 8px;
     }
-    .modal-title-glitch.danger {
+    .overlay-title.danger {
       color: var(--crimson);
-      text-shadow: 0 0 16px var(--crimson);
+      text-shadow: 0 0 20px var(--crimson);
     }
-    .modal-title-glitch.success {
+    .overlay-title.success {
       color: var(--green);
-      text-shadow: 0 0 16px var(--green);
+      text-shadow: 0 0 20px var(--green);
     }
 
-    .modal-desc {
+    .overlay-subtitle {
+      font-family: var(--font-mono);
       font-size: 13px;
-      color: var(--text-main);
-      line-height: 1.45;
+      color: var(--text-dim);
+      margin-bottom: 20px;
+      max-width: 480px;
+      line-height: 1.5;
     }
 
-    .briefing-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      background: rgba(0, 0, 0, 0.45);
-      padding: 10px;
-      border-radius: 6px;
-      border: 1px solid var(--border-dim);
-      font-family: var(--font-mono);
-      font-size: 11px;
-    }
-    .briefing-cell h5 {
-      color: var(--cyan);
-      margin-bottom: 2px;
-      font-size: 10.5px;
-      text-transform: uppercase;
-    }
-
-    /* Class Selection Cards */
-    .class-select-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin: 4px 0;
-    }
-    .class-card {
-      background: rgba(0, 243, 255, 0.04);
-      border: 1px solid rgba(0, 243, 255, 0.25);
-      border-radius: 6px;
-      padding: 10px 8px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .class-card:hover, .class-card.selected {
-      background: rgba(0, 243, 255, 0.18);
-      border-color: var(--cyan);
-      box-shadow: 0 0 14px var(--cyan-glow);
-    }
-    .class-card.selected {
-      border-color: #fff;
-      transform: scale(1.02);
-    }
-    .class-icon {
-      font-size: 20px;
-    }
-    .class-name {
-      font-family: var(--font-display);
-      font-size: 11px;
-      font-weight: 700;
-      color: #fff;
-    }
-    .class-trait {
-      font-family: var(--font-mono);
-      font-size: 9.5px;
-      color: var(--cyan);
-    }
-
-    .cyber-btn-large {
+    .overlay-btn {
       background: linear-gradient(90deg, var(--cyan), #00a2ff);
-      color: #04060a;
-      font-family: var(--font-display);
-      font-size: 13px;
+      color: #030407;
+      font-family: var(--font-title);
       font-weight: 900;
+      font-size: 13px;
       letter-spacing: 1.5px;
-      padding: 11px 18px;
+      padding: 10px 22px;
       border: none;
       border-radius: 4px;
       cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
       box-shadow: 0 0 16px var(--cyan-glow);
-      transition: all 0.2s ease;
-      text-transform: uppercase;
-    }
-    .cyber-btn-large:hover {
-      box-shadow: 0 0 26px var(--cyan);
-      transform: translateY(-2px);
-    }
-    .cyber-btn-large.danger-btn {
-      background: linear-gradient(90deg, var(--crimson), #ff5e79);
-      box-shadow: 0 0 16px var(--crimson-glow);
-    }
-    .cyber-btn-large.danger-btn:hover {
-      box-shadow: 0 0 26px var(--crimson);
-    }
-
-    /* Cyberdeck Breach Matrix Modal */
-    .cyberdeck-matrix-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 48px);
-      grid-template-rows: repeat(5, 48px);
-      gap: 6px;
-      justify-content: center;
-      margin: 10px 0;
-      font-family: var(--font-code);
-    }
-    .matrix-cell {
-      background: rgba(0, 243, 255, 0.08);
-      border: 1px solid var(--border-cyan);
-      border-radius: 4px;
-      display: grid;
-      place-items: center;
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--cyan);
-      cursor: pointer;
       transition: all 0.15s ease;
     }
-    .matrix-cell:hover:not(.disabled):not(.active-row):not(.active-col) {
-      background: rgba(0, 243, 255, 0.3);
+    .overlay-btn:hover {
+      transform: scale(1.04);
+      box-shadow: 0 0 25px var(--cyan);
+    }
+    .overlay-btn.danger-btn {
+      background: linear-gradient(90deg, var(--crimson), #ff5a79);
+      box-shadow: 0 0 16px var(--crimson-glow);
       color: #fff;
     }
-    .matrix-cell.active-selectable {
-      border-color: #fff;
-      background: rgba(0, 243, 255, 0.25);
-      box-shadow: 0 0 8px var(--cyan);
-      animation: pulseCell 0.6s infinite alternate;
-    }
-    .matrix-cell.used {
-      opacity: 0.25;
-      cursor: not-allowed;
-      border-color: rgba(255, 255, 255, 0.05);
-    }
-    .matrix-cell.selected-seq {
-      background: var(--green);
-      color: #04060a;
-      border-color: #fff;
-      box-shadow: 0 0 10px var(--green);
-    }
 
-    .buffer-tray {
-      display: flex;
-      gap: 6px;
-      justify-content: center;
-      padding: 8px;
-      background: rgba(0, 0, 0, 0.5);
-      border: 1px solid var(--border-dim);
-      border-radius: 4px;
-      min-height: 36px;
-      margin-bottom: 6px;
-    }
-    .buffer-slot {
-      width: 32px;
-      height: 28px;
-      border: 1px dashed var(--border-cyan);
-      border-radius: 3px;
-      display: grid;
-      place-items: center;
-      font-family: var(--font-code);
-      font-size: 12px;
-      color: var(--green);
-    }
-
-    .payload-targets {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      background: rgba(0, 0, 0, 0.3);
-      padding: 8px 12px;
-      border-radius: 4px;
-      border: 1px solid var(--border-dim);
-      font-family: var(--font-mono);
-      font-size: 11px;
-    }
-    .payload-row {
+    /* Minimalist Bottom Control Strip */
+    .controls-strip {
       display: flex;
       justify-content: space-between;
       align-items: center;
-    }
-    .payload-seq {
-      color: var(--amber);
-      font-weight: 700;
-      letter-spacing: 2px;
-    }
-    .payload-name {
-      color: var(--text-main);
-    }
-
-    /* Toast Notifications */
-    .toast-container {
-      position: fixed;
-      top: 70px;
-      right: 24px;
-      z-index: 110;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      pointer-events: none;
-    }
-    .toast-msg {
-      background: var(--bg-panel-solid);
-      border: 1px solid var(--cyan);
-      box-shadow: 0 0 16px rgba(0, 243, 255, 0.4);
-      padding: 8px 14px;
-      border-radius: 4px;
-      font-family: var(--font-mono);
-      font-size: 12px;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      animation: toastIn 0.3s ease-out;
-    }
-    @keyframes toastIn {
-      from { transform: translateX(100%); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
-    }
-
-    /* Footer */
-    footer {
-      position: relative;
-      z-index: 10;
-      padding: 8px 24px;
-      background: rgba(6, 9, 16, 0.96);
-      border-top: 1px solid var(--border-dim);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      width: 100%;
+      padding: 6px 14px;
       font-family: var(--font-mono);
       font-size: 11px;
-      color: var(--text-muted);
+      color: var(--text-dim);
+      background: rgba(11, 15, 25, 0.6);
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
     }
-    footer span.highlight {
+    .key-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin: 0 6px;
+    }
+    .key-hint kbd {
+      background: rgba(0, 243, 255, 0.12);
+      border: 1px solid rgba(0, 243, 255, 0.3);
       color: var(--cyan);
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-weight: 700;
+      font-size: 10px;
+    }
+
+    .quick-btn {
+      background: none;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text-dim);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .quick-btn:hover {
+      color: #fff;
+      border-color: var(--cyan);
     }
   </style>
 </head>
 <body>
 
-  <!-- Screen Scanlines -->
-  <div id="crtOverlay" class="crt-overlay"></div>
+  <!-- Screen Vignette -->
+  <div id="vignette" class="vignette"></div>
 
-  <!-- Dynamic Alert & Slow-Mo Vignette -->
-  <div id="alertVignette" class="alert-vignette"></div>
+  <!-- CRT Scanlines -->
+  <div class="scanlines"></div>
 
-  <!-- Toast Container -->
-  <div id="toastContainer" class="toast-container"></div>
+  <div class="game-container">
+    
+    <!-- Minimalist Top HUD -->
+    <div class="hud-bar">
+      <div class="hud-title">
+        GRIDBREAK <span id="levelLabel">SECTOR 01</span>
+      </div>
 
-  <!-- Header Navigation -->
-  <header>
-    <div class="brand">
-      <div class="brand-logo"><span>G</span></div>
-      <div class="brand-text">
-        <h1>GridBreak: Operator Signal</h1>
-        <p>TACTICAL CYBERPUNK INFILTRATION // TIERED ALARMS &amp; CYBERDECK MATRIX</p>
+      <div class="hud-stats">
+        <div class="stat-badge">
+          <span>THREAT:</span>
+          <span id="alarmBadge" class="alarm-pill">0% CLEAR</span>
+        </div>
+        <div class="stat-badge">
+          <span>KEYS:</span>
+          <strong id="keysText" style="color:var(--cyan);">0/1</strong>
+        </div>
+        <div class="stat-badge">
+          <span>EMP:</span>
+          <strong id="empText" style="color:var(--amber);">2x</strong>
+        </div>
+        <div class="stat-badge">
+          <span>DEATHS:</span>
+          <strong id="deathsText" style="color:var(--crimson);">0</strong>
+        </div>
+        <div class="stat-badge">
+          <span>TIME:</span>
+          <strong id="timerText" style="color:#fff;">00:00</strong>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:6px;">
+        <button id="btnSound" class="quick-btn">🔊 AUDIO</button>
+        <button id="btnRestart" class="quick-btn" title="Press R to Instant Restart">🔄 [R]</button>
       </div>
     </div>
-    <div class="header-controls">
-      <button id="btnSound" class="cyber-btn-small" title="Toggle Sound FX">🔊 AUDIO ON</button>
-      <button id="btnMusic" class="cyber-btn-small" title="Toggle Synth OST">🎵 SYNTH ON</button>
-      <button id="btnRadio" class="cyber-btn-small" title="Toggle Voice Radio">🎙️ RADIO ON</button>
-      <button id="btnCrt" class="cyber-btn-small" title="Toggle Scanline Filter">⚡ CRT FX</button>
-      <button id="btnEndless" class="cyber-btn-small" title="Switch to Endless Survival Mode">♾️ ENDLESS HEIST</button>
-      <button id="btnHelp" class="cyber-btn-small" title="Open Field Manual">❓ MANUAL</button>
-      <button id="btnReset" class="cyber-btn-small" title="Restart Mission">🔄 RESTART</button>
-    </div>
-  </header>
 
-  <!-- Main Gameplay Interface -->
-  <main>
-    <!-- Left Stage: Top-Down Canvas + Abilities Deck -->
-    <div class="game-stage-wrapper">
-      
-      <!-- Top Status HUD -->
-      <div class="status-hud-bar">
-        <!-- Tiered Alarm Meter -->
-        <div class="meter-block">
-          <div class="meter-header alarm-header" id="alarmHeader">
-            <span id="alarmStageLabel">// SECURE</span>
-            <span id="alarmPercentText">0%</span>
-          </div>
-          <div class="meter-track">
-            <div id="alarmFill" class="meter-fill-alarm"></div>
-          </div>
-        </div>
+    <!-- Center Canvas Stage -->
+    <div class="canvas-wrapper">
+      <canvas id="gameCanvas" width="980" height="540"></canvas>
 
-        <!-- Hack Energy Meter -->
-        <div class="meter-block">
-          <div class="meter-header energy-header">
-            <span>// ENERGY</span>
-            <span id="energyNumText">8/10</span>
-          </div>
-          <div id="energyCellsContainer" class="energy-cells-wrapper"></div>
+      <!-- Start Overlay -->
+      <div id="startOverlay" class="canvas-overlay active">
+        <div class="overlay-title" style="color:var(--cyan);">GRIDBREAK // SHADOW INFILTRATOR</div>
+        <div class="overlay-subtitle">
+          Hardcore top-down stealth. Evade line-of-sight vision cones, slip through pulsing laser barriers, throw sound decoys, and reach the green exit elevator.
         </div>
-
-        <!-- Dash Stamina Bar -->
-        <div class="meter-block">
-          <div class="meter-header dash-header">
-            <span>// DASH [SPACE]</span>
-            <span id="dashStatusText">READY</span>
-          </div>
-          <div class="meter-track">
-            <div id="dashFill" class="meter-fill-dash"></div>
-          </div>
+        <div style="margin-bottom:20px; font-family:var(--font-mono); font-size:12px; color:var(--cyan);">
+          🎮 <strong>WASD / Arrows</strong>: Move &bull; ⚡ <strong>Space</strong>: Dash &bull; 📡 <strong>F / Click</strong>: Sound Decoy &bull; 💥 <strong>E</strong>: EMP Burst &bull; 🔄 <strong>R</strong>: Quick Restart
         </div>
-
-        <!-- Reflex Slow-Mo Bar -->
-        <div class="meter-block">
-          <div class="meter-header slowmo-header">
-            <span>// OVERCLOCK [Q]</span>
-            <span id="slowmoStatusText">READY</span>
-          </div>
-          <div class="meter-track">
-            <div id="slowmoFill" class="meter-fill-slowmo"></div>
-          </div>
-        </div>
-
-        <!-- Inventory Badges -->
-        <div class="inventory-hud-box">
-          <div id="badgeKeycardRed" class="inv-badge" title="Red Cryptokey">
-            <div class="pill">R</div>
-            <span>KEY</span>
-          </div>
-          <div id="badgeKeycardBlue" class="inv-badge" title="Blue Security Pass">
-            <div class="pill">B</div>
-            <span>PASS</span>
-          </div>
-          <div id="badgeDataSlate" class="inv-badge" title="Secret Lore Slate">
-            <div class="pill">DATA</div>
-            <span id="dataCountText">0/1</span>
-          </div>
-        </div>
+        <button id="btnStartGame" class="overlay-btn">COMMENCE OPERATION [SPACE]</button>
       </div>
 
-      <!-- Top-Down 2D Canvas Screen -->
-      <div class="canvas-card" id="canvasCard">
-        <canvas id="gameCanvas" width="960" height="540"></canvas>
-        
-        <div class="canvas-hud-top">
-          <div>SECTOR: <span id="hudSectorTitle">LVL 1: PERIMETER BREACH</span></div>
-          <div>OPERATIVE: <span id="hudOperativeClass" style="color:var(--magenta);">SPECTRE</span></div>
-          <div>STATUS: <span id="stealthStatusText" style="color:var(--green);">SHADOWED</span></div>
-          <div>CREDITS: <span id="hudCreditsText" style="color:var(--amber);">0 CR</span></div>
+      <!-- Death Overlay -->
+      <div id="deathOverlay" class="canvas-overlay">
+        <div class="overlay-title danger">DETECTED &amp; ELIMINATED</div>
+        <div class="overlay-subtitle" id="deathReasonText">
+          Alarm reached 100%. Security defenses eliminated operative.
         </div>
-
-        <div class="canvas-hud-bottom">
-          <span>🎮 MOVE: WASD / Arrows | ⚡ DASH: Space | ⏳ OVERCLOCK: Q | 📡 DECOY: F | 💻 HACK: E</span>
-          <span id="canvasFpsText" style="color:var(--cyan);">60 FPS</span>
-        </div>
+        <button id="btnRetryGame" class="overlay-btn danger-btn">RETRY SECTOR [R / SPACE]</button>
       </div>
 
-      <!-- Bottom Abilities Deck -->
-      <div class="abilities-deck">
-        <!-- Ability 1: EMP -->
-        <button id="btnAbility1" class="ability-btn">
-          <div class="ability-btn-top">
-            <span class="ability-hotkey">[1]</span>
-            <span class="ability-cost">⚡ 3 NRG</span>
-          </div>
-          <div class="ability-title">EMP STUN</div>
-          <div class="ability-desc">Paralyzes enforcers 5.0s</div>
-        </button>
-
-        <!-- Ability 2: Jam Optics -->
-        <button id="btnAbility2" class="ability-btn">
-          <div class="ability-btn-top">
-            <span class="ability-hotkey">[2]</span>
-            <span class="ability-cost">⚡ 2 NRG</span>
-          </div>
-          <div class="ability-title">JAM OPTICS</div>
-          <div class="ability-desc">Loops CCTV feeds 6.0s</div>
-        </button>
-
-        <!-- Ability 3: Bypass Gate -->
-        <button id="btnAbility3" class="ability-btn">
-          <div class="ability-btn-top">
-            <span class="ability-hotkey">[3]</span>
-            <span class="ability-cost">⚡ 5 NRG</span>
-          </div>
-          <div class="ability-title">BYPASS GATE</div>
-          <div class="ability-desc">Overrides laser firewalls</div>
-        </button>
-
-        <!-- Ability 4: Stealth Cloak -->
-        <button id="btnAbility4" class="ability-btn">
-          <div class="ability-btn-top">
-            <span class="ability-hotkey">[4]</span>
-            <span class="ability-cost">⚡ 4 NRG</span>
-          </div>
-          <div class="ability-title">STEALTH CLOAK</div>
-          <div class="ability-desc">Optical camo 4.0 seconds</div>
-        </button>
-
-        <!-- Ability 5: Sonic Decoy -->
-        <button id="btnAbility5" class="ability-btn">
-          <div class="ability-btn-top">
-            <span class="ability-hotkey">[F]</span>
-            <span class="ability-cost">⚡ 2 NRG</span>
-          </div>
-          <div class="ability-title">SONIC DECOY</div>
-          <div class="ability-desc">Emits hologram distraction</div>
-        </button>
-
-        <!-- Ability 6: Reflex Overclock -->
-        <button id="btnAbility6" class="ability-btn">
-          <div class="ability-btn-top">
-            <span class="ability-hotkey">[Q]</span>
-            <span class="ability-cost">⚡ FREE</span>
-          </div>
-          <div class="ability-title">OVERCLOCK</div>
-          <div class="ability-desc">Bullet-time slow motion</div>
-        </button>
-
-        <!-- Virtual Touch / D-pad Controls -->
-        <div class="dpad-container">
-          <button id="dpadUp" class="dpad-btn dpad-up" title="Move Up (W)">▲</button>
-          <button id="dpadLeft" class="dpad-btn dpad-left" title="Move Left (A)">◀</button>
-          <button id="dpadDown" class="dpad-btn dpad-down" title="Move Down (S)">▼</button>
-          <button id="dpadRight" class="dpad-btn dpad-right" title="Move Right (D)">▶</button>
+      <!-- Victory Overlay -->
+      <div id="victoryOverlay" class="canvas-overlay">
+        <div class="overlay-title success" id="vicTitle">SECTOR CLEARED</div>
+        <div class="overlay-subtitle" id="vicStatsText">
+          Extraction successful! Moving to next security layer.
         </div>
-      </div>
-
-    </div>
-
-    <!-- Right Sidebar (Level Selector, Checklist, Cipher Chat) -->
-    <div class="sidebar-wrapper">
-      
-      <!-- Level Progression Selector -->
-      <div class="sidebar-panel">
-        <div class="panel-header">
-          <div class="panel-title">
-            <span>🗺️ INFILTRATION SECTORS</span>
-          </div>
-          <span class="panel-tag" id="levelProgressTag">LEVEL 1 / 5</span>
-        </div>
-        <div class="level-select-bar">
-          <button class="lvl-pill active" data-lvl="0">LVL 1</button>
-          <button class="lvl-pill" data-lvl="1">LVL 2</button>
-          <button class="lvl-pill" data-lvl="2">LVL 3</button>
-          <button class="lvl-pill" data-lvl="3">LVL 4</button>
-          <button class="lvl-pill" data-lvl="4">LVL 5</button>
-          <button class="lvl-pill endless-pill" id="lvlPillEndless" data-lvl="99">♾️ HEIST</button>
-        </div>
-      </div>
-
-      <!-- Mission Objectives Checklist -->
-      <div class="sidebar-panel">
-        <div class="panel-header">
-          <div class="panel-title">
-            <span>📋 TACTICAL OBJECTIVES</span>
-          </div>
-          <span class="panel-tag" id="levelCodeTag">SEC-01</span>
-        </div>
-        <div class="checklist-body">
-          <div id="objPrimary1" class="objective-item completed">
-            <div class="objective-check">✓</div>
-            <span id="objPrimary1Text">Infiltrate Facility Perimeter</span>
-          </div>
-          <div id="objPrimary2" class="objective-item">
-            <div class="objective-check">✓</div>
-            <span id="objPrimary2Text">Secure Red Cryptokey</span>
-          </div>
-          <div id="objGate" class="objective-item">
-            <div class="objective-check">✓</div>
-            <span id="objGateText">Disarm Laser Gate Barrier</span>
-          </div>
-          <div id="objExit" class="objective-item">
-            <div class="objective-check">✓</div>
-            <span id="objExitText">Reach Extraction Elevator</span>
-          </div>
-          <div id="objGhost" class="objective-item bonus">
-            <div class="objective-check">★</div>
-            <span id="objGhostText">Ghost Operative: Zero Detection Alarms</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Cipher Retro Comms Chat Terminal -->
-      <div class="sidebar-panel chat-panel">
-        <div class="cipher-profile-bar">
-          <div class="cipher-avatar">
-            <svg viewBox="0 0 24 24">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
-            </svg>
-          </div>
-          <div class="cipher-meta">
-            <h4>CIPHER <span class="online-dot"></span></h4>
-            <p>// SECURE QUANTUM UPLINK</p>
-          </div>
-        </div>
-
-        <div id="chatMessages" class="chat-messages"></div>
-
-        <div class="achieve-strip">
-          <span>TROPHIES: <strong id="trophyCountText" style="color:var(--amber);">0/8</strong></span>
-          <button id="btnOpenAchieve" class="achieve-btn">🏆 VIEW CODEX</button>
-        </div>
-      </div>
-
-    </div>
-  </main>
-
-  <!-- Start Mission Briefing & Class Selection Modal -->
-  <div id="startModal" class="overlay-modal active">
-    <div class="modal-card">
-      <div class="modal-banner"></div>
-      <div class="modal-content">
-        <div class="modal-title-glitch" id="briefingModalTitle">GRIDBREAK: OPERATOR SIGNAL</div>
-        <div class="modal-desc" id="briefingModalDesc">
-          Operative, select your cyberware archetype and breach classified black-sites. Utilize realistic raytraced vision stealth, subvert security grids with your Cyberdeck, and extract neural payloads.
-        </div>
-
-        <!-- Class Selection -->
-        <div>
-          <h5 style="font-family:var(--font-display); font-size:11px; color:var(--cyan); margin-bottom:6px;">SELECT CYBERWARE CLASS:</h5>
-          <div class="class-select-grid">
-            <div class="class-card selected" data-class="SPECTRE">
-              <div class="class-icon">⚡</div>
-              <div class="class-name">SPECTRE</div>
-              <div class="class-trait">+2 Max Energy, Rapid Regen, Extended Cloak</div>
-            </div>
-            <div class="class-card" data-class="CHRONOS">
-              <div class="class-icon">⏳</div>
-              <div class="class-name">CHRONOS</div>
-              <div class="class-trait">Sandevistan Overclock +30% Duration, Fast Dash</div>
-            </div>
-            <div class="class-card" data-class="WRAITH">
-              <div class="class-icon">📡</div>
-              <div class="class-name">WRAITH</div>
-              <div class="class-trait">Free Sonic Decoys, +50% EMP Radius, Remote Hacks</div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="briefing-grid">
-          <div class="briefing-cell">
-            <h5>STEALTH &amp; RAYTRACING</h5>
-            <p>Cones reflect actual line-of-sight. Break sightlines around walls to decay alarm levels.</p>
-          </div>
-          <div class="briefing-cell">
-            <h5>CYBERDECK BREACH [E]</h5>
-            <p>Hack high-tech terminals to disable turrets, vent gas, and steal corporate crypto-credits.</p>
-          </div>
-          <div class="briefing-cell">
-            <h5>REFLEX OVERCLOCK [Q]</h5>
-            <p>Slows down world physics while keeping operative agile. Dodge sweepers with ease.</p>
-          </div>
-          <div class="briefing-cell">
-            <h5>SONIC DECOY [F]</h5>
-            <p>Project holographic noise lures to pull guards and camera eyes away from doors.</p>
-          </div>
-        </div>
-
-        <button id="btnStartGame" class="cyber-btn-large">
-          <span>⚡ COMMENCE INFILTRATION</span>
-        </button>
+        <button id="btnNextLevel" class="overlay-btn">PROCEED TO NEXT SECTOR [SPACE]</button>
       </div>
     </div>
+
+    <!-- Bottom Controls Strip -->
+    <div class="controls-strip">
+      <div>
+        <span class="key-hint"><kbd>WASD</kbd> Move</span>
+        <span class="key-hint"><kbd>SPACE</kbd> Tactical Dash</span>
+        <span class="key-hint"><kbd>F / CLICK</kbd> Sound Decoy</span>
+        <span class="key-hint"><kbd>E</kbd> EMP Stun</span>
+        <span class="key-hint"><kbd>R</kbd> Quick Restart</span>
+      </div>
+      <div>
+        <span>SECTOR <strong id="sectorProgressText">1 / 8</strong></span>
+      </div>
+    </div>
+
   </div>
 
-  <!-- Cyberdeck Buffer Breach Minigame Modal -->
-  <div id="cyberdeckModal" class="overlay-modal">
-    <div class="modal-card" style="border-color: var(--cyan); max-width: 540px;">
-      <div class="modal-content" style="padding: 16px 20px;">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <div class="modal-title-glitch" style="font-size:18px;">CYBERDECK MATRIX BREACH</div>
-          <div id="breachTimerText" style="font-family:var(--font-mono); font-size:14px; color:var(--amber); font-weight:700;">⏱️ 15.0s</div>
-        </div>
-
-        <div style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">
-          Select hex sequences matching target buffer payloads. Alternate between horizontal rows and vertical columns.
-        </div>
-
-        <div class="buffer-tray" id="bufferTray"></div>
-
-        <div class="cyberdeck-matrix-grid" id="cyberdeckGrid"></div>
-
-        <div class="payload-targets" id="payloadTargets"></div>
-
-        <div style="display:flex; gap:10px; margin-top:6px;">
-          <button id="btnAbortBreach" class="cyber-btn-small" style="flex:1; justify-content:center;">❌ ABORT BREACH</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Victory / Level Complete Modal -->
-  <div id="victoryModal" class="overlay-modal">
-    <div class="modal-card">
-      <div class="modal-banner"></div>
-      <div class="modal-content">
-        <div class="modal-title-glitch success" id="victoryTitle">SECTOR CLEARED // EXTRACTION SUCCESS</div>
-        <div class="modal-desc" id="victorySummaryText">
-          Extraction uplink locked. Data payload successfully extracted from the corporate matrix!
-        </div>
-
-        <div class="briefing-grid">
-          <div class="briefing-cell">
-            <h5>INFILTRATION TIME</h5>
-            <p id="vicStatTime">00:32</p>
-          </div>
-          <div class="briefing-cell">
-            <h5>STEALTH RANK</h5>
-            <p id="vicStatRank" style="color:var(--cyan); font-weight:700;">GHOST (S-RANK)</p>
-          </div>
-          <div class="briefing-cell">
-            <h5>HACKS &amp; BREACHES</h5>
-            <p id="vicStatHacks">3</p>
-          </div>
-          <div class="briefing-cell">
-            <h5>CREDITS LOOTED</h5>
-            <p id="vicStatCredits" style="color:var(--amber);">+450 CR</p>
-          </div>
-        </div>
-
-        <div style="display:flex; gap:10px;">
-          <button id="btnNextLevel" class="cyber-btn-large" style="flex:1;">
-            <span>⏩ NEXT SECTOR LEVEL</span>
-          </button>
-          <button id="btnReplayLevel" class="cyber-btn-small" style="padding:10px 14px;">
-            <span>🔄 REPLAY</span>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Game Over Lockdown Modal -->
-  <div id="gameOverModal" class="overlay-modal">
-    <div class="modal-card" style="border-color: var(--crimson); box-shadow: 0 0 40px var(--crimson-glow);">
-      <div class="modal-banner" style="filter: hue-rotate(140deg);"></div>
-      <div class="modal-content">
-        <div class="modal-title-glitch danger">SECURITY LOCKDOWN // SIGNAL PURGED</div>
-        <div class="modal-desc" id="gameOverReasonText">
-          Alarm reached 100%. Automated tactical response turrets saturated the sector. Operator vital signs zeroed.
-        </div>
-
-        <div class="briefing-grid" style="border-color: rgba(255, 42, 81, 0.3);">
-          <div class="briefing-cell">
-            <h5>INCIDENT SECTOR</h5>
-            <p id="failCoordText">Sector 02</p>
-          </div>
-          <div class="briefing-cell">
-            <h5>DETECTION SOURCE</h5>
-            <p id="failSourceText">Enforcer Line of Sight</p>
-          </div>
-        </div>
-
-        <button id="btnRetryGame" class="cyber-btn-large danger-btn">
-          <span>🔄 REBOOT CIPHER LINK (RETRY)</span>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Codex / Trophies Modal -->
-  <div id="codexModal" class="overlay-modal">
-    <div class="modal-card" style="border-color: var(--amber); max-width: 580px;">
-      <div class="modal-content">
-        <div class="modal-title-glitch" style="color:var(--amber);">OPERATIVE CODEX &amp; TROPHIES</div>
-        <div class="modal-desc">
-          Career stealth milestones, classified decrypted lore dossiers, and lifetime infiltration statistics.
-        </div>
-
-        <div id="trophiesList" style="display:flex; flex-direction:column; gap:8px; max-height:300px; overflow-y:auto; padding-right:6px;"></div>
-
-        <button id="btnCloseCodex" class="cyber-btn-large" style="background:var(--amber); color:#04060a;">
-          <span>RETURN TO OPERATION</span>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Footer -->
-  <footer>
-    <div>OPERATOR NET <span class="highlight">v4.0.0</span> // NEURAL RAYTRACE STEALTH &amp; CYBERDECK MATRIX</div>
-    <div>GRIDBREAK: OPERATOR SIGNAL &bull; 100% SELF-CONTAINED HTML5 / WEB AUDIO ENGINE</div>
-  </footer>
-
-  <!-- Complete Game Engine Script -->
+  <!-- Game Engine Script -->
   <script>
     /**
-     * GRIDBREAK: OPERATOR SIGNAL - NEURO-CYBER EDITION
-     * Advanced Top-Down Stealth Infiltration Game
-     * Dynamic 2D Lighting, Raytraced Vision Occlusion, Realistic Tiered Alarms,
-     * Sandevistan Reflex Overclock, Cyberdeck Buffer Matrix Minigame, Endless Heist Mode & Web Audio OST
+     * GRIDBREAK // PURE MINIMALIST HARDCORE STEALTH
+     * Fast-paced, intuitive, difficult, responsive, instant restarts with R
      */
 
-    // --- PROCEDURAL WEB AUDIO SYNTHESIZER ---
+    // --- PROCEDURAL AUDIO ENGINE ---
     class SoundEngine {
       constructor() {
         this.ctx = null;
         this.enabled = true;
-        this.musicEnabled = true;
-        this.radioEnabled = true;
-        this.synthOsc1 = null;
-        this.synthOsc2 = null;
-        this.synthGain = null;
-        this.arpeggioTimer = null;
-        this.alarmStage = 'CLEAR';
-        this.speechSynth = window.speechSynthesis || null;
       }
-
       init() {
         if (!this.ctx) {
           const AudioContext = window.AudioContext || window.webkitAudioContext;
-          if (AudioContext) {
-            this.ctx = new AudioContext();
-            if (this.musicEnabled) this.startMusic();
-          }
+          if (AudioContext) this.ctx = new AudioContext();
         } else if (this.ctx.state === 'suspended') {
           this.ctx.resume();
         }
       }
-
-      toggleSound() {
+      toggle() {
         this.enabled = !this.enabled;
         return this.enabled;
       }
-
-      toggleMusic() {
-        this.musicEnabled = !this.musicEnabled;
-        if (!this.musicEnabled) {
-          this.stopMusic();
-        } else {
-          this.init();
-          this.startMusic();
-        }
-        return this.musicEnabled;
-      }
-
-      toggleRadio() {
-        this.radioEnabled = !this.radioEnabled;
-        return this.radioEnabled;
-      }
-
-      speakRadio(text) {
-        if (!this.radioEnabled || !this.speechSynth) return;
-        try {
-          this.speechSynth.cancel();
-          const utterance = new SpeechSynthesisUtterance(text);
-          utterance.rate = 1.15;
-          utterance.pitch = 0.85;
-          utterance.volume = 0.8;
-          this.speechSynth.speak(utterance);
-        } catch (e) {}
-      }
-
-      startMusic() {
-        if (!this.ctx || !this.musicEnabled) return;
-        try {
-          if (this.synthGain) return;
-
-          this.synthGain = this.ctx.createGain();
-          this.synthGain.gain.setValueAtTime(0.038, this.ctx.currentTime);
-          this.synthGain.connect(this.ctx.destination);
-
-          this.synthOsc1 = this.ctx.createOscillator();
-          this.synthOsc1.type = 'sawtooth';
-          this.synthOsc1.frequency.setValueAtTime(55, this.ctx.currentTime);
-
-          const filter = this.ctx.createBiquadFilter();
-          filter.type = 'lowpass';
-          filter.frequency.setValueAtTime(190, this.ctx.currentTime);
-
-          this.synthOsc2 = this.ctx.createOscillator();
-          this.synthOsc2.type = 'sine';
-          this.synthOsc2.frequency.setValueAtTime(110, this.ctx.currentTime);
-
-          this.synthOsc1.connect(filter);
-          this.synthOsc2.connect(filter);
-          filter.connect(this.synthGain);
-
-          this.synthOsc1.start();
-          this.synthOsc2.start();
-
-          // Adaptive arpeggio
-          let step = 0;
-          this.arpeggioTimer = setInterval(() => {
-            if (!this.musicEnabled || !this.ctx || this.ctx.state !== 'running') return;
-            try {
-              const isAlert = this.alarmStage === 'ALERT' || this.alarmStage === 'LOCKDOWN';
-              const isCaution = this.alarmStage === 'CAUTION';
-              const isSlowMo = GameState.player.slowMoActive;
-              
-              const notes = isAlert
-                ? [220, 246.94, 277.18, 329.63, 370.0, 440]
-                : (isCaution ? [196, 220, 261.63, 293.66] : [164.81, 220, 261.63, 329.63]);
-
-              const osc = this.ctx.createOscillator();
-              const gain = this.ctx.createGain();
-              osc.type = isAlert ? 'sawtooth' : (isSlowMo ? 'triangle' : 'sine');
-              const targetPitch = isSlowMo ? notes[step % notes.length] * 0.5 : notes[step % notes.length];
-              osc.frequency.setValueAtTime(targetPitch, this.ctx.currentTime);
-              gain.gain.setValueAtTime(isAlert ? 0.024 : 0.012, this.ctx.currentTime);
-              gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + (isAlert ? 0.22 : 0.38));
-              osc.connect(gain);
-              gain.connect(this.ctx.destination);
-              osc.start();
-              osc.stop(this.ctx.currentTime + (isAlert ? 0.22 : 0.38));
-              step++;
-            } catch (e) {}
-          }, 340);
-
-        } catch (e) {}
-      }
-
-      setAlarmStage(stage) {
-        this.alarmStage = stage;
-      }
-
-      stopMusic() {
-        if (this.arpeggioTimer) {
-          clearInterval(this.arpeggioTimer);
-          this.arpeggioTimer = null;
-        }
-        if (this.synthOsc1) {
-          try { this.synthOsc1.stop(); } catch(e){}
-          this.synthOsc1 = null;
-        }
-        if (this.synthOsc2) {
-          try { this.synthOsc2.stop(); } catch(e){}
-          this.synthOsc2 = null;
-        }
-        if (this.synthGain) {
-          this.synthGain.disconnect();
-          this.synthGain = null;
-        }
-      }
-
-      playFootstep() {
+      playTone(freq, type, dur, vol = 0.1) {
         if (!this.enabled || !this.ctx) return;
         try {
           const osc = this.ctx.createOscillator();
           const gain = this.ctx.createGain();
-          osc.type = 'triangle';
-          osc.frequency.setValueAtTime(130, this.ctx.currentTime);
-          osc.frequency.exponentialRampToValueAtTime(35, this.ctx.currentTime + 0.05);
-          gain.gain.setValueAtTime(0.045, this.ctx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.05);
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+          gain.gain.setValueAtTime(vol, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + dur);
           osc.connect(gain);
           gain.connect(this.ctx.destination);
           osc.start();
-          osc.stop(this.ctx.currentTime + 0.05);
+          osc.stop(this.ctx.currentTime + dur);
         } catch(e) {}
       }
-
       playDash() {
-        if (!this.enabled || !this.ctx) return;
-        try {
-          const osc = this.ctx.createOscillator();
-          const gain = this.ctx.createGain();
-          osc.type = 'sawtooth';
-          osc.frequency.setValueAtTime(700, this.ctx.currentTime);
-          osc.frequency.exponentialRampToValueAtTime(100, this.ctx.currentTime + 0.22);
-          gain.gain.setValueAtTime(0.14, this.ctx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.22);
-          osc.connect(gain);
-          gain.connect(this.ctx.destination);
-          osc.start();
-          osc.stop(this.ctx.currentTime + 0.22);
-        } catch(e) {}
+        this.playTone(480, 'sawtooth', 0.15, 0.12);
       }
-
-      playSlowMo(active) {
-        if (!this.enabled || !this.ctx) return;
-        try {
-          const osc = this.ctx.createOscillator();
-          const gain = this.ctx.createGain();
-          osc.type = 'sine';
-          if (active) {
-            osc.frequency.setValueAtTime(800, this.ctx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(120, this.ctx.currentTime + 0.4);
-          } else {
-            osc.frequency.setValueAtTime(120, this.ctx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(600, this.ctx.currentTime + 0.3);
-          }
-          gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.4);
-          osc.connect(gain);
-          gain.connect(this.ctx.destination);
-          osc.start();
-          osc.stop(this.ctx.currentTime + 0.4);
-        } catch(e) {}
-      }
-
       playDecoy() {
-        if (!this.enabled || !this.ctx) return;
-        try {
-          const osc = this.ctx.createOscillator();
-          const gain = this.ctx.createGain();
-          osc.type = 'square';
-          osc.frequency.setValueAtTime(440, this.ctx.currentTime);
-          osc.frequency.setValueAtTime(880, this.ctx.currentTime + 0.08);
-          osc.frequency.setValueAtTime(1760, this.ctx.currentTime + 0.16);
-          gain.gain.setValueAtTime(0.1, this.ctx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.3);
-          osc.connect(gain);
-          gain.connect(this.ctx.destination);
-          osc.start();
-          osc.stop(this.ctx.currentTime + 0.3);
-        } catch(e) {}
+        this.playTone(880, 'sine', 0.2, 0.15);
       }
-
+      playEmp() {
+        this.playTone(180, 'square', 0.35, 0.18);
+      }
       playItem() {
-        if (!this.enabled || !this.ctx) return;
-        try {
-          const now = this.ctx.currentTime;
-          [523.25, 783.99, 1046.50].forEach((freq, i) => {
-            const osc = this.ctx.createOscillator();
-            const gain = this.ctx.createGain();
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(freq, now + i * 0.07);
-            gain.gain.setValueAtTime(0.1, now + i * 0.07);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.07 + 0.22);
-            osc.connect(gain);
-            gain.connect(this.ctx.destination);
-            osc.start(now + i * 0.07);
-            osc.stop(now + i * 0.07 + 0.22);
-          });
-        } catch(e) {}
+        this.playTone(660, 'sine', 0.1, 0.1);
+        setTimeout(() => this.playTone(990, 'sine', 0.15, 0.1), 80);
       }
-
-      playStun() {
-        if (!this.enabled || !this.ctx) return;
-        try {
-          const osc = this.ctx.createOscillator();
-          const gain = this.ctx.createGain();
-          osc.type = 'sawtooth';
-          osc.frequency.setValueAtTime(450, this.ctx.currentTime);
-          osc.frequency.exponentialRampToValueAtTime(50, this.ctx.currentTime + 0.35);
-          gain.gain.setValueAtTime(0.18, this.ctx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.35);
-          osc.connect(gain);
-          gain.connect(this.ctx.destination);
-          osc.start();
-          osc.stop(this.ctx.currentTime + 0.35);
-        } catch(e) {}
+      playAlert() {
+        this.playTone(900, 'sawtooth', 0.18, 0.15);
       }
-
-      playJam() {
-        if (!this.enabled || !this.ctx) return;
-        try {
-          const osc = this.ctx.createOscillator();
-          const gain = this.ctx.createGain();
-          osc.type = 'square';
-          osc.frequency.setValueAtTime(1200, this.ctx.currentTime);
-          osc.frequency.setValueAtTime(800, this.ctx.currentTime + 0.1);
-          gain.gain.setValueAtTime(0.1, this.ctx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.28);
-          osc.connect(gain);
-          gain.connect(this.ctx.destination);
-          osc.start();
-          osc.stop(this.ctx.currentTime + 0.28);
-        } catch(e) {}
+      playDeath() {
+        this.playTone(120, 'sawtooth', 0.5, 0.2);
       }
-
-      playBypass() {
-        if (!this.enabled || !this.ctx) return;
-        try {
-          const now = this.ctx.currentTime;
-          const osc = this.ctx.createOscillator();
-          const gain = this.ctx.createGain();
-          osc.type = 'sawtooth';
-          osc.frequency.setValueAtTime(250, now);
-          osc.frequency.exponentialRampToValueAtTime(900, now + 0.2);
-          osc.frequency.exponentialRampToValueAtTime(120, now + 0.45);
-          gain.gain.setValueAtTime(0.14, now);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
-          osc.connect(gain);
-          gain.connect(this.ctx.destination);
-          osc.start();
-          osc.stop(now + 0.45);
-        } catch(e) {}
-      }
-
-      playCloak() {
-        if (!this.enabled || !this.ctx) return;
-        try {
-          const osc = this.ctx.createOscillator();
-          const gain = this.ctx.createGain();
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(300, this.ctx.currentTime);
-          osc.frequency.exponentialRampToValueAtTime(1100, this.ctx.currentTime + 0.3);
-          gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.35);
-          osc.connect(gain);
-          gain.connect(this.ctx.destination);
-          osc.start();
-          osc.stop(this.ctx.currentTime + 0.35);
-        } catch(e) {}
-      }
-
-      playCautionPulse() {
-        if (!this.enabled || !this.ctx) return;
-        try {
-          const osc = this.ctx.createOscillator();
-          const gain = this.ctx.createGain();
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(650, this.ctx.currentTime);
-          osc.frequency.exponentialRampToValueAtTime(450, this.ctx.currentTime + 0.15);
-          gain.gain.setValueAtTime(0.06, this.ctx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.15);
-          osc.connect(gain);
-          gain.connect(this.ctx.destination);
-          osc.start();
-          osc.stop(this.ctx.currentTime + 0.15);
-        } catch(e) {}
-      }
-
-      playIntrusionSiren() {
-        if (!this.enabled || !this.ctx) return;
-        try {
-          const osc = this.ctx.createOscillator();
-          const gain = this.ctx.createGain();
-          osc.type = 'sawtooth';
-          osc.frequency.setValueAtTime(860, this.ctx.currentTime);
-          osc.frequency.linearRampToValueAtTime(620, this.ctx.currentTime + 0.18);
-          gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.2);
-          osc.connect(gain);
-          gain.connect(this.ctx.destination);
-          osc.start();
-          osc.stop(this.ctx.currentTime + 0.2);
-        } catch(e) {}
-      }
-
-      playAlertStinger() {
-        if (!this.enabled || !this.ctx) return;
-        try {
-          const osc = this.ctx.createOscillator();
-          const gain = this.ctx.createGain();
-          osc.type = 'square';
-          osc.frequency.setValueAtTime(950, this.ctx.currentTime);
-          gain.gain.setValueAtTime(0.16, this.ctx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.18);
-          osc.connect(gain);
-          gain.connect(this.ctx.destination);
-          osc.start();
-          osc.stop(this.ctx.currentTime + 0.18);
-        } catch(e) {}
-      }
-
-      playVictory() {
-        if (!this.enabled || !this.ctx) return;
-        try {
-          const now = this.ctx.currentTime;
-          [329.63, 440, 523.25, 659.25, 880].forEach((freq, idx) => {
-            const osc = this.ctx.createOscillator();
-            const gain = this.ctx.createGain();
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(freq, now + idx * 0.12);
-            gain.gain.setValueAtTime(0.11, now + idx * 0.12);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.12 + 0.4);
-            osc.connect(gain);
-            gain.connect(this.ctx.destination);
-            osc.start(now + idx * 0.12);
-            osc.stop(now + idx * 0.12 + 0.4);
-          });
-        } catch(e) {}
-      }
-
-      playGameOver() {
-        if (!this.enabled || !this.ctx) return;
-        try {
-          const now = this.ctx.currentTime;
-          const osc = this.ctx.createOscillator();
-          const gain = this.ctx.createGain();
-          osc.type = 'sawtooth';
-          osc.frequency.setValueAtTime(150, now);
-          osc.frequency.exponentialRampToValueAtTime(25, now + 0.7);
-          gain.gain.setValueAtTime(0.18, now);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.7);
-          osc.connect(gain);
-          gain.connect(this.ctx.destination);
-          osc.start();
-          osc.stop(now + 0.7);
-        } catch(e) {}
-      }
-
-      playBlip() {
-        if (!this.enabled || !this.ctx) return;
-        try {
-          const osc = this.ctx.createOscillator();
-          const gain = this.ctx.createGain();
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(1200, this.ctx.currentTime);
-          gain.gain.setValueAtTime(0.03, this.ctx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.04);
-          osc.connect(gain);
-          gain.connect(this.ctx.destination);
-          osc.start();
-          osc.stop(this.ctx.currentTime + 0.04);
-        } catch(e) {}
+      playWin() {
+        [440, 554, 659, 880].forEach((f, i) => {
+          setTimeout(() => this.playTone(f, 'sine', 0.3, 0.12), i * 90);
+        });
       }
     }
-
     const sound = new SoundEngine();
 
-    // --- ACHIEVEMENTS / TROPHY SYSTEM ---
-    const ACHIEVEMENTS = [
-      { id: 'first_blood', name: 'Perimeter Breach', desc: 'Complete Sector 01 Infiltration.', unlocked: false },
-      { id: 'ghost_protocol', name: 'Ghost In The Shell', desc: 'Clear any level with 0% peak alarm.', unlocked: false },
-      { id: 'master_hacker', name: 'Neuro-Decker', desc: 'Successfully solve a Cyberdeck Buffer Matrix breach.', unlocked: false },
-      { id: 'time_bender', name: 'Sandevistan Master', desc: 'Evade an enforcer line of sight during Slow-Mo.', unlocked: false },
-      { id: 'looter', name: 'Data Siphon', desc: 'Collect 1,000 corporate crypto-credits.', unlocked: false },
-      { id: 'decoy_artist', name: 'Phantom Projection', desc: 'Distract 3 guards using Sonic Decoys.', unlocked: false },
-      { id: 'apex_predator', name: 'Apex Netrunner', desc: 'Complete all 5 Campaign Sectors.', unlocked: false },
-      { id: 'endless_survivor', name: 'Deep Heist Veteran', desc: 'Reach Floor 5 in Endless Heist Mode.', unlocked: false }
-    ];
-
-    function unlockAchievement(id) {
-      const ach = ACHIEVEMENTS.find(a => a.id === id);
-      if (ach && !ach.unlocked) {
-        ach.unlocked = true;
-        showToast(`🏆 UNLOCKED: ${ach.name} - ${ach.desc}`);
-        sound.playItem();
-        saveCodex();
-        updateTrophyHUD();
-      }
-    }
-
-    function saveCodex() {
-      try {
-        const data = ACHIEVEMENTS.map(a => ({ id: a.id, unlocked: a.unlocked }));
-        localStorage.setItem('gridbreak_achievements', JSON.stringify(data));
-      } catch(e) {}
-    }
-
-    function loadCodex() {
-      try {
-        const raw = localStorage.getItem('gridbreak_achievements');
-        if (raw) {
-          const list = JSON.parse(raw);
-          list.forEach(saved => {
-            const ach = ACHIEVEMENTS.find(a => a.id === saved.id);
-            if (ach) ach.unlocked = saved.unlocked;
-          });
-        }
-      } catch(e) {}
-      updateTrophyHUD();
-    }
-
-    function updateTrophyHUD() {
-      const unlockedCount = ACHIEVEMENTS.filter(a => a.unlocked).length;
-      document.getElementById('trophyCountText').innerText = `${unlockedCount}/${ACHIEVEMENTS.length}`;
-    }
-
-    function showToast(msg) {
-      const container = document.getElementById('toastContainer');
-      const toast = document.createElement('div');
-      toast.className = 'toast-msg';
-      toast.innerHTML = `<span>⚡</span><span>${msg}</span>`;
-      container.appendChild(toast);
-      setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.style.transform = 'translateX(100%)';
-        setTimeout(() => toast.remove(), 300);
-      }, 3500);
-    }
-
-    // --- 5 EXPANSIVE HANDCRAFTED SECTORS ---
-    const CAMPAIGN_LEVELS = [
-      // LEVEL 1: Perimeter Breach
+    // --- 8 CHALLENGING PROGRESSIVE SECTORS ---
+    // 0: Floor, 1: Wall, 2: Keycard, 4: Laser Gate, 5: Exit
+    const SECTORS = [
+      // Sector 1: The Breach (Tutorial with tight guards)
       {
-        id: 1,
-        title: "LVL 1: PERIMETER BREACH",
-        code: "SEC-01",
-        briefing: "Welcome to Sub-Level 1. Study the patrol routes, collect the Red Cryptokey, hack terminals for energy, and reach the extraction elevator.",
-        width: 16,
-        height: 10,
+        title: "SECTOR 01: THE PERIMETER",
+        width: 16, height: 10,
         playerStart: { x: 1.5, y: 1.5 },
         exit: { x: 14.5, y: 8.5 },
+        empCount: 2,
         map: [
           [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
           [1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,1],
@@ -2164,35 +499,21 @@
           [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
         ],
         guards: [
-          {
-            x: 6.5, y: 2.5,
-            waypoints: [{x: 6.5, y: 2.5}, {x: 8.5, y: 2.5}, {x: 8.5, y: 6.5}, {x: 6.5, y: 6.5}],
-            speed: 1.6, coneAngle: 0.65, coneDist: 3.8
-          }
+          { x: 6.5, y: 2.5, waypoints: [{x:6.5,y:2.5},{x:8.5,y:2.5},{x:8.5,y:6.5},{x:6.5,y:6.5}], speed: 2.2, coneAngle: 0.65, coneDist: 4.2 }
         ],
         cameras: [
-          { x: 13.5, y: 3.5, baseAngle: Math.PI / 2, sweep: 0.7, speed: 1.4, coneDist: 4.2 }
+          { x: 13.5, y: 3.5, baseAngle: Math.PI/2, sweep: 0.8, speed: 1.8, coneDist: 4.5 }
         ],
-        turrets: [],
-        terminals: [
-          { x: 3.5, y: 3.5, hacked: false, isCyberdeckNode: true, credits: 150, info: "Perimeter node decrypted: +150 CR and +3 Hack Energy!" }
-        ],
-        slates: [
-          { x: 10.5, y: 1.5, name: "Arasaka Protocol Memo" }
-        ],
-        gate: { x: 13, y: 5, unlocked: false }
+        lasers: []
       },
 
-      // LEVEL 2: Surveillance Array
+      // Sector 2: Laser Rhythm
       {
-        id: 2,
-        title: "LVL 2: SURVEILLANCE ARRAY",
-        code: "SEC-02",
-        briefing: "Sub-Level 2 is blanketed by automated CCTV spotlights and armed enforcers. Use [2] Jam Optics or [Q] Overclock across sightlines to acquire the Blue Pass and Red Key.",
-        width: 16,
-        height: 10,
+        title: "SECTOR 02: LASER GRID ARRAY",
+        width: 16, height: 10,
         playerStart: { x: 1.5, y: 8.5 },
         exit: { x: 14.5, y: 1.5 },
+        empCount: 2,
         map: [
           [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
           [1,0,0,0,1,0,0,0,1,0,0,0,0,1,5,1],
@@ -2202,40 +523,28 @@
           [1,0,0,0,1,0,0,0,0,1,0,0,0,1,0,1],
           [1,1,1,0,1,1,1,0,0,1,1,1,0,1,0,1],
           [1,2,0,0,0,0,1,0,0,0,0,1,0,0,0,1],
-          [1,0,0,1,1,0,0,0,1,0,0,0,0,1,3,1],
+          [1,0,0,1,1,0,0,0,1,0,0,0,0,1,0,1],
           [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
         ],
         guards: [
-          {
-            x: 5.5, y: 5.5,
-            waypoints: [{x: 5.5, y: 5.5}, {x: 8.5, y: 5.5}, {x: 8.5, y: 7.5}, {x: 5.5, y: 7.5}],
-            speed: 1.8, coneAngle: 0.7, coneDist: 4.0
-          }
+          { x: 5.5, y: 5.5, waypoints: [{x:5.5,y:5.5},{x:8.5,y:5.5},{x:8.5,y:7.5},{x:5.5,y:7.5}], speed: 2.4, coneAngle: 0.7, coneDist: 4.2 }
         ],
         cameras: [
-          { x: 3.5, y: 1.5, baseAngle: Math.PI / 2, sweep: 0.8, speed: 1.6, coneDist: 4.2 },
-          { x: 11.5, y: 3.5, baseAngle: Math.PI, sweep: 0.9, speed: 1.2, coneDist: 4.5 }
+          { x: 3.5, y: 1.5, baseAngle: Math.PI/2, sweep: 0.9, speed: 2.0, coneDist: 4.5 },
+          { x: 11.5, y: 3.5, baseAngle: Math.PI, sweep: 0.8, speed: 1.5, coneDist: 4.5 }
         ],
-        turrets: [],
-        terminals: [
-          { x: 7.5, y: 1.5, hacked: false, isCyberdeckNode: true, credits: 200, info: "Camera calibration corrupted. +200 CR and energy restored." }
-        ],
-        slates: [
-          { x: 10.5, y: 8.5, name: "Cyber-Optic Blueprint" }
-        ],
-        gate: { x: 14, y: 2, unlocked: false }
+        lasers: [
+          { x1: 9, y1: 3.5, x2: 12, y2: 3.5, period: 2.0, activeTime: 1.0 }
+        ]
       },
 
-      // LEVEL 3: Enforcer Intercept
+      // Sector 3: Double Patrol Squeeze
       {
-        id: 3,
-        title: "LVL 3: ENFORCER INTERCEPT",
-        code: "SEC-03",
-        briefing: "Two heavy enforcer units operate on synchronized routes with an active automated laser turret! Deploy Sonic Decoys [F] or EMP Stun [1] to breach.",
-        width: 16,
-        height: 10,
+        title: "SECTOR 03: PATROL CONVERGENCE",
+        width: 16, height: 10,
         playerStart: { x: 1.5, y: 1.5 },
         exit: { x: 14.5, y: 8.5 },
+        empCount: 3,
         map: [
           [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
           [1,0,0,0,0,0,1,0,0,0,0,1,0,0,2,1],
@@ -2249,45 +558,25 @@
           [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
         ],
         guards: [
-          {
-            x: 3.5, y: 3.5,
-            waypoints: [{x: 3.5, y: 3.5}, {x: 8.5, y: 3.5}, {x: 8.5, y: 5.5}, {x: 3.5, y: 5.5}],
-            speed: 2.0, coneAngle: 0.65, coneDist: 4.2
-          },
-          {
-            x: 12.5, y: 3.5,
-            waypoints: [{x: 12.5, y: 3.5}, {x: 12.5, y: 7.5}, {x: 10.5, y: 7.5}, {x: 10.5, y: 3.5}],
-            speed: 2.2, coneAngle: 0.7, coneDist: 4.2
-          }
+          { x: 3.5, y: 3.5, waypoints: [{x:3.5,y:3.5},{x:8.5,y:3.5},{x:8.5,y:5.5},{x:3.5,y:5.5}], speed: 2.6, coneAngle: 0.65, coneDist: 4.5 },
+          { x: 12.5, y: 3.5, waypoints: [{x:12.5,y:3.5},{x:12.5,y:7.5},{x:10.5,y:7.5},{x:10.5,y:3.5}], speed: 2.8, coneAngle: 0.7, coneDist: 4.5 }
         ],
         cameras: [
-          { x: 1.5, y: 5.5, baseAngle: 0, sweep: 0.7, speed: 1.5, coneDist: 4.0 }
+          { x: 1.5, y: 5.5, baseAngle: 0, sweep: 0.8, speed: 1.8, coneDist: 4.2 }
         ],
-        turrets: [
-          { x: 8.5, y: 3.5, range: 4.2, charge: 0, hacked: false }
-        ],
-        terminals: [
-          { x: 5.5, y: 5.5, hacked: false, isCyberdeckNode: true, credits: 250, info: "Secondary firewall hacked! Laser gate disarmed and Turret subverted." }
-        ],
-        slates: [
-          { x: 1.5, y: 7.5, name: "Black-Site Operative Roster" }
-        ],
-        gate: { x: 14, y: 6, unlocked: false }
+        lasers: []
       },
 
-      // LEVEL 4: The Core Vault
+      // Sector 4: 360-Degree Central Turret Eye
       {
-        id: 4,
-        title: "LVL 4: THE CORE VAULT",
-        code: "SEC-04",
-        briefing: "Deep subterranean data vault with a 360-degree high-speed scanner turret mounted in the center! Requires Blue Key to open inner vault, then Red Key for extraction.",
-        width: 16,
-        height: 10,
+        title: "SECTOR 04: THE OCULUS VAULT",
+        width: 16, height: 10,
         playerStart: { x: 1.5, y: 4.5 },
         exit: { x: 14.5, y: 4.5 },
+        empCount: 2,
         map: [
           [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-          [1,3,0,0,1,0,0,0,0,0,0,1,0,0,2,1],
+          [1,0,0,0,1,0,0,0,0,0,0,1,0,0,2,1],
           [1,0,1,0,1,0,1,1,1,1,0,1,0,1,0,1],
           [1,0,1,0,0,0,1,0,0,1,0,0,0,1,0,1],
           [1,0,1,1,1,0,0,0,0,0,0,1,1,1,4,1],
@@ -2298,560 +587,226 @@
           [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
         ],
         guards: [
-          {
-            x: 7.5, y: 1.5,
-            waypoints: [{x: 7.5, y: 1.5}, {x: 10.5, y: 1.5}, {x: 10.5, y: 7.5}, {x: 7.5, y: 7.5}],
-            speed: 2.2, coneAngle: 0.65, coneDist: 4.0
-          }
+          { x: 7.5, y: 1.5, waypoints: [{x:7.5,y:1.5},{x:10.5,y:1.5},{x:10.5,y:7.5},{x:7.5,y:7.5}], speed: 2.7, coneAngle: 0.65, coneDist: 4.2 }
         ],
         cameras: [
-          { x: 8.5, y: 4.5, baseAngle: 0, sweep: Math.PI * 2, speed: 1.0, isContinuous: true, coneDist: 4.8 }
+          { x: 8.5, y: 4.5, baseAngle: 0, sweep: Math.PI * 2, speed: 1.4, isContinuous: true, coneDist: 5.0 }
         ],
-        turrets: [],
-        terminals: [
-          { x: 3.5, y: 7.5, hacked: false, isCyberdeckNode: true, credits: 300, info: "Core capacitors tapped: +300 CR and Full Energy restored!" }
-        ],
-        slates: [
-          { x: 13.5, y: 7.5, name: "Project Chimera Audio Log" }
-        ],
-        gate: { x: 14, y: 4, unlocked: false }
+        lasers: []
       },
 
-      // LEVEL 5: Neural Apex Core
+      // Sector 5: Triple Threat
       {
-        id: 5,
-        title: "LVL 5: NEURAL APEX CORE",
-        code: "SEC-05",
-        briefing: "Final black-site sanctum. Dense security web: multiple overlapping cameras, active combat turrets, and hyper-alert enforcers. Escape with the AI Core!",
-        width: 16,
-        height: 10,
+        title: "SECTOR 05: APEX PROTOCOL",
+        width: 16, height: 10,
         playerStart: { x: 1.5, y: 1.5 },
         exit: { x: 14.5, y: 8.5 },
+        empCount: 3,
         map: [
           [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
           [1,0,0,0,1,0,0,0,0,1,0,0,0,0,2,1],
           [1,0,1,0,1,0,1,1,0,1,0,1,1,1,0,1],
           [1,0,1,0,0,0,1,0,0,0,0,0,0,1,0,1],
           [1,0,1,1,1,0,1,0,1,1,1,1,0,1,0,1],
-          [1,0,0,0,1,0,0,0,1,3,0,1,0,0,0,1],
+          [1,0,0,0,1,0,0,0,1,0,0,1,0,0,0,1],
           [1,1,1,0,1,1,1,0,1,0,0,1,1,1,4,1],
           [1,0,0,0,0,0,0,0,1,0,0,0,0,0,5,1],
           [1,0,1,1,1,1,1,0,0,0,1,1,1,1,1,1],
           [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
         ],
         guards: [
-          {
-            x: 5.5, y: 2.5,
-            waypoints: [{x: 5.5, y: 2.5}, {x: 8.5, y: 2.5}, {x: 8.5, y: 5.5}, {x: 5.5, y: 5.5}],
-            speed: 2.4, coneAngle: 0.75, coneDist: 4.5
-          },
-          {
-            x: 12.5, y: 4.5,
-            waypoints: [{x: 12.5, y: 4.5}, {x: 12.5, y: 7.5}, {x: 9.5, y: 7.5}, {x: 9.5, y: 4.5}],
-            speed: 2.4, coneAngle: 0.75, coneDist: 4.5
-          }
+          { x: 5.5, y: 2.5, waypoints: [{x:5.5,y:2.5},{x:8.5,y:2.5},{x:8.5,y:5.5},{x:5.5,y:5.5}], speed: 3.0, coneAngle: 0.75, coneDist: 4.8 },
+          { x: 12.5, y: 4.5, waypoints: [{x:12.5,y:4.5},{x:12.5,y:7.5},{x:9.5,y:7.5},{x:9.5,y:4.5}], speed: 3.0, coneAngle: 0.75, coneDist: 4.8 }
         ],
         cameras: [
-          { x: 3.5, y: 3.5, baseAngle: Math.PI / 2, sweep: 0.9, speed: 1.8, coneDist: 4.5 },
-          { x: 10.5, y: 1.5, baseAngle: Math.PI / 2, sweep: 0.8, speed: 1.6, coneDist: 4.5 }
+          { x: 3.5, y: 3.5, baseAngle: Math.PI/2, sweep: 1.0, speed: 2.2, coneDist: 4.8 },
+          { x: 10.5, y: 1.5, baseAngle: Math.PI/2, sweep: 0.9, speed: 2.0, coneDist: 4.8 }
         ],
-        turrets: [
-          { x: 8.5, y: 5.5, range: 4.5, charge: 0, hacked: false }
+        lasers: [
+          { x1: 5, y1: 5.5, x2: 8, y2: 5.5, period: 1.8, activeTime: 0.9 }
+        ]
+      },
+
+      // Sector 6: Corridor of Lasers
+      {
+        title: "SECTOR 06: INFRARED GAUNTLET",
+        width: 16, height: 10,
+        playerStart: { x: 1.5, y: 1.5 },
+        exit: { x: 14.5, y: 8.5 },
+        empCount: 3,
+        map: [
+          [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+          [1,0,0,0,0,0,0,0,1,0,0,0,0,0,2,1],
+          [1,0,1,1,1,1,1,0,1,0,1,1,1,1,0,1],
+          [1,0,1,0,0,0,1,0,0,0,1,0,0,1,0,1],
+          [1,0,1,0,1,0,1,1,1,0,1,0,0,1,0,1],
+          [1,0,0,0,1,0,0,0,1,0,0,0,0,1,0,1],
+          [1,1,1,1,1,1,0,0,1,1,1,1,0,1,4,1],
+          [1,0,0,0,0,0,0,0,0,0,0,0,0,0,5,1],
+          [1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+          [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
         ],
-        terminals: [
-          { x: 7.5, y: 7.5, hacked: false, isCyberdeckNode: true, credits: 500, info: "AI Core root keys extracted! +500 CR. Barrier lockdown disarmed." }
+        guards: [
+          { x: 4.5, y: 7.5, waypoints: [{x:4.5,y:7.5},{x:10.5,y:7.5}], speed: 3.2, coneAngle: 0.7, coneDist: 5.0 },
+          { x: 7.5, y: 1.5, waypoints: [{x:7.5,y:1.5},{x:1.5,y:1.5}], speed: 3.0, coneAngle: 0.7, coneDist: 4.5 }
         ],
-        slates: [
-          { x: 5.5, y: 7.5, name: "Sentient AI Genesis Data" }
+        cameras: [
+          { x: 8.5, y: 3.5, baseAngle: Math.PI/2, sweep: 1.1, speed: 2.2, coneDist: 4.8 }
         ],
-        gate: { x: 14, y: 6, unlocked: false }
+        lasers: [
+          { x1: 2, y1: 5.5, x2: 5, y2: 5.5, period: 1.6, activeTime: 0.8 },
+          { x1: 9, y1: 5.5, x2: 12, y2: 5.5, period: 1.6, activeTime: 0.8 }
+        ]
+      },
+
+      // Sector 7: Ghost Vault
+      {
+        title: "SECTOR 07: SHADOW SANCTUM",
+        width: 16, height: 10,
+        playerStart: { x: 1.5, y: 8.5 },
+        exit: { x: 14.5, y: 1.5 },
+        empCount: 2,
+        map: [
+          [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+          [1,0,0,0,1,0,0,0,1,0,0,0,0,1,5,1],
+          [1,0,1,0,1,0,1,0,1,0,1,1,0,1,4,1],
+          [1,0,1,0,0,0,1,0,0,0,0,1,0,0,0,1],
+          [1,0,1,1,1,0,1,1,1,1,0,1,1,1,0,1],
+          [1,0,0,0,1,0,0,0,0,1,0,0,0,1,0,1],
+          [1,1,1,0,1,1,1,0,0,1,1,1,0,1,0,1],
+          [1,2,0,0,0,0,1,0,0,0,0,1,0,0,0,1],
+          [1,0,0,1,1,0,0,0,1,0,0,0,0,1,0,1],
+          [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+        ],
+        guards: [
+          { x: 3.5, y: 3.5, waypoints: [{x:3.5,y:3.5},{x:6.5,y:3.5},{x:6.5,y:6.5},{x:3.5,y:6.5}], speed: 3.2, coneAngle: 0.75, coneDist: 5.0 },
+          { x: 10.5, y: 4.5, waypoints: [{x:10.5,y:4.5},{x:13.5,y:4.5},{x:13.5,y:7.5},{x:10.5,y:7.5}], speed: 3.4, coneAngle: 0.75, coneDist: 5.0 }
+        ],
+        cameras: [
+          { x: 7.5, y: 1.5, baseAngle: Math.PI/2, sweep: 1.2, speed: 2.5, coneDist: 5.0 }
+        ],
+        lasers: [
+          { x1: 1, y1: 4.5, x2: 4, y2: 4.5, period: 1.4, activeTime: 0.7 }
+        ]
+      },
+
+      // Sector 8: Grand Master Core
+      {
+        title: "SECTOR 08: ZERO SIGNAL (FINAL)",
+        width: 16, height: 10,
+        playerStart: { x: 1.5, y: 1.5 },
+        exit: { x: 14.5, y: 8.5 },
+        empCount: 4,
+        map: [
+          [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+          [1,0,0,0,1,0,0,0,0,1,0,0,0,0,2,1],
+          [1,0,1,0,1,0,1,1,0,1,0,1,1,1,0,1],
+          [1,0,1,0,0,0,1,0,0,0,0,0,0,1,0,1],
+          [1,0,1,1,1,0,1,0,1,1,1,1,0,1,0,1],
+          [1,0,0,0,1,0,0,0,1,0,0,1,0,0,0,1],
+          [1,1,1,0,1,1,1,0,1,0,0,1,1,1,4,1],
+          [1,0,0,0,0,0,0,0,1,0,0,0,0,0,5,1],
+          [1,0,1,1,1,1,1,0,0,0,1,1,1,1,1,1],
+          [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+        ],
+        guards: [
+          { x: 5.5, y: 2.5, waypoints: [{x:5.5,y:2.5},{x:8.5,y:2.5},{x:8.5,y:5.5},{x:5.5,y:5.5}], speed: 3.4, coneAngle: 0.8, coneDist: 5.2 },
+          { x: 12.5, y: 4.5, waypoints: [{x:12.5,y:4.5},{x:12.5,y:7.5},{x:9.5,y:7.5},{x:9.5,y:4.5}], speed: 3.5, coneAngle: 0.8, coneDist: 5.2 }
+        ],
+        cameras: [
+          { x: 3.5, y: 3.5, baseAngle: Math.PI/2, sweep: 1.2, speed: 2.4, coneDist: 5.2 },
+          { x: 10.5, y: 1.5, baseAngle: Math.PI/2, sweep: 1.0, speed: 2.2, coneDist: 5.2 }
+        ],
+        lasers: [
+          { x1: 5, y1: 5.5, x2: 8, y2: 5.5, period: 1.5, activeTime: 0.75 },
+          { x1: 1, y1: 5.5, x2: 4, y2: 5.5, period: 1.5, activeTime: 0.75 }
+        ]
       }
     ];
 
-    // --- PROCEDURAL ENDLESS DUNGEON GENERATOR ---
-    function generateEndlessFloor(floorNum) {
-      const width = 16;
-      const height = 10;
-      const map = Array.from({ length: height }, () => Array(width).fill(0));
-
-      // Border walls
-      for (let y = 0; y < height; y++) {
-        for (let x = 0; x < width; x++) {
-          if (x === 0 || x === width - 1 || y === 0 || y === height - 1) {
-            map[y][x] = 1;
-          }
-        }
-      }
-
-      // Interior pillars & cover blocks
-      for (let i = 0; i < 14 + Math.min(10, floorNum * 2); i++) {
-        const rx = Math.floor(Math.random() * (width - 4)) + 2;
-        const ry = Math.floor(Math.random() * (height - 4)) + 2;
-        map[ry][rx] = 1;
-        if (Math.random() < 0.4) map[ry + 1][rx] = 1;
-      }
-
-      const pStart = { x: 1.5, y: 1.5 };
-      const exitPos = { x: width - 2 + 0.5, y: height - 2 + 0.5 };
-      map[1][1] = 0;
-      map[height - 2][width - 2] = 5;
-
-      // Place Red Key
-      const kx = Math.floor(Math.random() * 4) + 1;
-      const ky = Math.floor(Math.random() * (height - 3)) + 2;
-      map[ky][kx] = 2;
-
-      // Gate before exit
-      map[height - 2][width - 3] = 4;
-
-      // Guards
-      const guardCount = Math.min(4, 1 + Math.floor(floorNum / 2));
-      const guards = [];
-      for (let g = 0; g < guardCount; g++) {
-        const gx = 4 + g * 3;
-        const gy = 3 + (g % 2) * 3;
-        guards.push({
-          x: gx + 0.5, y: gy + 0.5,
-          waypoints: [
-            { x: gx + 0.5, y: gy + 0.5 },
-            { x: gx + 2.5, y: gy + 0.5 },
-            { x: gx + 2.5, y: gy + 2.5 },
-            { x: gx + 0.5, y: gy + 2.5 }
-          ],
-          speed: 1.6 + floorNum * 0.15,
-          coneAngle: 0.65,
-          coneDist: 3.8 + floorNum * 0.1
-        });
-      }
-
-      // Cameras
-      const camCount = Math.min(3, 1 + Math.floor(floorNum / 3));
-      const cameras = [];
-      for (let c = 0; c < camCount; c++) {
-        cameras.push({
-          x: 6.5 + c * 4,
-          y: 1.5,
-          baseAngle: Math.PI / 2,
-          sweep: 0.8,
-          speed: 1.4 + floorNum * 0.1,
-          coneDist: 4.2
-        });
-      }
-
-      return {
-        id: 99,
-        isEndless: true,
-        floor: floorNum,
-        title: `ENDLESS HEIST // FLOOR ${floorNum}`,
-        code: `FLR-${String(floorNum).padStart(2, '0')}`,
-        briefing: `Infinite corporate black-site level ${floorNum}. Security density escalated. Extract payload and survive as long as possible!`,
-        width,
-        height,
-        playerStart: pStart,
-        exit: exitPos,
-        map,
-        guards,
-        cameras,
-        turrets: floorNum >= 3 ? [{ x: 8.5, y: 4.5, range: 4.0, charge: 0, hacked: false }] : [],
-        terminals: [
-          { x: 5.5, y: 7.5, hacked: false, isCyberdeckNode: true, credits: 200 + floorNum * 50, info: `Floor ${floorNum} decrypted: Credits and hack energy acquired!` }
-        ],
-        slates: [
-          { x: 11.5, y: 2.5, name: `Corporate Vault File #${floorNum}` }
-        ],
-        gate: { x: width - 3, y: height - 2, unlocked: false }
-      };
-    }
-
-    // --- GAME STATE ENGINE ---
-    const GameState = {
-      isEndlessMode: false,
-      endlessFloor: 1,
-      levelIndex: 0,
-      currentLevel: null,
+    // --- GAME ENGINE STATE ---
+    const State = {
+      levelIdx: 0,
+      sector: null,
       grid: [],
-      tileW: 56,
+      tileW: 58,
       tileH: 52,
-      originX: 20,
-      originY: 10,
-      
-      selectedClass: 'SPECTRE', // 'SPECTRE', 'CHRONOS', 'WRAITH'
-      credits: 0,
+      ox: 20,
+      oy: 10,
+
+      deaths: 0,
+      totalTime: 0,
+      levelTime: 0,
+      status: 'START', // 'START', 'PLAY', 'WIN', 'DEAD'
 
       player: {
         x: 1.5,
         y: 1.5,
         angle: 0,
-        speed: 3.8,
-        hasRedKey: false,
-        hasBlueKey: false,
-        slatesCollected: 0,
-        
-        // Dash mechanic
+        speed: 4.2,
+        hasKey: false,
+        empRemaining: 2,
         dashCooldown: 0,
-        dashMaxCooldown: 1.8,
         isDashing: false,
         dashTimer: 0,
-        
-        // Stealth cloak
-        cloakTimer: 0,
-
-        // Slow-Mo / Sandevistan Overclock
-        slowMoActive: false,
-        slowMoTimer: 0,
-        slowMoMaxDuration: 4.0,
-        slowMoCooldown: 0,
-        slowMoMaxCooldown: 6.0,
-
-        // Sonic Decoy
         activeDecoy: null
       },
 
       guards: [],
       cameras: [],
-      turrets: [],
-      terminals: [],
-      slates: [],
-      gate: null,
-      
-      // Tiered Alarm Engine
-      alarm: 0,
-      peakAlarm: 0,
-      alarmStage: 'CLEAR',
-      alarmDecayDelay: 0,
-      closestThreatDist: 999,
-      closestThreatAngle: 0,
-      detectedByThreat: false,
-      sirenPulseTimer: 0,
+      lasers: [],
+      gateUnlocked: false,
 
-      hackEnergy: 8,
-      maxEnergy: 10,
-      energyRegenTimer: 0,
-      energyRegenInterval: 3.0,
-      hacksUsedCount: 0,
-      
-      state: 'TITLE', // 'TITLE', 'PLAYING', 'CYBERDECK', 'VICTORY', 'GAMEOVER'
-      missionTime: 0,
-      detectionSource: '',
+      alarm: 0, // 0 - 100%
+      alarmStage: 'CLEAR', // 'CLEAR', 'CAUTION', 'ALERT'
+
       particles: [],
-      afterImages: []
+      soundRipples: []
     };
-
-    // --- CYBERDECK MATRIX BREACH PUZZLE ENGINE ---
-    const CyberdeckEngine = {
-      gridSize: 5,
-      matrix: [],
-      currentRow: 0,
-      currentCol: 0,
-      isRowTurn: true, // Alternate Row -> Col -> Row -> Col
-      selectedIndices: [],
-      buffer: [],
-      maxBuffer: 4,
-      timeLeft: 15.0,
-      timerInterval: null,
-      activeTerminal: null,
-      targets: [
-        { name: "CAMERA OVERLOAD", seq: ["1C", "E9"], reward: "OPTICS_JAM", solved: false },
-        { name: "TURRET SUBVERT", seq: ["BD", "7A", "55"], reward: "TURRET_HACK", solved: false },
-        { name: "CREDIT HEIST", seq: ["55", "1C", "BD"], reward: "CREDITS", solved: false }
-      ],
-
-      startBreach(terminal) {
-        GameState.state = 'CYBERDECK';
-        this.activeTerminal = terminal;
-        this.selectedIndices = [];
-        this.buffer = [];
-        this.currentRow = 0;
-        this.currentCol = 0;
-        this.isRowTurn = true;
-        this.timeLeft = 16.0;
-
-        const hexPool = ["1C", "E9", "7A", "BD", "55"];
-        this.matrix = [];
-        for (let r = 0; r < this.gridSize; r++) {
-          const row = [];
-          for (let c = 0; c < this.gridSize; c++) {
-            row.push(hexPool[Math.floor(Math.random() * hexPool.length)]);
-          }
-          this.matrix.push(row);
-        }
-
-        // Setup random target sequences
-        this.targets.forEach(t => {
-          t.solved = false;
-        });
-
-        document.getElementById('cyberdeckModal').classList.add('active');
-        sound.playBlip();
-        this.renderBreachUI();
-
-        if (this.timerInterval) clearInterval(this.timerInterval);
-        this.timerInterval = setInterval(() => {
-          this.timeLeft -= 0.1;
-          document.getElementById('breachTimerText').innerText = `⏱️ ${Math.max(0, this.timeLeft).toFixed(1)}s`;
-          if (this.timeLeft <= 0) {
-            this.finishBreach(false);
-          }
-        }, 100);
-      },
-
-      renderBreachUI() {
-        // Buffer tray
-        const tray = document.getElementById('bufferTray');
-        tray.innerHTML = '';
-        for (let i = 0; i < this.maxBuffer; i++) {
-          const slot = document.createElement('div');
-          slot.className = 'buffer-slot';
-          slot.innerText = this.buffer[i] || '';
-          tray.appendChild(slot);
-        }
-
-        // Target payloads
-        const targetsDiv = document.getElementById('payloadTargets');
-        targetsDiv.innerHTML = '';
-        this.targets.forEach(t => {
-          const row = document.createElement('div');
-          row.className = 'payload-row';
-          row.innerHTML = `
-            <span class="payload-name" style="${t.solved ? 'color:var(--green); font-weight:700;' : ''}">${t.name} ${t.solved ? '✓ [DEPLOYED]' : ''}</span>
-            <span class="payload-seq" style="${t.solved ? 'color:var(--green);' : ''}">${t.seq.join(' ')}</span>
-          `;
-          targetsDiv.appendChild(row);
-        });
-
-        // Matrix Grid
-        const grid = document.getElementById('cyberdeckGrid');
-        grid.innerHTML = '';
-        for (let r = 0; r < this.gridSize; r++) {
-          for (let c = 0; c < this.gridSize; c++) {
-            const val = this.matrix[r][c];
-            const isUsed = this.selectedIndices.some(idx => idx.r === r && idx.c === c);
-            const isSelectable = !isUsed && (this.isRowTurn ? r === this.currentRow : c === this.currentCol);
-
-            const cell = document.createElement('div');
-            cell.className = `matrix-cell ${isUsed ? 'used' : ''} ${isSelectable ? 'active-selectable' : ''}`;
-            cell.innerText = val;
-
-            if (isSelectable) {
-              cell.addEventListener('click', () => this.selectCell(r, c, val));
-            }
-            grid.appendChild(cell);
-          }
-        }
-      },
-
-      selectCell(r, c, val) {
-        sound.playBlip();
-        this.selectedIndices.push({ r, c });
-        this.buffer.push(val);
-
-        if (this.isRowTurn) {
-          this.currentCol = c;
-          this.isRowTurn = false;
-        } else {
-          this.currentRow = r;
-          this.isRowTurn = true;
-        }
-
-        // Check if any target is solved
-        const bufferStr = this.buffer.join('');
-        this.targets.forEach(t => {
-          if (!t.solved && bufferStr.includes(t.seq.join(''))) {
-            t.solved = true;
-            sound.playItem();
-            showToast(`EXPLOIT DEPLOYED: ${t.name}!`);
-          }
-        });
-
-        this.renderBreachUI();
-
-        if (this.buffer.length >= this.maxBuffer || this.targets.every(t => t.solved)) {
-          this.finishBreach(true);
-        }
-      },
-
-      finishBreach(success) {
-        clearInterval(this.timerInterval);
-        this.timerInterval = null;
-        document.getElementById('cyberdeckModal').classList.remove('active');
-        GameState.state = 'PLAYING';
-
-        if (success) {
-          unlockAchievement('master_hacker');
-          sound.playVictory();
-          if (this.activeTerminal) {
-            this.activeTerminal.hacked = true;
-            const rewardCreds = (this.activeTerminal.credits || 150) + 100;
-            GameState.credits += rewardCreds;
-            showToast(`+${rewardCreds} CR LOOTED!`);
-            sendCipherMessage('CIPHER // CYBERDECK', `Matrix successfully breached! Subroutines injected into local node.`, 'hack');
-            sound.speakRadio("Cyberdeck matrix breached. System root acquired.");
-          }
-
-          // Apply solved subroutines
-          this.targets.forEach(t => {
-            if (t.solved) {
-              if (t.reward === 'OPTICS_JAM') {
-                GameState.cameras.forEach(c => c.freezeTimer = 8.0);
-              } else if (t.reward === 'TURRET_HACK') {
-                GameState.turrets.forEach(tur => tur.hacked = true);
-              } else if (t.reward === 'CREDITS') {
-                GameState.credits += 150;
-              }
-            }
-          });
-
-          if (GameState.gate) GameState.gate.unlocked = true;
-          updateHUD();
-        } else {
-          sendCipherMessage('CIPHER // WARNING', `Cyberdeck buffer timeout. Terminal locked out!`, 'alert');
-        }
-      }
-    };
-
-    // --- PARTICLES ENGINE ---
-    function spawnParticle(x, y, color, count = 1, speed = 40) {
-      for (let i = 0; i < count; i++) {
-        const angle = Math.random() * Math.PI * 2;
-        const spd = (Math.random() * 0.7 + 0.3) * speed;
-        GameState.particles.push({
-          x: x,
-          y: y,
-          vx: Math.cos(angle) * spd,
-          vy: Math.sin(angle) * spd,
-          life: 0.4 + Math.random() * 0.4,
-          maxLife: 0.8,
-          color: color,
-          size: 2 + Math.random() * 2.5
-        });
-      }
-    }
-
-    function updateParticles(dt) {
-      for (let i = GameState.particles.length - 1; i >= 0; i--) {
-        const p = GameState.particles[i];
-        p.life -= dt;
-        p.x += p.vx * dt;
-        p.y += p.vy * dt;
-        if (p.life <= 0) GameState.particles.splice(i, 1);
-      }
-
-      for (let i = GameState.afterImages.length - 1; i >= 0; i--) {
-        const img = GameState.afterImages[i];
-        img.life -= dt;
-        if (img.life <= 0) GameState.afterImages.splice(i, 1);
-      }
-    }
-
-    function renderParticles(ctx) {
-      ctx.save();
-      // Afterimages (Slow-mo / Dash)
-      for (const img of GameState.afterImages) {
-        ctx.fillStyle = img.color;
-        ctx.globalAlpha = (img.life / img.maxLife) * 0.4;
-        ctx.beginPath();
-        ctx.arc(img.x, img.y, 11, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      // Particles
-      for (const p of GameState.particles) {
-        ctx.fillStyle = p.color;
-        ctx.globalAlpha = Math.max(0, p.life / p.maxLife);
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      ctx.restore();
-    }
-
-    // --- CIPHER RETRO TERMINAL ---
-    const chatContainer = document.getElementById('chatMessages');
-
-    function sendCipherMessage(author, message, type = 'normal') {
-      sound.playBlip();
-      const bubble = document.createElement('div');
-      bubble.className = `chat-bubble ${type}`;
-      
-      const now = new Date();
-      const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
-      
-      bubble.innerHTML = `
-        <div class="chat-bubble-header">
-          <span class="chat-author">${author}</span>
-          <span class="chat-time">${timeStr}</span>
-        </div>
-        <div class="chat-content">${message}</div>
-      `;
-      chatContainer.appendChild(bubble);
-      chatContainer.scrollTop = chatContainer.scrollHeight;
-    }
 
     // --- LEVEL LOADER ---
-    function loadLevel(index, isEndless = false) {
-      GameState.isEndlessMode = isEndless;
-      GameState.levelIndex = index;
-      
-      let lvl;
-      if (isEndless) {
-        lvl = generateEndlessFloor(GameState.endlessFloor);
-      } else {
-        lvl = CAMPAIGN_LEVELS[index];
-      }
+    function loadSector(idx) {
+      State.levelIdx = idx;
+      const sec = SECTORS[idx];
+      State.sector = sec;
+      State.grid = sec.map.map(r => [...r]);
 
-      GameState.currentLevel = lvl;
-      GameState.grid = lvl.map.map(row => [...row]);
+      const canvas = document.getElementById('gameCanvas');
+      const w = canvas.width;
+      const h = canvas.height;
 
-      // Calculate tile dimensions
-      const card = document.getElementById('canvasCard');
-      const w = card.clientWidth || 960;
-      const h = Math.max(530, card.clientHeight || 540);
-      
-      canvas.width = w;
-      canvas.height = h;
+      State.tileW = Math.floor((w - 30) / sec.width);
+      State.tileH = Math.floor((h - 20) / sec.height);
+      State.ox = Math.floor((w - State.tileW * sec.width) / 2);
+      State.oy = Math.floor((h - State.tileH * sec.height) / 2);
 
-      GameState.tileW = Math.floor((w - 40) / lvl.width);
-      GameState.tileH = Math.floor((h - 30) / lvl.height);
-      GameState.originX = Math.floor((w - GameState.tileW * lvl.width) / 2);
-      GameState.originY = Math.floor((h - GameState.tileH * lvl.height) / 2);
+      // Player
+      State.player.x = sec.playerStart.x;
+      State.player.y = sec.playerStart.y;
+      State.player.angle = 0;
+      State.player.hasKey = false;
+      State.player.empRemaining = sec.empCount || 2;
+      State.player.dashCooldown = 0;
+      State.player.isDashing = false;
+      State.player.activeDecoy = null;
 
-      // Apply Class Traits
-      let maxNrg = 10;
-      if (GameState.selectedClass === 'SPECTRE') maxNrg = 12;
-
-      // Player setup
-      GameState.maxEnergy = maxNrg;
-      GameState.hackEnergy = Math.min(maxNrg, 8);
-      GameState.player.x = lvl.playerStart.x;
-      GameState.player.y = lvl.playerStart.y;
-      GameState.player.angle = 0;
-      GameState.player.hasRedKey = false;
-      GameState.player.hasBlueKey = false;
-      GameState.player.slatesCollected = 0;
-      GameState.player.dashCooldown = 0;
-      GameState.player.cloakTimer = 0;
-      GameState.player.slowMoActive = false;
-      GameState.player.slowMoTimer = 0;
-      GameState.player.slowMoCooldown = 0;
-      GameState.player.activeDecoy = null;
-
-      // Guards setup
-      GameState.guards = (lvl.guards || []).map(g => ({
+      // Guards
+      State.guards = sec.guards.map(g => ({
         x: g.x,
         y: g.y,
         waypoints: g.waypoints.map(wp => ({...wp})),
-        currentWpIndex: 0,
+        wpIdx: 0,
         speed: g.speed,
         angle: 0,
-        stunTimer: 0,
         coneAngle: g.coneAngle,
         coneDist: g.coneDist,
+        stunTimer: 0,
         alertStatus: 'PATROL',
         searchTimer: 0
       }));
 
-      // Cameras setup
-      GameState.cameras = (lvl.cameras || []).map(c => ({
+      // Cameras
+      State.cameras = sec.cameras.map(c => ({
         x: c.x,
         y: c.y,
         baseAngle: c.baseAngle,
@@ -2859,78 +814,52 @@
         sweep: c.sweep,
         speed: c.speed,
         isContinuous: !!c.isContinuous,
-        freezeTimer: 0,
         coneDist: c.coneDist,
-        trackingPlayer: false
+        freezeTimer: 0
       }));
 
-      // Turrets setup
-      GameState.turrets = (lvl.turrets || []).map(t => ({
-        x: t.x,
-        y: t.y,
-        range: t.range,
-        charge: 0,
-        hacked: false,
-        angle: 0
+      // Lasers
+      State.lasers = (sec.lasers || []).map(l => ({
+        x1: l.x1,
+        y1: l.y1,
+        x2: l.x2,
+        y2: l.y2,
+        period: l.period,
+        activeTime: l.activeTime,
+        timer: 0,
+        isActive: true
       }));
 
-      // Terminals & Slates
-      GameState.terminals = (lvl.terminals || []).map(t => ({...t}));
-      GameState.slates = (lvl.slates || []).map(s => ({...s, collected: false}));
-      GameState.gate = lvl.gate ? {...lvl.gate} : null;
+      State.gateUnlocked = false;
+      State.alarm = 0;
+      State.alarmStage = 'CLEAR';
+      State.levelTime = 0;
+      State.particles = [];
+      State.soundRipples = [];
 
-      // Reset Alarm & Metrics
-      GameState.alarm = 0;
-      GameState.peakAlarm = 0;
-      GameState.alarmStage = 'CLEAR';
-      GameState.alarmDecayDelay = 0;
-      GameState.detectedByThreat = false;
-      GameState.sirenPulseTimer = 0;
-      sound.setAlarmStage('CLEAR');
-
-      GameState.energyRegenTimer = 0;
-      GameState.hacksUsedCount = 0;
-      GameState.missionTime = 0;
-      GameState.particles = [];
-      GameState.afterImages = [];
-
-      // Update UI
-      document.getElementById('hudSectorTitle').innerText = lvl.title;
-      document.getElementById('hudOperativeClass').innerText = GameState.selectedClass;
-      document.getElementById('levelCodeTag').innerText = lvl.code;
-      document.getElementById('levelProgressTag').innerText = isEndless ? `FLOOR ${GameState.endlessFloor}` : `LEVEL ${index + 1} / 5`;
-      
-      document.querySelectorAll('.lvl-pill').forEach((btn, i) => {
-        if (!isEndless && i === index) btn.classList.add('active');
-        else if (isEndless && btn.id === 'lvlPillEndless') btn.classList.add('active');
-        else btn.classList.remove('active');
-      });
-
+      // UI
+      document.getElementById('levelLabel').innerText = `SECTOR ${String(idx + 1).padStart(2, '0')}`;
+      document.getElementById('sectorProgressText').innerText = `${idx + 1} / ${SECTORS.length}`;
       updateHUD();
-
-      chatContainer.innerHTML = '';
-      sendCipherMessage('CIPHER // TACTICAL', `Infiltrating ${lvl.title}. ${lvl.briefing}`, 'normal');
-      sound.speakRadio(`Commencing infiltration of ${lvl.title}`);
     }
 
-    // --- GRID COORDINATE CONVERSIONS ---
+    // --- GRID UTILS ---
     function gridToScreen(gx, gy) {
       return {
-        x: GameState.originX + gx * GameState.tileW,
-        y: GameState.originY + gy * GameState.tileH
+        x: State.ox + gx * State.tileW,
+        y: State.oy + gy * State.tileH
       };
     }
 
     function isWall(gx, gy) {
       const ix = Math.floor(gx);
       const iy = Math.floor(gy);
-      if (ix < 0 || ix >= GameState.currentLevel.width || iy < 0 || iy >= GameState.currentLevel.height) return true;
-      if (GameState.grid[iy][ix] === 1) return true;
-      if (GameState.gate && !GameState.gate.unlocked && ix === GameState.gate.x && iy === GameState.gate.y) return true;
+      if (ix < 0 || ix >= State.sector.width || iy < 0 || iy >= State.sector.height) return true;
+      if (State.grid[iy][ix] === 1) return true;
+      if (!State.gateUnlocked && State.grid[iy][ix] === 4) return true;
       return false;
     }
 
-    // Raycast Line of Sight Occlusion
     function hasLineOfSight(x1, y1, x2, y2) {
       const dist = Math.hypot(x2 - x1, y2 - y1);
       const steps = Math.ceil(dist * 14);
@@ -2943,159 +872,71 @@
       return true;
     }
 
-    // --- HACK & GADGET ABILITIES ---
-    function useAbility(num) {
-      if (GameState.state !== 'PLAYING') return;
-
-      if (num === 1) {
-        // [1] EMP Stun (Cost: 3 Energy, freezes guards for 5.0s)
-        if (GameState.hackEnergy < 3) {
-          sendCipherMessage('CIPHER // WARNING', 'Insufficient energy for EMP Stun (Need 3 NRG).', 'alert');
-          return;
-        }
-        GameState.hackEnergy -= 3;
-        const stunDur = GameState.selectedClass === 'WRAITH' ? 7.5 : 5.0;
-        GameState.guards.forEach(g => {
-          g.stunTimer = stunDur;
-          g.alertStatus = 'PATROL';
-        });
-        GameState.hacksUsedCount++;
-        sound.playStun();
-
-        const pSc = gridToScreen(GameState.player.x, GameState.player.y);
-        spawnParticle(pSc.x, pSc.y, '#00f3ff', 40, 100);
-        sendCipherMessage('CIPHER // EXPLOIT', `EMP blast deployed! All enforcers paralyzed for ${stunDur.toFixed(1)}s.`, 'hack');
-      }
-      else if (num === 2) {
-        // [2] Jam Optics (Cost: 2 Energy, freezes cameras for 6.0s)
-        if (GameState.hackEnergy < 2) {
-          sendCipherMessage('CIPHER // WARNING', 'Insufficient energy to Jam Optics (Need 2 NRG).', 'alert');
-          return;
-        }
-        GameState.hackEnergy -= 2;
-        GameState.cameras.forEach(c => {
-          c.freezeTimer = 6.0;
-          c.trackingPlayer = false;
-        });
-        GameState.hacksUsedCount++;
-        sound.playJam();
-
-        const pSc = gridToScreen(GameState.player.x, GameState.player.y);
-        spawnParticle(pSc.x, pSc.y, '#ff006e', 30, 80);
-        sendCipherMessage('CIPHER // EXPLOIT', 'CCTV optics looped! Surveillance blacked out for 6.0s.', 'hack');
-      }
-      else if (num === 3) {
-        // [3] Bypass Gate (Cost: 5 Energy, overrides laser barrier)
-        if (!GameState.gate || GameState.gate.unlocked) {
-          sendCipherMessage('CIPHER // INTEL', 'Laser gate is already open or absent in this sector!', 'normal');
-          return;
-        }
-        if (GameState.hackEnergy < 5) {
-          sendCipherMessage('CIPHER // WARNING', 'Insufficient energy for Gate Bypass (Need 5 NRG).', 'alert');
-          return;
-        }
-        GameState.hackEnergy -= 5;
-        GameState.gate.unlocked = true;
-        GameState.hacksUsedCount++;
-        sound.playBypass();
-
-        const gSc = gridToScreen(GameState.gate.x + 0.5, GameState.gate.y + 0.5);
-        spawnParticle(gSc.x, gSc.y, '#05ffa1', 40, 90);
-        sendCipherMessage('CIPHER // BREACH', 'Laser barrier security firewall overridden! Path is OPEN.', 'success');
-      }
-      else if (num === 4) {
-        // [4] Stealth Cloak (Cost: 4 Energy, 4.0s invisibility)
-        if (GameState.hackEnergy < 4) {
-          sendCipherMessage('CIPHER // WARNING', 'Insufficient energy for Stealth Cloak (Need 4 NRG).', 'alert');
-          return;
-        }
-        GameState.hackEnergy -= 4;
-        const dur = GameState.selectedClass === 'SPECTRE' ? 5.5 : 4.0;
-        GameState.player.cloakTimer = dur;
-        GameState.hacksUsedCount++;
-        sound.playCloak();
-
-        const pSc = gridToScreen(GameState.player.x, GameState.player.y);
-        spawnParticle(pSc.x, pSc.y, '#b5179e', 35, 70);
-        sendCipherMessage('CIPHER // STEALTH', `Optical camouflage engaged! Undetectable for ${dur.toFixed(1)}s.`, 'hack');
-      }
-      else if (num === 5) {
-        // [F] Sonic Decoy (Cost: 2 Energy or Free for Wraith)
-        const cost = GameState.selectedClass === 'WRAITH' ? 0 : 2;
-        if (GameState.hackEnergy < cost) {
-          sendCipherMessage('CIPHER // WARNING', 'Insufficient energy for Sonic Decoy (Need 2 NRG).', 'alert');
-          return;
-        }
-        GameState.hackEnergy -= cost;
-        GameState.player.activeDecoy = {
-          x: GameState.player.x,
-          y: GameState.player.y,
-          timer: 6.0
-        };
-        sound.playDecoy();
-        unlockAchievement('decoy_artist');
-
-        const pSc = gridToScreen(GameState.player.x, GameState.player.y);
-        spawnParticle(pSc.x, pSc.y, '#ffb703', 25, 60);
-        sendCipherMessage('CIPHER // GADGET', 'Holographic Sonic Decoy projected! Sentry attention redirected.', 'normal');
-      }
-      else if (num === 6) {
-        // [Q] Reflex Slow-Mo Overclock (Sandevistan)
-        toggleSlowMo();
-      }
-
-      updateHUD();
-    }
-
-    // --- DASH MECHANIC ---
+    // --- GADGETS & ACTIONS ---
     function triggerDash() {
-      const p = GameState.player;
-      if (p.dashCooldown > 0 || p.isDashing || GameState.state !== 'PLAYING') return;
+      const p = State.player;
+      if (p.dashCooldown > 0 || p.isDashing || State.status !== 'PLAY') return;
 
       p.isDashing = true;
-      p.dashTimer = 0.18;
-      p.dashCooldown = GameState.selectedClass === 'CHRONOS' ? 1.2 : p.dashMaxCooldown;
+      p.dashTimer = 0.16;
+      p.dashCooldown = 1.2;
       sound.playDash();
 
       const sc = gridToScreen(p.x, p.y);
-      spawnParticle(sc.x, sc.y, '#ff006e', 20, 110);
+      spawnParticles(sc.x, sc.y, '#ff006e', 14, 90);
     }
 
-    // --- SLOW-MO REFLEX OVERCLOCK ---
-    function toggleSlowMo() {
-      const p = GameState.player;
-      if (p.slowMoCooldown > 0 && !p.slowMoActive) {
-        sendCipherMessage('CIPHER // WARNING', `Reflex Overclock cooling down (${p.slowMoCooldown.toFixed(1)}s remaining).`, 'alert');
-        return;
-      }
+    function throwDecoy(targetGx, targetGy) {
+      if (State.status !== 'PLAY') return;
+      State.player.activeDecoy = {
+        x: targetGx,
+        y: targetGy,
+        timer: 4.5
+      };
+      sound.playDecoy();
 
-      p.slowMoActive = !p.slowMoActive;
-      sound.playSlowMo(p.slowMoActive);
+      const sc = gridToScreen(targetGx, targetGy);
+      State.soundRipples.push({ x: sc.x, y: sc.y, radius: 0, maxRadius: 80, life: 0.8 });
+    }
 
-      const alertVignette = document.getElementById('alertVignette');
-      if (p.slowMoActive) {
-        p.slowMoTimer = GameState.selectedClass === 'CHRONOS' ? 5.5 : p.slowMoMaxDuration;
-        alertVignette.classList.add('slowmo');
-        sendCipherMessage('CIPHER // OVERCLOCK', 'Sandevistan Reflex Overclock ENGAGED. Time perception dilated to 25%.', 'hack');
-        sound.speakRadio("Reflex Overclock active.");
-      } else {
-        alertVignette.classList.remove('slowmo');
-        p.slowMoCooldown = p.slowMoMaxCooldown;
+    function triggerEMP() {
+      const p = State.player;
+      if (p.empRemaining <= 0 || State.status !== 'PLAY') return;
+
+      p.empRemaining--;
+      sound.playEmp();
+
+      State.guards.forEach(g => {
+        g.stunTimer = 4.0;
+        g.alertStatus = 'PATROL';
+      });
+      State.cameras.forEach(c => {
+        c.freezeTimer = 5.0;
+      });
+
+      const sc = gridToScreen(p.x, p.y);
+      spawnParticles(sc.x, sc.y, '#00f3ff', 30, 100);
+      State.soundRipples.push({ x: sc.x, y: sc.y, radius: 0, maxRadius: 160, life: 0.6 });
+      updateHUD();
+    }
+
+    // --- PARTICLES & RIPPLES ---
+    function spawnParticles(x, y, color, count = 1, speed = 40) {
+      for (let i = 0; i < count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const spd = (Math.random() * 0.7 + 0.3) * speed;
+        State.particles.push({
+          x: x, y: y,
+          vx: Math.cos(angle) * spd,
+          vy: Math.sin(angle) * spd,
+          life: 0.3 + Math.random() * 0.3,
+          maxLife: 0.6,
+          color: color
+        });
       }
     }
 
-    // --- INTERACTION & CYBERDECK MATRIX ---
-    function tryInteract() {
-      const p = GameState.player;
-      for (const t of GameState.terminals) {
-        if (!t.hacked && Math.hypot(p.x - t.x, p.y - t.y) < 1.4) {
-          CyberdeckEngine.startBreach(t);
-          return;
-        }
-      }
-    }
-
-    // --- INPUT LISTENERS ---
+    // --- INPUT CONTROLLER ---
     const keys = {};
 
     window.addEventListener('keydown', (e) => {
@@ -3104,21 +945,24 @@
 
       if (e.key === ' ' || e.code === 'Space') {
         e.preventDefault();
-        triggerDash();
-      } else if (e.key === '1') {
-        useAbility(1);
-      } else if (e.key === '2') {
-        useAbility(2);
-      } else if (e.key === '3') {
-        useAbility(3);
-      } else if (e.key === '4') {
-        useAbility(4);
-      } else if (e.key === 'f' || e.key === 'F') {
-        useAbility(5);
-      } else if (e.key === 'q' || e.key === 'Q') {
-        useAbility(6);
+        if (State.status === 'START') {
+          startGame();
+        } else if (State.status === 'DEAD') {
+          retrySector();
+        } else if (State.status === 'WIN') {
+          nextSector();
+        } else {
+          triggerDash();
+        }
+      } else if (e.key === 'r' || e.key === 'R') {
+        retrySector();
       } else if (e.key === 'e' || e.key === 'E') {
-        tryInteract();
+        triggerEMP();
+      } else if (e.key === 'f' || e.key === 'F') {
+        // Drop decoy in front of player
+        const dx = State.player.x + Math.cos(State.player.angle) * 2.5;
+        const dy = State.player.y + Math.sin(State.player.angle) * 2.5;
+        if (!isWall(dx, dy)) throwDecoy(dx, dy);
       }
     });
 
@@ -3126,54 +970,44 @@
       keys[e.key.toLowerCase()] = false;
     });
 
-    // --- MAIN ENGINE UPDATE LOOP ---
+    // Click to throw sound decoy at cursor
+    const canvas = document.getElementById('gameCanvas');
+    canvas.addEventListener('mousedown', (e) => {
+      sound.init();
+      if (State.status !== 'PLAY') return;
+
+      const rect = canvas.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const clickY = e.clientY - rect.top;
+
+      const gx = (clickX - State.ox) / State.tileW;
+      const gy = (clickY - State.oy) / State.tileH;
+
+      if (!isWall(gx, gy) && Math.hypot(gx - State.player.x, gy - State.player.y) <= 6.0) {
+        throwDecoy(gx, gy);
+      }
+    });
+
+    // --- UPDATE LOOP ---
     let lastTime = performance.now();
-    let frameCount = 0;
-    let fpsTimer = 0;
 
     function update(dt) {
-      if (GameState.state !== 'PLAYING') return;
+      if (State.status !== 'PLAY') return;
 
-      const p = GameState.player;
+      State.levelTime += dt;
+      State.totalTime += dt;
+      const p = State.player;
 
-      // Reflex Overclock Dilated Time
-      let timeScale = 1.0;
-      if (p.slowMoActive) {
-        timeScale = 0.25;
-        p.slowMoTimer -= dt;
-        if (p.slowMoTimer <= 0) {
-          toggleSlowMo();
-        }
-      } else if (p.slowMoCooldown > 0) {
-        p.slowMoCooldown = Math.max(0, p.slowMoCooldown - dt);
-      }
+      // Dash Cooldown
+      if (p.dashCooldown > 0) p.dashCooldown = Math.max(0, p.dashCooldown - dt);
 
-      GameState.missionTime += dt;
-
-      // Energy Regen (+1 every 3s or 2s for Spectre)
-      const regenInterval = GameState.selectedClass === 'SPECTRE' ? 2.0 : GameState.energyRegenInterval;
-      if (GameState.hackEnergy < GameState.maxEnergy) {
-        GameState.energyRegenTimer += dt;
-        if (GameState.energyRegenTimer >= regenInterval) {
-          GameState.energyRegenTimer = 0;
-          GameState.hackEnergy = Math.min(GameState.maxEnergy, GameState.hackEnergy + 1);
-          sound.playBlip();
-        }
-      }
-
-      // Dash & Cloak Timers
-      if (p.dashCooldown > 0) {
-        p.dashCooldown = Math.max(0, p.dashCooldown - dt);
-      }
-      if (p.cloakTimer > 0) {
-        p.cloakTimer = Math.max(0, p.cloakTimer - dt);
-      }
+      // Decoy Timer
       if (p.activeDecoy) {
-        p.activeDecoy.timer -= dt * timeScale;
+        p.activeDecoy.timer -= dt;
         if (p.activeDecoy.timer <= 0) p.activeDecoy = null;
       }
 
-      // Player Movement Physics (Full speed even during slow-mo!)
+      // Player Movement
       let mx = 0, my = 0;
       if (keys['w'] || keys['arrowup']) my -= 1;
       if (keys['s'] || keys['arrowdown']) my += 1;
@@ -3185,400 +1019,286 @@
         my *= 0.7071;
       }
 
-      let currentSpeed = p.speed;
+      let speed = p.speed;
       if (p.isDashing) {
         p.dashTimer -= dt;
-        currentSpeed = p.speed * 2.8;
+        speed = p.speed * 2.6;
         if (p.dashTimer <= 0) p.isDashing = false;
       }
 
-      const moveDist = currentSpeed * dt;
-      const nextX = p.x + mx * moveDist;
-      const nextY = p.y + my * moveDist;
-
+      const moveDist = speed * dt;
+      const nx = p.x + mx * moveDist;
+      const ny = p.y + my * moveDist;
       const r = 0.28;
-      if (!isWall(nextX + (mx > 0 ? r : -r), p.y)) p.x = nextX;
-      if (!isWall(p.x, nextY + (my > 0 ? r : -r))) p.y = nextY;
+
+      if (!isWall(nx + (mx > 0 ? r : -r), p.y)) p.x = nx;
+      if (!isWall(p.x, ny + (my > 0 ? r : -r))) p.y = ny;
 
       if (mx !== 0 || my !== 0) {
         p.angle = Math.atan2(my, mx);
-        if (Math.random() < 0.18) sound.playFootstep();
-
-        // Spawn afterimages during dash or slow-mo
-        if (p.isDashing || p.slowMoActive) {
-          const sc = gridToScreen(p.x, p.y);
-          GameState.afterImages.push({
-            x: sc.x,
-            y: sc.y,
-            color: p.isDashing ? 'rgba(255, 0, 110, 0.4)' : 'rgba(0, 243, 255, 0.35)',
-            life: 0.3,
-            maxLife: 0.3
-          });
-        }
       }
 
-      // Collectibles & Objectives
+      // Collect Keycard & Exit
       const cellX = Math.floor(p.x);
       const cellY = Math.floor(p.y);
-      const tile = GameState.grid[cellY]?.[cellX];
+      const tile = State.grid[cellY]?.[cellX];
 
-      if (tile === 2 && !p.hasRedKey) {
-        p.hasRedKey = true;
-        GameState.grid[cellY][cellX] = 0;
+      if (tile === 2 && !p.hasKey) {
+        p.hasKey = true;
+        State.gateUnlocked = true;
+        State.grid[cellY][cellX] = 0;
         sound.playItem();
-        sendCipherMessage('CIPHER // ACQUIRE', 'Red Cryptokey secured! Security barrier override authorized.', 'success');
-        if (GameState.gate) GameState.gate.unlocked = true;
-        showToast('RED CRYPTOKEY ACQUIRED');
-      }
-
-      if (tile === 3 && !p.hasBlueKey) {
-        p.hasBlueKey = true;
-        GameState.grid[cellY][cellX] = 0;
-        sound.playItem();
-        sendCipherMessage('CIPHER // ACQUIRE', 'Blue Security Pass acquired! Clearance level upgraded.', 'success');
-        showToast('BLUE PASS ACQUIRED');
-      }
-
-      for (const s of GameState.slates) {
-        if (!s.collected && Math.hypot(p.x - s.x, p.y - s.y) < 0.8) {
-          s.collected = true;
-          p.slatesCollected++;
-          GameState.credits += 250;
-          sound.playItem();
-          sendCipherMessage('CIPHER // DATA', `Encrypted Data Dossier decoded: "${s.name}". +250 CR!`, 'hack');
-          showToast(`DATA DECODED: +250 CR`);
-        }
+        updateHUD();
       }
 
       if (tile === 5) {
-        triggerVictory();
+        triggerWin();
         return;
       }
 
-      // Security Cameras Motion (Scaled by Time-Dilation)
-      for (const c of GameState.cameras) {
+      // Security Lasers
+      for (const l of State.lasers) {
+        l.timer = (l.timer + dt) % l.period;
+        l.isActive = l.timer < l.activeTime;
+
+        if (l.isActive) {
+          // Check player collision with laser segment
+          const distToLaser = Math.abs(p.y - l.y1);
+          if (distToLaser < 0.35 && p.x >= l.x1 && p.x <= l.x2 && !p.isDashing) {
+            triggerDeath("Crossed Active Laser Grid");
+            return;
+          }
+        }
+      }
+
+      // Security Cameras
+      for (const c of State.cameras) {
         if (c.freezeTimer > 0) {
           c.freezeTimer = Math.max(0, c.freezeTimer - dt);
           continue;
         }
-
         if (c.isContinuous) {
-          c.currentAngle = (c.currentAngle + c.speed * dt * timeScale) % (Math.PI * 2);
+          c.currentAngle = (c.currentAngle + c.speed * dt) % (Math.PI * 2);
         } else {
-          c.currentAngle = c.baseAngle + Math.sin(GameState.missionTime * c.speed * timeScale) * c.sweep;
+          c.currentAngle = c.baseAngle + Math.sin(State.levelTime * c.speed) * c.sweep;
         }
       }
 
-      // Patrol Guards Motion (Scaled by Time-Dilation)
-      for (const g of GameState.guards) {
+      // Patrol Guards Motion & AI
+      for (const g of State.guards) {
         if (g.stunTimer > 0) {
           g.stunTimer = Math.max(0, g.stunTimer - dt);
           g.alertStatus = 'PATROL';
           continue;
         }
 
-        // Lured by Active Decoy
         let targetX = p.x;
         let targetY = p.y;
-        if (p.activeDecoy && Math.hypot(p.activeDecoy.x - g.x, p.activeDecoy.y - g.y) < 6.0) {
+        if (p.activeDecoy && Math.hypot(p.activeDecoy.x - g.x, p.activeDecoy.y - g.y) < 5.5) {
           targetX = p.activeDecoy.x;
           targetY = p.activeDecoy.y;
           g.alertStatus = 'SUSPICIOUS';
         }
 
         if (g.alertStatus === 'SUSPICIOUS') {
-          g.searchTimer -= dt * timeScale;
-          const lookAngle = Math.atan2(targetY - g.y, targetX - g.x);
-          g.angle = lookAngle;
-          if (g.searchTimer <= 0 && !p.activeDecoy) {
-            g.alertStatus = 'PATROL';
-          }
+          g.angle = Math.atan2(targetY - g.y, targetX - g.x);
         } else if (g.alertStatus === 'ALERT') {
-          const targetAngle = Math.atan2(p.y - g.y, p.x - g.x);
-          g.angle = targetAngle;
-          const stepDist = (g.speed * 0.75) * dt * timeScale;
-          const nx = g.x + Math.cos(targetAngle) * stepDist;
-          const ny = g.y + Math.sin(targetAngle) * stepDist;
+          const moveAngle = Math.atan2(p.y - g.y, p.x - g.x);
+          g.angle = moveAngle;
+          const stepDist = (g.speed * 0.85) * dt;
+          const nx = g.x + Math.cos(moveAngle) * stepDist;
+          const ny = g.y + Math.sin(moveAngle) * stepDist;
           if (!isWall(nx, ny)) {
             g.x = nx;
             g.y = ny;
           }
         } else {
-          const targetWp = g.waypoints[g.currentWpIndex];
-          const dist = Math.hypot(targetWp.x - g.x, targetWp.y - g.y);
+          const wp = g.waypoints[g.wpIdx];
+          const dist = Math.hypot(wp.x - g.x, wp.y - g.y);
           if (dist < 0.1) {
-            g.currentWpIndex = (g.currentWpIndex + 1) % g.waypoints.length;
+            g.wpIdx = (g.wpIdx + 1) % g.waypoints.length;
           } else {
-            const moveAngle = Math.atan2(targetWp.y - g.y, targetWp.x - g.x);
+            const moveAngle = Math.atan2(wp.y - g.y, wp.x - g.x);
             g.angle = moveAngle;
-            g.x += Math.cos(moveAngle) * g.speed * dt * timeScale;
-            g.y += Math.sin(moveAngle) * g.speed * dt * timeScale;
+            g.x += Math.cos(moveAngle) * g.speed * dt;
+            g.y += Math.sin(moveAngle) * g.speed * dt;
           }
         }
       }
 
-      // Combat Turrets Motion & Tracking
-      for (const t of GameState.turrets) {
-        if (t.hacked) continue;
-        const dist = Math.hypot(p.x - t.x, p.y - t.y);
-        if (dist <= t.range && hasLineOfSight(t.x, t.y, p.x, p.y) && p.cloakTimer <= 0) {
-          t.angle = Math.atan2(p.y - t.y, p.x - t.x);
-          t.charge += dt * timeScale;
-          if (t.charge >= 1.5) {
-            // Turret fires!
-            GameState.alarm = Math.min(100, GameState.alarm + 45);
-            sound.playAlertStinger();
-            t.charge = 0;
-            showToast("TURRET LASER FIRED!");
-          }
-        } else {
-          t.charge = Math.max(0, t.charge - dt);
-        }
-      }
+      // Threat Line-of-Sight Detection
+      let detected = false;
+      let detectionRate = 0;
 
-      // REALISTIC TIERED DETECTION ENGINE
-      let maxDetectionRate = 0;
-      let closestDist = 999;
-      let threatAngle = 0;
-      let activeThreatDetected = false;
-      const isCloaked = p.cloakTimer > 0;
+      // Guard cones
+      for (const g of State.guards) {
+        if (g.stunTimer > 0) continue;
+        const dist = Math.hypot(p.x - g.x, p.y - g.y);
+        if (dist <= g.coneDist) {
+          const angleToP = Math.atan2(p.y - g.y, p.x - g.x);
+          let diff = Math.abs(angleToP - g.angle);
+          while (diff > Math.PI) diff = Math.abs(diff - Math.PI * 2);
 
-      if (!isCloaked) {
-        // Enforcer Line of Sight
-        for (const g of GameState.guards) {
-          if (g.stunTimer > 0) continue;
-          const dist = Math.hypot(p.x - g.x, p.y - g.y);
-          if (dist <= g.coneDist) {
-            const angleToPlayer = Math.atan2(p.y - g.y, p.x - g.x);
-            let diff = Math.abs(angleToPlayer - g.angle);
-            while (diff > Math.PI) diff = Math.abs(diff - Math.PI * 2);
-
-            if (diff <= g.coneAngle && hasLineOfSight(g.x, g.y, p.x, p.y)) {
-              activeThreatDetected = true;
-              GameState.detectionSource = "Patrol Enforcer Sightline";
-
-              if (dist < closestDist) {
-                closestDist = dist;
-                threatAngle = Math.atan2(g.y - p.y, g.x - p.x);
-              }
-
-              let rate = 18;
-              if (dist < 2.0) rate = 65;
-              else if (dist < 3.5) rate = 35;
-
-              if (p.isDashing) rate *= 0.5;
-              if (p.slowMoActive) {
-                rate *= 0.35;
-                unlockAchievement('time_bender');
-              }
-
-              if (rate > maxDetectionRate) maxDetectionRate = rate;
-
-              if (GameState.alarm >= 55) {
-                if (g.alertStatus !== 'ALERT') sound.playAlertStinger();
-                g.alertStatus = 'ALERT';
-              } else {
-                g.alertStatus = 'SUSPICIOUS';
-                g.searchTimer = 2.5;
-                g.angle = angleToPlayer;
-              }
-            }
-          }
-        }
-
-        // CCTV Camera Detection
-        for (const c of GameState.cameras) {
-          if (c.freezeTimer > 0) continue;
-          const dist = Math.hypot(p.x - c.x, p.y - c.y);
-          if (dist <= c.coneDist) {
-            const angleToPlayer = Math.atan2(p.y - c.y, p.x - c.x);
-            let diff = Math.abs(angleToPlayer - c.currentAngle);
-            while (diff > Math.PI) diff = Math.abs(diff - Math.PI * 2);
-
-            if (diff <= 0.6 && hasLineOfSight(c.x, c.y, p.x, p.y)) {
-              activeThreatDetected = true;
-              c.trackingPlayer = true;
-              GameState.detectionSource = "CCTV Optic Scanner";
-
-              if (dist < closestDist) {
-                closestDist = dist;
-                threatAngle = Math.atan2(c.y - p.y, c.x - p.x);
-              }
-
-              let rate = dist < 2.2 ? 55 : 30;
-              if (p.isDashing) rate *= 0.55;
-              if (rate > maxDetectionRate) maxDetectionRate = rate;
-            } else {
-              c.trackingPlayer = false;
-            }
+          if (diff <= g.coneAngle && hasLineOfSight(g.x, g.y, p.x, p.y)) {
+            detected = true;
+            detectionRate = dist < 2.0 ? 80 : 45;
+            if (p.isDashing) detectionRate *= 0.4;
+            g.alertStatus = State.alarm > 40 ? 'ALERT' : 'SUSPICIOUS';
+            g.angle = angleToP;
           }
         }
       }
 
-      GameState.closestThreatDist = closestDist;
-      GameState.closestThreatAngle = threatAngle;
-      GameState.detectedByThreat = activeThreatDetected;
+      // Camera cones
+      for (const c of State.cameras) {
+        if (c.freezeTimer > 0) continue;
+        const dist = Math.hypot(p.x - c.x, p.y - c.y);
+        if (dist <= c.coneDist) {
+          const angleToP = Math.atan2(p.y - c.y, p.x - c.x);
+          let diff = Math.abs(angleToP - c.currentAngle);
+          while (diff > Math.PI) diff = Math.abs(diff - Math.PI * 2);
 
-      // Alarm Accumulation & Decay
-      const alertVignette = document.getElementById('alertVignette');
+          if (diff <= 0.6 && hasLineOfSight(c.x, c.y, p.x, p.y)) {
+            detected = true;
+            detectionRate = Math.max(detectionRate, 55);
+          }
+        }
+      }
 
-      if (activeThreatDetected) {
-        GameState.alarmDecayDelay = 1.2;
-        GameState.alarm = Math.min(100, GameState.alarm + maxDetectionRate * dt);
+      // Alarm build-up & decay
+      const vignette = document.getElementById('vignette');
+      if (detected) {
+        State.alarm = Math.min(100, State.alarm + detectionRate * dt);
       } else {
-        if (GameState.alarmDecayDelay > 0) {
-          GameState.alarmDecayDelay -= dt;
-        } else {
-          GameState.alarm = Math.max(0, GameState.alarm - 14 * dt);
-        }
+        State.alarm = Math.max(0, State.alarm - 25 * dt);
       }
 
-      if (GameState.alarm > GameState.peakAlarm) {
-        GameState.peakAlarm = GameState.alarm;
-      }
-
-      // Stages: CLEAR -> CAUTION -> ALERT -> LOCKDOWN
-      const prevStage = GameState.alarmStage;
-      if (GameState.alarm >= 100) {
-        GameState.alarmStage = 'LOCKDOWN';
-      } else if (GameState.alarm >= 55) {
-        GameState.alarmStage = 'ALERT';
-      } else if (GameState.alarm >= 20) {
-        GameState.alarmStage = 'CAUTION';
+      if (State.alarm >= 70) {
+        State.alarmStage = 'ALERT';
+        vignette.className = 'vignette danger';
+      } else if (State.alarm >= 20) {
+        State.alarmStage = 'CAUTION';
+        vignette.className = 'vignette caution';
       } else {
-        GameState.alarmStage = 'CLEAR';
+        State.alarmStage = 'CLEAR';
+        vignette.className = 'vignette';
       }
 
-      sound.setAlarmStage(GameState.alarmStage);
-
-      // Siren Klaxon
-      GameState.sirenPulseTimer += dt;
-      if (GameState.alarmStage === 'ALERT') {
-        alertVignette.className = 'alert-vignette active';
-        if (GameState.sirenPulseTimer >= 0.38) {
-          GameState.sirenPulseTimer = 0;
-          sound.playIntrusionSiren();
-        }
-      } else if (GameState.alarmStage === 'CAUTION') {
-        alertVignette.className = 'alert-vignette suspicious';
-        if (GameState.sirenPulseTimer >= 0.7) {
-          GameState.sirenPulseTimer = 0;
-          sound.playCautionPulse();
-        }
-      } else if (!p.slowMoActive) {
-        alertVignette.className = 'alert-vignette';
-      }
-
-      if (prevStage !== GameState.alarmStage) {
-        if (GameState.alarmStage === 'CAUTION') {
-          sendCipherMessage('CIPHER // CAUTION', 'Sentry detected disturbance! Break sightlines or crouch behind cover.', 'normal');
-          sound.speakRadio("Caution. Security disturbance noted.");
-        } else if (GameState.alarmStage === 'ALERT') {
-          sendCipherMessage('CIPHER // DANGER', 'INTRUDER CONFIRMED! Deploy EMP [1] or Reflex Overclock [Q] immediately!', 'alert');
-          sound.speakRadio("Warning. Intrusion alert active.");
-        }
-      }
-
-      if (GameState.alarm >= 100) {
-        triggerGameOver(GameState.detectionSource);
+      if (State.alarm >= 100) {
+        triggerDeath("Enforcer Visual Confirmation");
         return;
       }
 
-      if (GameState.credits >= 1000) {
-        unlockAchievement('looter');
+      // Particles & Ripples
+      for (let i = State.particles.length - 1; i >= 0; i--) {
+        const pt = State.particles[i];
+        pt.life -= dt;
+        pt.x += pt.vx * dt;
+        pt.y += pt.vy * dt;
+        if (pt.life <= 0) State.particles.splice(i, 1);
+      }
+
+      for (let i = State.soundRipples.length - 1; i >= 0; i--) {
+        const rp = State.soundRipples[i];
+        rp.life -= dt;
+        rp.radius += 100 * dt;
+        if (rp.life <= 0) State.soundRipples.splice(i, 1);
       }
 
       updateHUD();
-      updateParticles(dt);
     }
 
-    // --- TOP-DOWN 2D CANVAS RAYTRACED RENDERING ---
-    const canvas = document.getElementById('gameCanvas');
+    // --- CANVAS RENDERING ---
     const ctx = canvas.getContext('2d');
 
     function render() {
-      ctx.fillStyle = '#04060a';
+      ctx.fillStyle = '#05070d';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      if (!GameState.currentLevel) return;
+      if (!State.sector) return;
 
-      const tw = GameState.tileW;
-      const th = GameState.tileH;
-      const ox = GameState.originX;
-      const oy = GameState.originY;
+      const tw = State.tileW;
+      const th = State.tileH;
+      const ox = State.ox;
+      const oy = State.oy;
 
-      // 1. Grid Tiles & Walls with Futuristic Normal-Mapped Style
-      for (let y = 0; y < GameState.currentLevel.height; y++) {
-        for (let x = 0; x < GameState.currentLevel.width; x++) {
-          const type = GameState.grid[y][x];
+      // 1. Map Grid
+      for (let y = 0; y < State.sector.height; y++) {
+        for (let x = 0; x < State.sector.width; x++) {
+          const type = State.grid[y][x];
           const px = ox + x * tw;
           const py = oy + y * th;
 
           if (type === 1) {
-            // High-Tech Carbon Composite Wall
-            ctx.fillStyle = '#0b1120';
+            // Walls
+            ctx.fillStyle = '#0b111e';
             ctx.fillRect(px, py, tw, th);
-
-            ctx.strokeStyle = 'rgba(0, 243, 255, 0.25)';
-            ctx.lineWidth = 1.5;
-            ctx.strokeRect(px + 2, py + 2, tw - 4, th - 4);
-
-            ctx.fillStyle = '#131d33';
-            ctx.fillRect(px + 6, py + 6, tw - 12, th - 12);
-          } else {
-            // Floor Grid
-            const isAlt = (x + y) % 2 === 0;
-            ctx.fillStyle = isAlt ? '#070b14' : '#05080f';
-            ctx.fillRect(px, py, tw, th);
-
-            ctx.strokeStyle = 'rgba(0, 243, 255, 0.04)';
+            ctx.strokeStyle = 'rgba(0, 243, 255, 0.2)';
             ctx.lineWidth = 1;
-            ctx.strokeRect(px, py, tw, th);
+            ctx.strokeRect(px + 2, py + 2, tw - 4, th - 4);
+          } else {
+            // Floors
+            ctx.fillStyle = (x + y) % 2 === 0 ? '#070b14' : '#05080f';
+            ctx.fillRect(px, py, tw, th);
           }
         }
       }
 
-      // 2. Extraction Elevator Node
-      const ex = GameState.currentLevel.exit;
+      // 2. Exit Elevator
+      const ex = State.sector.exit;
       const exSc = gridToScreen(ex.x, ex.y);
       ctx.save();
       ctx.translate(exSc.x, exSc.y);
       ctx.strokeStyle = '#05ffa1';
-      ctx.lineWidth = 2.5;
+      ctx.lineWidth = 2;
       ctx.beginPath();
-      ctx.arc(0, 0, tw * 0.42, 0, Math.PI * 2);
+      ctx.arc(0, 0, tw * 0.4, 0, Math.PI * 2);
       ctx.stroke();
 
-      ctx.rotate(GameState.missionTime * 2.2);
+      ctx.rotate(State.levelTime * 2);
       ctx.fillStyle = 'rgba(5, 255, 161, 0.25)';
       ctx.fillRect(-tw * 0.2, -tw * 0.2, tw * 0.4, tw * 0.4);
       ctx.restore();
 
       // 3. Laser Gate Barrier
-      if (GameState.gate) {
-        const gSc = gridToScreen(GameState.gate.x, GameState.gate.y);
-        if (!GameState.gate.unlocked) {
-          ctx.strokeStyle = '#ff2a51';
-          ctx.lineWidth = 3;
-          ctx.beginPath();
-          ctx.moveTo(gSc.x, gSc.y + th * 0.5);
-          ctx.lineTo(gSc.x + tw, gSc.y + th * 0.5);
-          ctx.stroke();
-
-          ctx.strokeStyle = 'rgba(255, 42, 81, 0.45)';
-          ctx.lineWidth = 8;
-          ctx.stroke();
-        } else {
-          ctx.strokeStyle = 'rgba(5, 255, 161, 0.35)';
-          ctx.lineWidth = 2;
-          ctx.strokeRect(gSc.x + 2, gSc.y + 2, tw - 4, th - 4);
+      for (let y = 0; y < State.sector.height; y++) {
+        for (let x = 0; x < State.sector.width; x++) {
+          if (State.grid[y][x] === 4) {
+            const gSc = gridToScreen(x, y);
+            if (!State.gateUnlocked) {
+              ctx.strokeStyle = '#ff2a51';
+              ctx.lineWidth = 4;
+              ctx.beginPath();
+              ctx.moveTo(gSc.x, gSc.y + th * 0.5);
+              ctx.lineTo(gSc.x + tw, gSc.y + th * 0.5);
+              ctx.stroke();
+            }
+          }
         }
       }
 
-      // 4. Collectibles (Keys, Terminals, Slates)
-      for (let y = 0; y < GameState.currentLevel.height; y++) {
-        for (let x = 0; x < GameState.currentLevel.width; x++) {
-          if (GameState.grid[y][x] === 2) {
+      // 4. Infrared Hazard Lasers
+      for (const l of State.lasers) {
+        if (l.isActive) {
+          const p1 = gridToScreen(l.x1, l.y1);
+          const p2 = gridToScreen(l.x2, l.y2);
+          ctx.strokeStyle = '#ff2a51';
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.moveTo(p1.x, p1.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.stroke();
+
+          ctx.strokeStyle = 'rgba(255, 42, 81, 0.4)';
+          ctx.lineWidth = 8;
+          ctx.stroke();
+        }
+      }
+
+      // 5. Keycards
+      for (let y = 0; y < State.sector.height; y++) {
+        for (let x = 0; x < State.sector.width; x++) {
+          if (State.grid[y][x] === 2) {
             const sc = gridToScreen(x + 0.5, y + 0.5);
             ctx.fillStyle = '#ff006e';
             ctx.beginPath();
@@ -3587,568 +1307,215 @@
             ctx.strokeStyle = '#fff';
             ctx.lineWidth = 1.5;
             ctx.stroke();
-          } else if (GameState.grid[y][x] === 3) {
-            const sc = gridToScreen(x + 0.5, y + 0.5);
-            ctx.fillStyle = '#00f3ff';
-            ctx.beginPath();
-            ctx.arc(sc.x, sc.y, 8, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.strokeStyle = '#fff';
-            ctx.lineWidth = 1.5;
-            ctx.stroke();
           }
         }
       }
 
-      // Terminals
-      for (const t of GameState.terminals) {
-        const sc = gridToScreen(t.x, t.y);
-        ctx.fillStyle = t.hacked ? 'rgba(5, 255, 161, 0.3)' : '#00f3ff';
-        ctx.fillRect(sc.x - 8, sc.y - 8, 16, 16);
-        ctx.strokeStyle = '#fff';
-        ctx.lineWidth = 1.5;
-        ctx.strokeRect(sc.x - 8, sc.y - 8, 16, 16);
-
-        // Terminal Prompt Icon
-        if (!t.hacked) {
-          ctx.fillStyle = '#fff';
-          ctx.font = "9px 'Share Tech Mono'";
-          ctx.fillText("💻 [E]", sc.x - 12, sc.y - 12);
-        }
-      }
-
-      // Slates
-      for (const s of GameState.slates) {
-        if (!s.collected) {
-          const sc = gridToScreen(s.x, s.y);
-          ctx.fillStyle = '#b5179e';
-          ctx.fillRect(sc.x - 6, sc.y - 9, 12, 18);
-          ctx.strokeStyle = '#fff';
-          ctx.strokeRect(sc.x - 6, sc.y - 9, 12, 18);
-        }
-      }
-
-      // 5. CCTV Camera Cones
-      for (const c of GameState.cameras) {
+      // 6. Camera Cones
+      for (const c of State.cameras) {
         const cSc = gridToScreen(c.x, c.y);
-        const isFrozen = c.freezeTimer > 0;
-        
         ctx.save();
         ctx.beginPath();
         ctx.moveTo(cSc.x, cSc.y);
         ctx.arc(cSc.x, cSc.y, c.coneDist * tw, c.currentAngle - 0.6, c.currentAngle + 0.6);
         ctx.closePath();
-
-        if (isFrozen) {
-          ctx.fillStyle = 'rgba(0, 243, 255, 0.08)';
-        } else if (c.trackingPlayer) {
-          ctx.fillStyle = 'rgba(255, 42, 81, 0.45)';
-          ctx.strokeStyle = 'rgba(255, 42, 81, 0.9)';
-          ctx.stroke();
-        } else {
-          ctx.fillStyle = 'rgba(255, 183, 3, 0.28)';
-        }
+        ctx.fillStyle = c.freezeTimer > 0 ? 'rgba(0, 243, 255, 0.08)' : 'rgba(255, 183, 3, 0.25)';
         ctx.fill();
         ctx.restore();
 
-        ctx.fillStyle = isFrozen ? '#00f3ff' : (c.trackingPlayer ? '#ff2a51' : '#ffb703');
+        ctx.fillStyle = c.freezeTimer > 0 ? '#00f3ff' : '#ffb703';
         ctx.beginPath();
         ctx.arc(cSc.x, cSc.y, 7, 0, Math.PI * 2);
         ctx.fill();
       }
 
-      // 6. Turrets Rendering
-      for (const tur of GameState.turrets) {
-        const sc = gridToScreen(tur.x, tur.y);
-        ctx.save();
-        ctx.translate(sc.x, sc.y);
-        ctx.rotate(tur.angle);
-
-        ctx.fillStyle = tur.hacked ? '#05ffa1' : '#ff2a51';
-        ctx.fillRect(-8, -8, 16, 16);
-        ctx.strokeStyle = '#fff';
-        ctx.strokeRect(-8, -8, 16, 16);
-
-        // Barrel
-        ctx.fillStyle = '#fff';
-        ctx.fillRect(4, -2, 8, 4);
-
-        if (tur.charge > 0 && !tur.hacked) {
-          ctx.strokeStyle = 'rgba(255, 42, 81, 0.8)';
-          ctx.lineWidth = 2;
-          ctx.beginPath();
-          ctx.moveTo(0, 0);
-          ctx.lineTo(tur.range * tw, 0);
-          ctx.stroke();
-        }
-        ctx.restore();
-      }
-
-      // 7. Active Decoy Projection
-      if (GameState.player.activeDecoy) {
-        const dSc = gridToScreen(GameState.player.activeDecoy.x, GameState.player.activeDecoy.y);
-        ctx.save();
+      // 7. Active Decoy Lure
+      if (State.player.activeDecoy) {
+        const dSc = gridToScreen(State.player.activeDecoy.x, State.player.activeDecoy.y);
         ctx.strokeStyle = '#ffb703';
         ctx.lineWidth = 1.5;
         ctx.beginPath();
-        ctx.arc(dSc.x, dSc.y, 14 + Math.sin(GameState.missionTime * 10) * 4, 0, Math.PI * 2);
+        ctx.arc(dSc.x, dSc.y, 10 + Math.sin(State.levelTime * 12) * 4, 0, Math.PI * 2);
         ctx.stroke();
+      }
 
-        ctx.fillStyle = 'rgba(255, 183, 3, 0.4)';
+      // 8. Sound Ripples
+      for (const rp of State.soundRipples) {
+        ctx.save();
+        ctx.strokeStyle = 'rgba(0, 243, 255, ' + (rp.life * 0.8) + ')';
+        ctx.lineWidth = 1.5;
         ctx.beginPath();
-        ctx.arc(dSc.x, dSc.y, 8, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.arc(rp.x, rp.y, rp.radius, 0, Math.PI * 2);
+        ctx.stroke();
         ctx.restore();
       }
 
-      // 8. Patrol Guards & Alert States
-      for (const g of GameState.guards) {
+      // 9. Patrol Guards
+      for (const g of State.guards) {
         const gSc = gridToScreen(g.x, g.y);
-        const isStunned = g.stunTimer > 0;
-
-        if (!isStunned) {
+        if (g.stunTimer <= 0) {
           ctx.save();
           ctx.beginPath();
           ctx.moveTo(gSc.x, gSc.y);
           ctx.arc(gSc.x, gSc.y, g.coneDist * tw, g.angle - g.coneAngle, g.angle + g.coneAngle);
           ctx.closePath();
-
-          if (g.alertStatus === 'ALERT') {
-            ctx.fillStyle = 'rgba(255, 42, 81, 0.42)';
-            ctx.strokeStyle = 'rgba(255, 42, 81, 0.9)';
-            ctx.lineWidth = 1.5;
-            ctx.stroke();
-          } else if (g.alertStatus === 'SUSPICIOUS') {
-            ctx.fillStyle = 'rgba(255, 183, 3, 0.35)';
-            ctx.strokeStyle = 'rgba(255, 183, 3, 0.8)';
-            ctx.lineWidth = 1;
-            ctx.stroke();
-          } else {
-            ctx.fillStyle = 'rgba(255, 42, 81, 0.28)';
-          }
+          ctx.fillStyle = g.alertStatus === 'ALERT' ? 'rgba(255, 42, 81, 0.45)' : 'rgba(255, 42, 81, 0.28)';
           ctx.fill();
           ctx.restore();
         }
 
-        // Guard Body
         ctx.save();
         ctx.translate(gSc.x, gSc.y);
         ctx.rotate(g.angle);
 
-        ctx.fillStyle = isStunned ? '#18243e' : '#1d1218';
-        ctx.fillRect(-10, -10, 20, 20);
-        ctx.strokeStyle = isStunned ? '#00f3ff' : (g.alertStatus === 'ALERT' ? '#ff2a51' : '#ffb703');
+        ctx.fillStyle = g.stunTimer > 0 ? '#18243e' : '#1d1218';
+        ctx.fillRect(-9, -9, 18, 18);
+        ctx.strokeStyle = g.stunTimer > 0 ? '#00f3ff' : '#ff2a51';
         ctx.lineWidth = 1.5;
-        ctx.strokeRect(-10, -10, 20, 20);
+        ctx.strokeRect(-9, -9, 18, 18);
 
-        ctx.fillStyle = isStunned ? '#00f3ff' : '#ff2a51';
-        ctx.fillRect(4, -4, 6, 8);
+        ctx.fillStyle = g.stunTimer > 0 ? '#00f3ff' : '#ff2a51';
+        ctx.fillRect(3, -3, 6, 6);
         ctx.restore();
 
-        // Overhead Alerts
-        if (isStunned) {
-          ctx.font = "9px 'Orbitron'";
-          ctx.fillStyle = '#00f3ff';
-          ctx.textAlign = 'center';
-          ctx.fillText(`⚡ ${g.stunTimer.toFixed(1)}s`, gSc.x, gSc.y - 14);
-        } else if (g.alertStatus === 'ALERT') {
-          ctx.font = "bold 16px 'Orbitron'";
+        if (g.alertStatus === 'ALERT') {
+          ctx.font = "bold 14px 'JetBrains Mono'";
           ctx.fillStyle = '#ff2a51';
-          ctx.textAlign = 'center';
-          const bob = Math.sin(GameState.missionTime * 10) * 3;
-          ctx.fillText("!", gSc.x, gSc.y - 14 + bob);
+          ctx.fillText("!", gSc.x - 3, gSc.y - 12);
         } else if (g.alertStatus === 'SUSPICIOUS') {
-          ctx.font = "bold 15px 'Orbitron'";
+          ctx.font = "bold 13px 'JetBrains Mono'";
           ctx.fillStyle = '#ffb703';
-          ctx.textAlign = 'center';
-          const bob = Math.sin(GameState.missionTime * 6) * 2;
-          ctx.fillText("?", gSc.x, gSc.y - 14 + bob);
+          ctx.fillText("?", gSc.x - 3, gSc.y - 12);
         }
       }
 
-      // 9. Player Operative
-      const p = GameState.player;
+      // 10. Operative Player
+      const p = State.player;
       const pSc = gridToScreen(p.x, p.y);
-      const isCloaked = p.cloakTimer > 0;
-
-      // Dynamic Threat Direction Arc
-      if (GameState.detectedByThreat && !isCloaked) {
-        ctx.save();
-        ctx.translate(pSc.x, pSc.y);
-        ctx.rotate(GameState.closestThreatAngle);
-
-        const arcColor = GameState.alarmStage === 'ALERT' ? '#ff2a51' : '#ffb703';
-        ctx.strokeStyle = arcColor;
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        ctx.arc(0, 0, 23, -0.6, 0.6);
-        ctx.stroke();
-
-        ctx.fillStyle = arcColor;
-        ctx.beginPath();
-        ctx.moveTo(26, 0);
-        ctx.lineTo(21, -4);
-        ctx.lineTo(21, 4);
-        ctx.closePath();
-        ctx.fill();
-        ctx.restore();
-      }
 
       ctx.save();
       ctx.translate(pSc.x, pSc.y);
       ctx.rotate(p.angle);
 
       if (p.isDashing) {
-        ctx.fillStyle = 'rgba(255, 0, 110, 0.35)';
+        ctx.fillStyle = 'rgba(255, 0, 110, 0.4)';
         ctx.beginPath();
-        ctx.arc(-8, 0, 13, 0, Math.PI * 2);
+        ctx.arc(-8, 0, 12, 0, Math.PI * 2);
         ctx.fill();
       }
 
-      ctx.fillStyle = isCloaked ? 'rgba(0, 243, 255, 0.25)' : '#0e182a';
+      ctx.fillStyle = '#0e182a';
       ctx.beginPath();
-      ctx.arc(0, 0, 11, 0, Math.PI * 2);
+      ctx.arc(0, 0, 10, 0, Math.PI * 2);
       ctx.fill();
 
-      ctx.strokeStyle = isCloaked ? '#b5179e' : (p.slowMoActive ? '#05ffa1' : '#00f3ff');
+      ctx.strokeStyle = '#00f3ff';
       ctx.lineWidth = 1.5;
       ctx.stroke();
 
-      ctx.fillStyle = isCloaked ? '#b5179e' : (p.slowMoActive ? '#05ffa1' : '#00f3ff');
-      ctx.fillRect(4, -3, 6, 6);
+      ctx.fillStyle = '#00f3ff';
+      ctx.fillRect(3, -3, 6, 6);
       ctx.restore();
 
-      renderParticles(ctx);
+      // Particles
+      for (const pt of State.particles) {
+        ctx.fillStyle = pt.color;
+        ctx.globalAlpha = pt.life / pt.maxLife;
+        ctx.beginPath();
+        ctx.arc(pt.x, pt.y, 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1.0;
     }
 
-    // --- HUD UPDATERS ---
+    // --- HUD UPDATER ---
     function updateHUD() {
-      const p = GameState.player;
+      const alarmBadge = document.getElementById('alarmBadge');
+      const val = Math.round(State.alarm);
+      alarmBadge.innerText = `${val}% ${State.alarmStage}`;
+      alarmBadge.className = `alarm-pill ${State.alarmStage === 'ALERT' ? 'alert' : (State.alarmStage === 'CAUTION' ? 'caution' : '')}`;
 
-      // Alarm Meter
-      const alarmFill = document.getElementById('alarmFill');
-      const alarmPercentText = document.getElementById('alarmPercentText');
-      const alarmStageLabel = document.getElementById('alarmStageLabel');
-      const alarmHeader = document.getElementById('alarmHeader');
-      const val = Math.round(GameState.alarm);
+      document.getElementById('keysText').innerText = State.player.hasKey ? '1/1' : '0/1';
+      document.getElementById('empText').innerText = `${State.player.empRemaining}x`;
+      document.getElementById('deathsText').innerText = State.deaths;
 
-      alarmFill.style.width = `${val}%`;
-      alarmPercentText.innerText = `${val}%`;
-
-      if (GameState.alarmStage === 'ALERT' || GameState.alarmStage === 'LOCKDOWN') {
-        alarmHeader.className = 'meter-header alarm-header alert';
-        alarmFill.className = 'meter-fill-alarm high-alert';
-        alarmStageLabel.innerText = '// INTRUSION ALERT [!]';
-      } else if (GameState.alarmStage === 'CAUTION') {
-        alarmHeader.className = 'meter-header alarm-header caution';
-        alarmFill.className = 'meter-fill-alarm caution';
-        alarmStageLabel.innerText = '// SUSPICIOUS [?]';
-      } else {
-        alarmHeader.className = 'meter-header alarm-header';
-        alarmFill.className = 'meter-fill-alarm';
-        alarmStageLabel.innerText = '// SECURE';
-      }
-
-      // Energy Cells
-      const container = document.getElementById('energyCellsContainer');
-      const energyNumText = document.getElementById('energyNumText');
-
-      container.innerHTML = '';
-      for (let i = 0; i < GameState.maxEnergy; i++) {
-        const cell = document.createElement('div');
-        cell.className = 'energy-cell';
-        if (i < GameState.hackEnergy) {
-          cell.classList.add('filled');
-        } else if (i === GameState.hackEnergy && GameState.hackEnergy < GameState.maxEnergy) {
-          cell.classList.add('charging');
-        }
-        container.appendChild(cell);
-      }
-      energyNumText.innerText = `${GameState.hackEnergy}/${GameState.maxEnergy}`;
-
-      // Dash Bar
-      const dashFill = document.getElementById('dashFill');
-      const dashStatusText = document.getElementById('dashStatusText');
-      const maxDashCd = GameState.selectedClass === 'CHRONOS' ? 1.2 : p.dashMaxCooldown;
-      const dashPct = Math.round(((maxDashCd - p.dashCooldown) / maxDashCd) * 100);
-      dashFill.style.width = `${dashPct}%`;
-      dashStatusText.innerText = p.dashCooldown === 0 ? 'READY' : `${p.dashCooldown.toFixed(1)}s`;
-
-      // Slow-Mo Bar
-      const slowmoFill = document.getElementById('slowmoFill');
-      const slowmoStatusText = document.getElementById('slowmoStatusText');
-      if (p.slowMoActive) {
-        slowmoFill.style.width = `${Math.round((p.slowMoTimer / p.slowMoMaxDuration) * 100)}%`;
-        slowmoStatusText.innerText = `ACTIVE (${p.slowMoTimer.toFixed(1)}s)`;
-      } else if (p.slowMoCooldown > 0) {
-        const cdPct = Math.round(((p.slowMoMaxCooldown - p.slowMoCooldown) / p.slowMoMaxCooldown) * 100);
-        slowmoFill.style.width = `${cdPct}%`;
-        slowmoStatusText.innerText = `${p.slowMoCooldown.toFixed(1)}s`;
-      } else {
-        slowmoFill.style.width = '100%';
-        slowmoStatusText.innerText = 'READY';
-      }
-
-      // Abilities Deck Buttons
-      document.getElementById('btnAbility1').disabled = GameState.hackEnergy < 3;
-      document.getElementById('btnAbility2').disabled = GameState.hackEnergy < 2;
-      document.getElementById('btnAbility3').disabled = GameState.hackEnergy < 5 || (GameState.gate && GameState.gate.unlocked);
-      document.getElementById('btnAbility4').disabled = GameState.hackEnergy < 4;
-      document.getElementById('btnAbility5').disabled = (GameState.selectedClass !== 'WRAITH' && GameState.hackEnergy < 2);
-      document.getElementById('btnAbility6').disabled = p.slowMoCooldown > 0 && !p.slowMoActive;
-
-      // Inventory & Objectives
-      const badgeRed = document.getElementById('badgeKeycardRed');
-      const badgeBlue = document.getElementById('badgeKeycardBlue');
-      const dataText = document.getElementById('dataCountText');
-      const badgeData = document.getElementById('badgeDataSlate');
-
-      badgeRed.classList.toggle('active-red', p.hasRedKey);
-      badgeBlue.classList.toggle('active-blue', p.hasBlueKey);
-      
-      const totalSlates = GameState.currentLevel?.slates.length || 1;
-      dataText.innerText = `${p.slatesCollected}/${totalSlates}`;
-      badgeData.classList.toggle('active-data', p.slatesCollected > 0);
-
-      document.getElementById('objPrimary2').classList.toggle('completed', p.hasRedKey);
-      document.getElementById('objGate').classList.toggle('completed', GameState.gate && GameState.gate.unlocked);
-      document.getElementById('objExit').classList.toggle('completed', GameState.state === 'VICTORY');
-      document.getElementById('objGhost').classList.toggle('completed', GameState.peakAlarm === 0);
-
-      document.getElementById('hudCreditsText').innerText = `${GameState.credits} CR`;
-
-      // Status labels
-      const stealthLabel = document.getElementById('stealthStatusText');
-      if (p.cloakTimer > 0) {
-        stealthLabel.innerText = `CLOAKED (${p.cloakTimer.toFixed(1)}s)`;
-        stealthLabel.style.color = 'var(--purple)';
-      } else if (p.slowMoActive) {
-        stealthLabel.innerText = 'OVERCLOCK [SLO-MO]';
-        stealthLabel.style.color = 'var(--cyan)';
-      } else if (GameState.alarmStage === 'ALERT') {
-        stealthLabel.innerText = 'PURSUIT';
-        stealthLabel.style.color = 'var(--crimson)';
-      } else if (GameState.alarmStage === 'CAUTION') {
-        stealthLabel.innerText = 'SUSPICION';
-        stealthLabel.style.color = 'var(--amber)';
-      } else {
-        stealthLabel.innerText = 'SHADOWED';
-        stealthLabel.style.color = 'var(--green)';
-      }
-    }
-
-    // --- GAME FLOW (VICTORY & GAMEOVER) ---
-    function triggerVictory() {
-      GameState.state = 'VICTORY';
-      sound.playVictory();
-
-      unlockAchievement('first_blood');
-      if (GameState.peakAlarm === 0) unlockAchievement('ghost_protocol');
-
-      if (GameState.isEndlessMode) {
-        if (GameState.endlessFloor >= 5) unlockAchievement('endless_survivor');
-      } else if (GameState.levelIndex === 4) {
-        unlockAchievement('apex_predator');
-      }
-
-      const sec = Math.floor(GameState.missionTime);
+      const sec = Math.floor(State.totalTime);
       const m = String(Math.floor(sec / 60)).padStart(2, '0');
       const s = String(sec % 60).padStart(2, '0');
-      document.getElementById('vicStatTime').innerText = `${m}:${s}`;
-      document.getElementById('vicStatHacks').innerText = GameState.hacksUsedCount;
-      document.getElementById('vicStatCredits').innerText = `+${GameState.credits} CR`;
-
-      let rank = 'S (GHOST PROTOCOL)';
-      if (GameState.peakAlarm > 60) rank = 'C (COMPROMISED)';
-      else if (GameState.peakAlarm > 25) rank = 'B (STEALTHY)';
-      else if (GameState.peakAlarm > 0) rank = 'A (SPEC-OPS)';
-      document.getElementById('vicStatRank').innerText = rank;
-
-      document.getElementById('victoryModal').classList.add('active');
-      sendCipherMessage('CIPHER // EXTRACTION', 'Data upload confirmed! Elevators are unlocked, moving to next sector.', 'success');
-      sound.speakRadio("Sector cleared. Extraction successful.");
-      updateHUD();
+      document.getElementById('timerText').innerText = `${m}:${s}`;
     }
 
-    function triggerGameOver(reason) {
-      GameState.state = 'GAMEOVER';
-      sound.playGameOver();
-
-      document.getElementById('failCoordText').innerText = GameState.currentLevel.title;
-      document.getElementById('failSourceText').innerText = reason;
-      document.getElementById('gameOverModal').classList.add('active');
-      sendCipherMessage('CIPHER // CRITICAL', 'OPERATOR SIGNAL PURGED! Perimeter defensive net converged.', 'alert');
-      sound.speakRadio("Security lockdown. Operator signal purged.");
+    // --- GAME FLOW ---
+    function startGame() {
+      State.status = 'PLAY';
+      document.getElementById('startOverlay').classList.remove('active');
+      sound.playItem();
     }
 
-    // --- MAIN GAME LOOP ---
-    function gameLoop(now) {
+    function triggerDeath(reason) {
+      State.status = 'DEAD';
+      State.deaths++;
+      sound.playDeath();
+      document.getElementById('deathReasonText').innerText = reason;
+      document.getElementById('deathOverlay').classList.add('active');
+    }
+
+    function retrySector() {
+      document.getElementById('deathOverlay').classList.remove('active');
+      document.getElementById('victoryOverlay').classList.remove('active');
+      loadSector(State.levelIdx);
+      State.status = 'PLAY';
+      sound.playDash();
+    }
+
+    function triggerWin() {
+      State.status = 'WIN';
+      sound.playWin();
+
+      const isFinal = State.levelIdx === SECTORS.length - 1;
+      document.getElementById('vicTitle').innerText = isFinal ? '🏆 OPERATION COMPLETE' : 'SECTOR CLEARED';
+      document.getElementById('vicStatsText').innerText = isFinal
+        ? `You completed all 8 security sectors with ${State.deaths} deaths in ${document.getElementById('timerText').innerText}!`
+        : `Sector ${State.levelIdx + 1} extracted successfully.`;
+
+      document.getElementById('btnNextLevel').innerText = isFinal ? 'PLAY AGAIN [SPACE]' : 'PROCEED TO NEXT SECTOR [SPACE]';
+      document.getElementById('victoryOverlay').classList.add('active');
+    }
+
+    function nextSector() {
+      document.getElementById('victoryOverlay').classList.remove('active');
+      const nextIdx = (State.levelIdx + 1) % SECTORS.length;
+      loadSector(nextIdx);
+      State.status = 'PLAY';
+      sound.playItem();
+    }
+
+    // --- BUTTON EVENT LISTENERS ---
+    document.getElementById('btnStartGame').addEventListener('click', startGame);
+    document.getElementById('btnRetryGame').addEventListener('click', retrySector);
+    document.getElementById('btnNextLevel').addEventListener('click', nextSector);
+    document.getElementById('btnRestart').addEventListener('click', retrySector);
+
+    document.getElementById('btnSound').addEventListener('click', (e) => {
+      sound.init();
+      const on = sound.toggle();
+      e.target.innerText = on ? '🔊 AUDIO' : '🔇 MUTED';
+    });
+
+    // --- GAME LOOP ---
+    function loop(now) {
       const dt = Math.min(0.1, (now - lastTime) / 1000);
       lastTime = now;
-
-      // FPS tracking
-      frameCount++;
-      fpsTimer += dt;
-      if (fpsTimer >= 1.0) {
-        document.getElementById('canvasFpsText').innerText = `${frameCount} FPS`;
-        frameCount = 0;
-        fpsTimer = 0;
-      }
 
       update(dt);
       render();
 
-      requestAnimationFrame(gameLoop);
+      requestAnimationFrame(loop);
     }
 
-    // --- EVENT LISTENERS ---
-    document.getElementById('btnAbility1').addEventListener('click', () => { sound.init(); useAbility(1); });
-    document.getElementById('btnAbility2').addEventListener('click', () => { sound.init(); useAbility(2); });
-    document.getElementById('btnAbility3').addEventListener('click', () => { sound.init(); useAbility(3); });
-    document.getElementById('btnAbility4').addEventListener('click', () => { sound.init(); useAbility(4); });
-    document.getElementById('btnAbility5').addEventListener('click', () => { sound.init(); useAbility(5); });
-    document.getElementById('btnAbility6').addEventListener('click', () => { sound.init(); useAbility(6); });
-
-    document.getElementById('dpadUp').addEventListener('mousedown', () => { keys['w'] = true; });
-    document.getElementById('dpadUp').addEventListener('mouseup', () => { keys['w'] = false; });
-    document.getElementById('dpadDown').addEventListener('mousedown', () => { keys['s'] = true; });
-    document.getElementById('dpadDown').addEventListener('mouseup', () => { keys['s'] = false; });
-    document.getElementById('dpadLeft').addEventListener('mousedown', () => { keys['a'] = true; });
-    document.getElementById('dpadLeft').addEventListener('mouseup', () => { keys['a'] = false; });
-    document.getElementById('dpadRight').addEventListener('mousedown', () => { keys['d'] = true; });
-    document.getElementById('dpadRight').addEventListener('mouseup', () => { keys['d'] = false; });
-
-    document.querySelectorAll('.class-card').forEach(card => {
-      card.addEventListener('click', (e) => {
-        sound.init();
-        document.querySelectorAll('.class-card').forEach(c => c.classList.remove('selected'));
-        const el = e.currentTarget;
-        el.classList.add('selected');
-        GameState.selectedClass = el.dataset.class;
-        showToast(`CLASS SELECTED: ${GameState.selectedClass}`);
-      });
-    });
-
-    document.querySelectorAll('.lvl-pill').forEach((btn) => {
-      btn.addEventListener('click', (e) => {
-        sound.init();
-        if (e.target.id === 'lvlPillEndless') {
-          GameState.endlessFloor = 1;
-          loadLevel(0, true);
-        } else {
-          const lvlIdx = parseInt(e.target.dataset.lvl);
-          loadLevel(lvlIdx, false);
-        }
-        GameState.state = 'PLAYING';
-      });
-    });
-
-    document.getElementById('btnEndless').addEventListener('click', () => {
-      sound.init();
-      GameState.endlessFloor = 1;
-      loadLevel(0, true);
-      GameState.state = 'PLAYING';
-      showToast('ENDLESS HEIST MODE COMMENCED!');
-    });
-
-    document.getElementById('btnSound').addEventListener('click', (e) => {
-      sound.init();
-      const on = sound.toggleSound();
-      e.target.innerText = on ? '🔊 AUDIO ON' : '🔇 AUDIO OFF';
-    });
-
-    document.getElementById('btnMusic').addEventListener('click', (e) => {
-      sound.init();
-      const on = sound.toggleMusic();
-      e.target.innerText = on ? '🎵 SYNTH ON' : '⏸️ SYNTH OFF';
-    });
-
-    document.getElementById('btnRadio').addEventListener('click', (e) => {
-      sound.init();
-      const on = sound.toggleRadio();
-      e.target.innerText = on ? '🎙️ RADIO ON' : '🔇 RADIO OFF';
-    });
-
-    document.getElementById('btnCrt').addEventListener('click', (e) => {
-      const crt = document.getElementById('crtOverlay');
-      crt.classList.toggle('disabled');
-      e.target.innerText = crt.classList.contains('disabled') ? '⚡ CRT OFF' : '⚡ CRT FX';
-    });
-
-    document.getElementById('btnHelp').addEventListener('click', () => {
-      document.getElementById('startModal').classList.add('active');
-    });
-
-    document.getElementById('btnReset').addEventListener('click', () => {
-      loadLevel(GameState.levelIndex, GameState.isEndlessMode);
-      GameState.state = 'PLAYING';
-    });
-
-    document.getElementById('btnStartGame').addEventListener('click', () => {
-      sound.init();
-      document.getElementById('startModal').classList.remove('active');
-      loadLevel(0, false);
-      GameState.state = 'PLAYING';
-    });
-
-    document.getElementById('btnNextLevel').addEventListener('click', () => {
-      sound.init();
-      document.getElementById('victoryModal').classList.remove('active');
-      if (GameState.isEndlessMode) {
-        GameState.endlessFloor++;
-        loadLevel(0, true);
-      } else {
-        const next = (GameState.levelIndex + 1) % CAMPAIGN_LEVELS.length;
-        loadLevel(next, false);
-      }
-      GameState.state = 'PLAYING';
-    });
-
-    document.getElementById('btnReplayLevel').addEventListener('click', () => {
-      sound.init();
-      document.getElementById('victoryModal').classList.remove('active');
-      loadLevel(GameState.levelIndex, GameState.isEndlessMode);
-      GameState.state = 'PLAYING';
-    });
-
-    document.getElementById('btnRetryGame').addEventListener('click', () => {
-      sound.init();
-      document.getElementById('gameOverModal').classList.remove('active');
-      loadLevel(GameState.levelIndex, GameState.isEndlessMode);
-      GameState.state = 'PLAYING';
-    });
-
-    document.getElementById('btnAbortBreach').addEventListener('click', () => {
-      CyberdeckEngine.finishBreach(false);
-    });
-
-    // Codex & Trophies Modal
-    document.getElementById('btnOpenAchieve').addEventListener('click', () => {
-      const list = document.getElementById('trophiesList');
-      list.innerHTML = '';
-      ACHIEVEMENTS.forEach(a => {
-        const item = document.createElement('div');
-        item.style.cssText = `background: rgba(0,0,0,0.4); padding: 8px 12px; border-radius: 4px; border: 1px solid ${a.unlocked ? 'var(--amber)' : 'var(--border-dim)'}; display:flex; justify-content:space-between; align-items:center; font-family:var(--font-mono); font-size:11.5px;`;
-        item.innerHTML = `
-          <div>
-            <div style="font-weight:700; color:${a.unlocked ? 'var(--amber)' : 'var(--text-muted)'};">${a.unlocked ? '🏆 ' : '🔒 '}${a.name}</div>
-            <div style="color:var(--text-muted); font-size:10px;">${a.desc}</div>
-          </div>
-          <span style="color:${a.unlocked ? 'var(--green)' : 'var(--text-muted)'}; font-weight:700;">${a.unlocked ? 'UNLOCKED' : 'LOCKED'}</span>
-        `;
-        list.appendChild(item);
-      });
-      document.getElementById('codexModal').classList.add('active');
-    });
-
-    document.getElementById('btnCloseCodex').addEventListener('click', () => {
-      document.getElementById('codexModal').classList.remove('active');
-    });
-
-    // Initialize
-    loadCodex();
-    loadLevel(0, false);
-    requestAnimationFrame(gameLoop);
+    // Init
+    loadSector(0);
+    requestAnimationFrame(loop);
   </script>
 </body>
 </html>
