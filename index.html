@@ -6,11 +6,11 @@
   <title>CHRONO-LOOP // Quantum Shadow Heist</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=JetBrains+Mono:wght@500;800&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=JetBrains+Mono:wght@500;700;800&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #030408;
-      --panel-bg: rgba(6, 10, 22, 0.9);
+      --panel-bg: rgba(6, 10, 24, 0.94);
       --cyan: #00f3ff;
       --cyan-glow: rgba(0, 243, 255, 0.6);
       --magenta: #ff006e;
@@ -39,8 +39,8 @@
       background: var(--bg);
       color: #fff;
       font-family: var(--font-ui);
-      height: 100vh;
-      overflow: hidden;
+      min-height: 100vh;
+      overflow-x: hidden;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -72,11 +72,11 @@
       transition: box-shadow 0.2s ease;
     }
     .screen-vignette.rewind {
-      box-shadow: inset 0 0 100px rgba(0, 243, 255, 0.7);
+      box-shadow: inset 0 0 120px rgba(0, 243, 255, 0.85);
       animation: rewindGlitch 0.15s infinite alternate;
     }
     .screen-vignette.danger {
-      box-shadow: inset 0 0 110px rgba(255, 42, 81, 0.85);
+      box-shadow: inset 0 0 130px rgba(255, 42, 81, 0.9);
     }
     @keyframes rewindGlitch {
       0% { filter: hue-rotate(0deg); }
@@ -87,11 +87,11 @@
     .crt-overlay {
       position: fixed;
       inset: 0;
-      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%);
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%);
       background-size: 100% 4px;
       pointer-events: none;
       z-index: 90;
-      opacity: 0.55;
+      opacity: 0.45;
     }
 
     /* Main Container */
@@ -103,8 +103,8 @@
       align-items: center;
       gap: 8px;
       width: 100%;
-      max-width: 1060px;
-      padding: 6px 16px;
+      max-width: 1020px;
+      padding: 6px 12px;
     }
 
     /* Header HUD */
@@ -116,7 +116,7 @@
       background: var(--panel-bg);
       border: 1px solid rgba(0, 243, 255, 0.35);
       border-radius: 8px;
-      padding: 8px 18px;
+      padding: 8px 16px;
       backdrop-filter: blur(14px);
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
     }
@@ -129,28 +129,36 @@
     .brand-title {
       font-family: var(--font-display);
       font-weight: 900;
-      font-size: 18px;
+      font-size: 17px;
       letter-spacing: 2px;
       background: linear-gradient(90deg, #fff, var(--cyan), var(--magenta));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       text-transform: uppercase;
     }
-    .sector-badge {
+    
+    .sector-select {
+      background: #091224;
+      border: 1px solid var(--magenta);
+      color: #fff;
       font-family: var(--font-mono);
       font-size: 11px;
       font-weight: 800;
-      background: var(--magenta);
-      color: #fff;
-      padding: 2px 8px;
+      padding: 3px 8px;
       border-radius: 4px;
+      outline: none;
+      cursor: pointer;
       box-shadow: 0 0 10px var(--magenta-glow);
+    }
+    .sector-select option {
+      background: #091224;
+      color: #fff;
     }
 
     .metrics-group {
       display: flex;
       align-items: center;
-      gap: 18px;
+      gap: 16px;
       font-family: var(--font-mono);
       font-size: 12px;
     }
@@ -170,13 +178,13 @@
       display: flex;
       flex-direction: column;
       gap: 3px;
-      min-width: 170px;
+      min-width: 180px;
     }
     .timeline-track {
       width: 100%;
       height: 8px;
-      background: rgba(0, 0, 0, 0.6);
-      border: 1px solid rgba(0, 243, 255, 0.3);
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid rgba(0, 243, 255, 0.4);
       border-radius: 4px;
       overflow: hidden;
       position: relative;
@@ -185,8 +193,8 @@
       height: 100%;
       width: 100%;
       background: linear-gradient(90deg, var(--cyan), var(--magenta));
-      box-shadow: 0 0 10px var(--cyan);
-      transition: width 0.05s linear;
+      box-shadow: 0 0 12px var(--cyan);
+      transition: width 0.04s linear;
     }
 
     /* Canvas Frame */
@@ -215,8 +223,8 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: rgba(2, 4, 10, 0.93);
-      backdrop-filter: blur(12px);
+      background: rgba(2, 4, 12, 0.94);
+      backdrop-filter: blur(14px);
       z-index: 50;
       opacity: 0;
       pointer-events: none;
@@ -231,7 +239,7 @@
 
     .modal-title {
       font-family: var(--font-display);
-      font-size: 28px;
+      font-size: 26px;
       font-weight: 900;
       letter-spacing: 2px;
       margin-bottom: 8px;
@@ -254,7 +262,7 @@
       font-family: var(--font-mono);
       font-size: 13px;
       color: #9cb2d4;
-      max-width: 540px;
+      max-width: 560px;
       line-height: 1.5;
       margin-bottom: 20px;
     }
@@ -262,10 +270,10 @@
     .loop-rules-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
+      gap: 12px;
       margin-bottom: 20px;
       width: 100%;
-      max-width: 580px;
+      max-width: 600px;
     }
     .rule-card {
       background: rgba(0, 243, 255, 0.05);
@@ -302,7 +310,7 @@
       transition: all 0.15s ease;
     }
     .action-btn:hover {
-      transform: scale(1.05);
+      transform: scale(1.04);
       box-shadow: 0 0 30px var(--cyan);
     }
     .action-btn.danger-btn {
@@ -317,7 +325,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(6, 10, 20, 0.75);
+      background: rgba(6, 10, 20, 0.85);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 6px;
       padding: 6px 14px;
@@ -337,12 +345,12 @@
     }
 
     .btn-toggle {
-      background: none;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: #0d1527;
+      border: 1px solid rgba(0, 243, 255, 0.3);
       color: #8da4c7;
       font-family: var(--font-mono);
       font-size: 11px;
-      padding: 3px 8px;
+      padding: 4px 10px;
       border-radius: 4px;
       cursor: pointer;
       transition: all 0.15s;
@@ -350,6 +358,74 @@
     .btn-toggle:hover {
       color: #fff;
       border-color: var(--cyan);
+      box-shadow: 0 0 10px var(--cyan-glow);
+    }
+    .btn-toggle.highlight {
+      background: rgba(0, 243, 255, 0.18);
+      color: var(--cyan);
+      border-color: var(--cyan);
+    }
+
+    /* Mobile / Touch D-Pad Overlay */
+    .touch-controls {
+      display: none;
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 6px;
+      padding: 0 10px;
+    }
+    @media (pointer: coarse), (max-width: 900px) {
+      .touch-controls {
+        display: flex;
+      }
+    }
+    .dpad-cluster {
+      display: grid;
+      grid-template-columns: repeat(3, 44px);
+      grid-template-rows: repeat(3, 44px);
+      gap: 4px;
+    }
+    .touch-btn {
+      background: rgba(6, 12, 28, 0.85);
+      border: 1px solid rgba(0, 243, 255, 0.4);
+      color: #fff;
+      font-family: var(--font-display);
+      font-size: 14px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      touch-action: none;
+    }
+    .touch-btn:active {
+      background: var(--cyan);
+      color: #000;
+    }
+    .action-cluster {
+      display: flex;
+      gap: 8px;
+    }
+    .action-touch-btn {
+      width: 80px;
+      height: 60px;
+      background: rgba(6, 12, 28, 0.85);
+      border: 1px solid var(--cyan);
+      color: var(--cyan);
+      font-family: var(--font-mono);
+      font-weight: 800;
+      font-size: 12px;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .action-touch-btn:active {
+      background: var(--cyan);
+      color: #000;
     }
   </style>
 </head>
@@ -367,14 +443,27 @@
     <div class="hud-header">
       <div class="brand-group">
         <div class="brand-title">CHRONO-LOOP</div>
-        <span id="sectorTag" class="sector-badge">SECTOR 01</span>
+        <select id="sectorSelect" class="sector-select" title="Jump directly to any sector">
+          <option value="0">SECTOR 01: Parallel Echo</option>
+          <option value="1">SECTOR 02: Dual Sync</option>
+          <option value="2">SECTOR 03: Phantom Decoy</option>
+          <option value="3">SECTOR 04: Trinity Matrix</option>
+          <option value="4">SECTOR 05: Interlocking Relay</option>
+          <option value="5">SECTOR 06: Quad Harmonic</option>
+          <option value="6">SECTOR 07: Sentry Crossfire</option>
+          <option value="7">SECTOR 08: Labyrinth Vault</option>
+          <option value="8">SECTOR 09: Temporal Slingshot</option>
+          <option value="9">SECTOR 10: Shadow Pinball</option>
+          <option value="10">SECTOR 11: Recursive Overclock</option>
+          <option value="11">SECTOR 12: Quantum Singularity</option>
+        </select>
       </div>
 
       <div class="metrics-group">
         <!-- Timeline Bar -->
         <div class="timeline-container">
           <div style="display:flex; justify-content:space-between; font-size:10.5px;">
-            <span>TIME LOOP: <strong id="loopCountText" style="color:var(--cyan);">1 / 3 GHOSTS</strong></span>
+            <span>TIMELINE: <strong id="loopCountText" style="color:var(--cyan);">1 / 4 SHADOWS</strong></span>
             <span id="loopSecondsText" style="color:var(--amber);">8.0s</span>
           </div>
           <div class="timeline-track">
@@ -383,7 +472,7 @@
         </div>
 
         <div class="metric-pill">
-          <span>PLATES ACTIVE:</span>
+          <span>SWITCHES:</span>
           <strong id="platesText" style="color:var(--green);">0/1</strong>
         </div>
         <div class="metric-pill">
@@ -397,38 +486,38 @@
       </div>
 
       <div style="display:flex; gap:6px;">
-        <button id="btnLoopNow" class="btn-toggle" title="Press T to Record Ghost and Start Next Loop">⏳ LOOP [T]</button>
+        <button id="btnLoopNow" class="btn-toggle highlight" title="Commit Actions &amp; Rewind Next Loop [T]">⏳ LOOP [T]</button>
         <button id="btnSound" class="btn-toggle">🔊 AUDIO</button>
-        <button id="btnReset" class="btn-toggle" title="Press R to Restart Sector">🔄 [R]</button>
+        <button id="btnReset" class="btn-toggle" title="Restart Sector Timeline [R]">🔄 [R]</button>
       </div>
     </div>
 
     <!-- Canvas Frame -->
     <div class="canvas-container">
-      <canvas id="gameCanvas" width="980" height="540"></canvas>
+      <canvas id="gameCanvas" width="980" height="520"></canvas>
 
       <!-- Start Overlay -->
       <div id="startModal" class="modal-overlay active">
         <div class="modal-title cyan">CHRONO-LOOP // SHADOW HEIST</div>
         <div class="modal-desc">
-          <strong>You cannot breach the vault alone. You must cooperate with your own past ghosts across time loops.</strong>
+          <strong>You cannot breach the quantum vault alone. Cooperate with your past shadow ghosts across parallel time loops to extract the core.</strong>
         </div>
 
         <div class="loop-rules-grid">
           <div class="rule-card">
             <div class="rule-icon">⏳</div>
-            <strong>1. RECORD GHOSTS</strong>
-            <span>Stand on pressure plates, lure guards, or disarm lasers before timer expires.</span>
+            <strong>1. RECORD SHADOW</strong>
+            <span>Stand on pressure switches or lure sentries before the loop timer expires.</span>
           </div>
           <div class="rule-card">
             <div class="rule-icon">👥</div>
-            <strong>2. CO-OP WITH GHOSTS</strong>
-            <span>Your past ghosts replay your exact actions while the new YOU advances.</span>
+            <strong>2. TIME-LOOP CO-OP</strong>
+            <span>Your past ghosts replay your exact movements while the new YOU advances past gates!</span>
           </div>
           <div class="rule-card">
             <div class="rule-icon">🏆</div>
             <strong>3. EXTRACT CORE</strong>
-            <span>Coordinate multi-switches with your shadows to unlock the final vault elevator!</span>
+            <span>Coordinate multi-switches with all shadows to unlock the final extraction portal!</span>
           </div>
         </div>
 
@@ -439,9 +528,9 @@
       <div id="deathModal" class="modal-overlay">
         <div class="modal-title danger">TIMELINE COLLAPSE</div>
         <div class="modal-desc" id="deathReason">
-          Eliminated by laser grid or sentry detection.
+          Eliminated by security grid or sentry detection.
         </div>
-        <button id="btnRetryGame" class="action-btn danger-btn">RETRY TIMELINE [R / SPACE]</button>
+        <button id="btnRetryGame" class="action-btn danger-btn">RESTART TIMELINE [R / SPACE]</button>
       </div>
 
       <!-- Victory Overlay -->
@@ -458,12 +547,31 @@
     <div class="controls-strip">
       <div>
         <span>🎮 <span class="key-badge">WASD / ARROWS</span> Move</span>
-        <span>⚡ <span class="key-badge">SPACE</span> Tactical Dash</span>
-        <span>⏳ <span class="key-badge">T</span> Commit Actions &amp; Spawn Next Ghost</span>
-        <span>🔄 <span class="key-badge">R</span> Reset Timeline</span>
+        <span>⚡ <span class="key-badge">SPACE</span> Dash</span>
+        <span>⏳ <span class="key-badge">T</span> Commit &amp; Rewind Loop</span>
+        <span>🔄 <span class="key-badge">R</span> Reset</span>
       </div>
       <div>
         <span>SECTOR: <strong id="progressText" style="color:#fff;">1 / 12</strong></span>
+      </div>
+    </div>
+
+    <!-- Touch / Mobile Controls Cluster -->
+    <div class="touch-controls">
+      <div class="dpad-cluster">
+        <div></div>
+        <button class="touch-btn" id="dpadUp">▲</button>
+        <div></div>
+        <button class="touch-btn" id="dpadLeft">◀</button>
+        <div></div>
+        <button class="touch-btn" id="dpadRight">▶</button>
+        <div></div>
+        <button class="touch-btn" id="dpadDown">▼</button>
+        <div></div>
+      </div>
+      <div class="action-cluster">
+        <button class="action-touch-btn" id="btnTouchDash">⚡ DASH<br><small style="font-size:9px;">[SPACE]</small></button>
+        <button class="action-touch-btn" id="btnTouchLoop" style="border-color:var(--amber); color:var(--amber);">⏳ LOOP<br><small style="font-size:9px;">[T]</small></button>
       </div>
     </div>
 
@@ -474,8 +582,11 @@
     /**
      * CHRONO-LOOP // QUANTUM SHADOW HEIST
      * Single-Player Multi-Ghost Cooperative Time-Loop Infiltration Game
-     * Groundbreaking Concept for Hackathons!
      */
+
+    // --- GLOBAL DOM & CONTEXT INITIALIZATION ---
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
 
     // --- PROCEDURAL AUDIO ENGINE ---
     class SoundEngine {
@@ -517,9 +628,9 @@
           const osc = this.ctx.createOscillator();
           const gain = this.ctx.createGain();
           osc.type = 'sawtooth';
-          osc.frequency.setValueAtTime(150, now);
-          osc.frequency.exponentialRampToValueAtTime(880, now + 0.35);
-          gain.gain.setValueAtTime(0.15, now);
+          osc.frequency.setValueAtTime(140, now);
+          osc.frequency.exponentialRampToValueAtTime(860, now + 0.35);
+          gain.gain.setValueAtTime(0.14, now);
           gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
           osc.connect(gain);
           gain.connect(this.ctx.destination);
@@ -528,17 +639,17 @@
         } catch(e) {}
       }
       playPlate() {
-        this.playTone(550, 'sine', 0.15, 0.12);
+        this.playTone(560, 'sine', 0.15, 0.12);
       }
       playDash() {
-        this.playTone(480, 'sawtooth', 0.12, 0.14);
+        this.playTone(480, 'sawtooth', 0.1, 0.12);
       }
       playDeath() {
-        this.playTone(90, 'sawtooth', 0.5, 0.25);
+        this.playTone(85, 'sawtooth', 0.45, 0.25);
       }
       playWin() {
         [440, 554, 659, 880, 1108].forEach((f, i) => {
-          setTimeout(() => this.playTone(f, 'sine', 0.35, 0.14), i * 80);
+          setTimeout(() => this.playTone(f, 'sine', 0.35, 0.12), i * 80);
         });
       }
     }
@@ -549,40 +660,45 @@
       // 01: Training Loop - Step on plate to lower laser
       {
         title: "SECTOR 01: PARALLEL ECHO",
-        loopDuration: 8.0,
+        hint: "💡 Step on the Yellow Switch, then press [T] to rewind. Then run through the opened laser gate!",
+        loopDuration: 8.5,
         maxGhosts: 2,
-        playerStart: { x: 100, y: 270 },
-        exit: { x: 880, y: 270 },
+        playerStart: { x: 100, y: 260 },
+        exit: { x: 880, y: 260 },
         walls: [
-          { x: 480, y: 120, w: 20, h: 300 }
+          { x: 480, y: 0, w: 20, h: 180 },
+          { x: 480, y: 340, w: 20, h: 180 }
         ],
         plates: [
-          { id: 'p1', x: 260, y: 270, radius: 24, targetGate: 'g1', color: '#ffbe0b' }
+          { id: 'p1', x: 260, y: 260, radius: 24, targetGate: 'g1', color: '#ffbe0b' }
         ],
         gates: [
-          { id: 'g1', x1: 480, y1: 200, x2: 480, y2: 340, color: '#ffbe0b' }
+          { id: 'g1', x1: 480, y1: 180, x2: 480, y2: 340, color: '#ffbe0b' }
         ],
         guards: []
       },
 
-      // 02: Dual Pressure Plates - Needs 2 Ghosts to hold both doors!
+      // 02: Dual Pressure Plates - Needs 2 Shadows to hold both doors!
       {
         title: "SECTOR 02: DUAL SYNCHRONIZATION",
-        loopDuration: 9.0,
+        hint: "💡 Shadow 1 holds Switch 1 to let Shadow 2 reach Switch 2. Then YOU can reach the Exit!",
+        loopDuration: 9.5,
         maxGhosts: 3,
-        playerStart: { x: 100, y: 270 },
-        exit: { x: 880, y: 270 },
+        playerStart: { x: 100, y: 260 },
+        exit: { x: 880, y: 260 },
         walls: [
-          { x: 360, y: 80, w: 20, h: 380 },
-          { x: 640, y: 80, w: 20, h: 380 }
+          { x: 360, y: 0, w: 20, h: 180 },
+          { x: 360, y: 340, w: 20, h: 180 },
+          { x: 640, y: 0, w: 20, h: 180 },
+          { x: 640, y: 340, w: 20, h: 180 }
         ],
         plates: [
-          { id: 'p1', x: 200, y: 140, radius: 22, targetGate: 'g1', color: '#ffbe0b' },
-          { id: 'p2', x: 500, y: 400, radius: 22, targetGate: 'g2', color: '#ff006e' }
+          { id: 'p1', x: 200, y: 130, radius: 22, targetGate: 'g1', color: '#ffbe0b' },
+          { id: 'p2', x: 500, y: 390, radius: 22, targetGate: 'g2', color: '#ff006e' }
         ],
         gates: [
-          { id: 'g1', x1: 360, y1: 220, x2: 360, y2: 320, color: '#ffbe0b' },
-          { id: 'g2', x1: 640, y1: 220, x2: 640, y2: 320, color: '#ff006e' }
+          { id: 'g1', x1: 360, y1: 180, x2: 360, y2: 340, color: '#ffbe0b' },
+          { id: 'g2', x1: 640, y1: 180, x2: 640, y2: 340, color: '#ff006e' }
         ],
         guards: []
       },
@@ -590,46 +706,48 @@
       // 03: Guard Distraction Loop
       {
         title: "SECTOR 03: PHANTOM DECOY",
+        hint: "💡 Ghosts act as decoys! Sentry patrols investigate ghosts, turning their backs on you!",
         loopDuration: 9.0,
-        maxGhosts: 2,
+        maxGhosts: 3,
         playerStart: { x: 100, y: 140 },
-        exit: { x: 880, y: 400 },
+        exit: { x: 880, y: 390 },
         walls: [
-          { x: 480, y: 0, w: 20, h: 360 }
+          { x: 460, y: 0, w: 20, h: 320 }
         ],
         plates: [
-          { id: 'p1', x: 300, y: 440, radius: 24, targetGate: 'g1', color: '#ffbe0b' }
+          { id: 'p1', x: 260, y: 400, radius: 24, targetGate: 'g1', color: '#ffbe0b' }
         ],
         gates: [
-          { id: 'g1', x1: 480, y1: 360, x2: 480, y2: 540, color: '#ffbe0b' }
+          { id: 'g1', x1: 460, y1: 320, x2: 460, y2: 520, color: '#ffbe0b' }
         ],
         guards: [
-          { x: 680, y: 270, waypoints: [{x:680,y:180},{x:680,y:380}], speed: 2.2, coneDist: 150, coneAngle: 0.7 }
+          { x: 680, y: 260, waypoints: [{x:680,y:140},{x:680,y:380}], speed: 2.2, coneDist: 160, coneAngle: 0.65 }
         ]
       },
 
       // 04: Triple Switch Matrix
       {
         title: "SECTOR 04: TRINITY MATRIX",
+        hint: "💡 Three distinct chambers. Deploy 3 shadow clones to bypass all 3 laser barriers.",
         loopDuration: 10.0,
-        maxGhosts: 3,
-        playerStart: { x: 100, y: 270 },
-        exit: { x: 880, y: 270 },
+        maxGhosts: 4,
+        playerStart: { x: 100, y: 260 },
+        exit: { x: 880, y: 260 },
         walls: [
-          { x: 320, y: 0, w: 20, h: 220 },
-          { x: 320, y: 320, w: 20, h: 220 },
-          { x: 640, y: 0, w: 20, h: 220 },
-          { x: 640, y: 320, w: 20, h: 220 }
+          { x: 320, y: 0, w: 20, h: 180 },
+          { x: 320, y: 340, w: 20, h: 180 },
+          { x: 640, y: 0, w: 20, h: 180 },
+          { x: 640, y: 340, w: 20, h: 180 }
         ],
         plates: [
           { id: 'p1', x: 180, y: 120, radius: 22, targetGate: 'g1', color: '#ffbe0b' },
           { id: 'p2', x: 480, y: 120, radius: 22, targetGate: 'g2', color: '#00f3ff' },
-          { id: 'p3', x: 480, y: 420, radius: 22, targetGate: 'g3', color: '#ff006e' }
+          { id: 'p3', x: 480, y: 400, radius: 22, targetGate: 'g3', color: '#ff006e' }
         ],
         gates: [
-          { id: 'g1', x1: 320, y1: 220, x2: 320, y2: 320, color: '#ffbe0b' },
-          { id: 'g2', x1: 640, y1: 140, x2: 640, y2: 240, color: '#00f3ff' },
-          { id: 'g3', x1: 640, y1: 300, x2: 640, y2: 400, color: '#ff006e' }
+          { id: 'g1', x1: 320, y1: 180, x2: 320, y2: 340, color: '#ffbe0b' },
+          { id: 'g2', x1: 640, y1: 180, x2: 640, y2: 260, color: '#00f3ff' },
+          { id: 'g3', x1: 640, y1: 260, x2: 640, y2: 340, color: '#ff006e' }
         ],
         guards: []
       },
@@ -637,193 +755,217 @@
       // 05: The Interlocking Relay
       {
         title: "SECTOR 05: INTERLOCKING RELAY",
+        hint: "💡 Coordinated timing: Switch paths with your shadow while dodging the center sentry.",
         loopDuration: 9.5,
         maxGhosts: 3,
         playerStart: { x: 80, y: 80 },
-        exit: { x: 900, y: 460 },
+        exit: { x: 900, y: 440 },
         walls: [
-          { x: 260, y: 140, w: 460, h: 20 },
-          { x: 260, y: 380, w: 460, h: 20 }
+          { x: 0, y: 160, w: 320, h: 20 },
+          { x: 440, y: 160, w: 540, h: 20 },
+          { x: 0, y: 340, w: 520, h: 20 },
+          { x: 640, y: 340, w: 340, h: 20 }
         ],
         plates: [
-          { id: 'p1', x: 200, y: 260, radius: 22, targetGate: 'g1', color: '#ffbe0b' },
-          { id: 'p2', x: 490, y: 260, radius: 22, targetGate: 'g2', color: '#00f3ff' }
+          { id: 'p1', x: 180, y: 250, radius: 22, targetGate: 'g1', color: '#ffbe0b' },
+          { id: 'p2', x: 490, y: 250, radius: 22, targetGate: 'g2', color: '#00f3ff' }
         ],
         gates: [
-          { id: 'g1', x1: 350, y1: 140, x2: 450, y2: 140, color: '#ffbe0b' },
-          { id: 'g2', x1: 530, y1: 380, x2: 630, y2: 380, color: '#00f3ff' }
+          { id: 'g1', x1: 320, y1: 160, x2: 440, y2: 160, color: '#ffbe0b' },
+          { id: 'g2', x1: 520, y1: 340, x2: 640, y2: 340, color: '#00f3ff' }
         ],
         guards: [
-          { x: 490, y: 80, waypoints: [{x:350,y:80},{x:630,y:80}], speed: 2.5, coneDist: 140, coneAngle: 0.6 }
+          { x: 490, y: 80, waypoints: [{x:340,y:80},{x:640,y:80}], speed: 2.4, coneDist: 140, coneAngle: 0.6 }
         ]
       },
 
       // 06: Four Ghosts Symphony
       {
         title: "SECTOR 06: QUAD HARMONIC CHASM",
-        loopDuration: 10.0,
+        hint: "💡 4-Switch cascading unlock. Plan the sequence of your timeline copies carefully!",
+        loopDuration: 10.5,
         maxGhosts: 4,
-        playerStart: { x: 80, y: 270 },
-        exit: { x: 900, y: 270 },
+        playerStart: { x: 80, y: 260 },
+        exit: { x: 900, y: 260 },
         walls: [
-          { x: 280, y: 100, w: 20, h: 340 },
-          { x: 500, y: 100, w: 20, h: 340 },
-          { x: 720, y: 100, w: 20, h: 340 }
+          { x: 280, y: 0, w: 20, h: 180 },
+          { x: 280, y: 340, w: 20, h: 180 },
+          { x: 500, y: 0, w: 20, h: 180 },
+          { x: 500, y: 340, w: 20, h: 180 },
+          { x: 720, y: 0, w: 20, h: 180 },
+          { x: 720, y: 340, w: 20, h: 180 }
         ],
         plates: [
-          { id: 'p1', x: 180, y: 150, radius: 20, targetGate: 'g1', color: '#ffbe0b' },
-          { id: 'p2', x: 390, y: 400, radius: 20, targetGate: 'g2', color: '#ff006e' },
-          { id: 'p3', x: 610, y: 150, radius: 20, targetGate: 'g3', color: '#00f3ff' }
+          { id: 'p1', x: 160, y: 130, radius: 20, targetGate: 'g1', color: '#ffbe0b' },
+          { id: 'p2', x: 390, y: 390, radius: 20, targetGate: 'g2', color: '#ff006e' },
+          { id: 'p3', x: 610, y: 130, radius: 20, targetGate: 'g3', color: '#00f3ff' }
         ],
         gates: [
-          { id: 'g1', x1: 280, y1: 220, x2: 280, y2: 320, color: '#ffbe0b' },
-          { id: 'g2', x1: 500, y1: 220, x2: 500, y2: 320, color: '#ff006e' },
-          { id: 'g3', x1: 720, y1: 220, x2: 720, y2: 320, color: '#00f3ff' }
+          { id: 'g1', x1: 280, y1: 180, x2: 280, y2: 340, color: '#ffbe0b' },
+          { id: 'g2', x1: 500, y1: 180, x2: 500, y2: 340, color: '#ff006e' },
+          { id: 'g3', x1: 720, y1: 180, x2: 720, y2: 340, color: '#00f3ff' }
         ],
         guards: []
       },
 
-      // 07 to 12: Master Hardcore Puzzles
+      // 07: Sentry Crossfire
       {
-        title: "SECTOR 07: SENTRY SQUEEZE",
+        title: "SECTOR 07: SENTRY CROSSFIRE",
+        hint: "💡 High speed patrols. Time your tactical dash [SPACE] to sprint across vision cones.",
         loopDuration: 9.0,
         maxGhosts: 3,
         playerStart: { x: 80, y: 440 },
-        exit: { x: 900, y: 100 },
+        exit: { x: 900, y: 90 },
         walls: [
-          { x: 480, y: 100, w: 20, h: 340 }
+          { x: 460, y: 0, w: 20, h: 160 },
+          { x: 460, y: 320, w: 20, h: 200 }
         ],
         plates: [
-          { id: 'p1', x: 280, y: 140, radius: 22, targetGate: 'g1', color: '#ffbe0b' }
+          { id: 'p1', x: 260, y: 120, radius: 22, targetGate: 'g1', color: '#ffbe0b' }
         ],
         gates: [
-          { id: 'g1', x1: 480, y1: 220, x2: 480, y2: 320, color: '#ffbe0b' }
+          { id: 'g1', x1: 460, y1: 160, x2: 460, y2: 320, color: '#ffbe0b' }
         ],
         guards: [
-          { x: 650, y: 220, waypoints: [{x:650,y:120},{x:650,y:420}], speed: 3.0, coneDist: 170, coneAngle: 0.8 },
-          { x: 300, y: 340, waypoints: [{x:160,y:340},{x:420,y:340}], speed: 2.8, coneDist: 150, coneAngle: 0.7 }
+          { x: 660, y: 220, waypoints: [{x:660,y:100},{x:660,y:420}], speed: 2.8, coneDist: 170, coneAngle: 0.75 },
+          { x: 280, y: 320, waypoints: [{x:140,y:320},{x:380,y:320}], speed: 2.6, coneDist: 140, coneAngle: 0.65 }
         ]
       },
 
+      // 08: The Labyrinth Vault
       {
-        title: "SECTOR 08: THE LABYRINTH VAULT",
+        title: "SECTOR 08: LABYRINTH VAULT",
+        hint: "💡 Multi-wing vault. Navigate through the upper and lower conduits with shadow assistance.",
         loopDuration: 10.0,
-        maxGhosts: 3,
+        maxGhosts: 4,
         playerStart: { x: 80, y: 80 },
-        exit: { x: 900, y: 460 },
+        exit: { x: 900, y: 440 },
         walls: [
-          { x: 300, y: 0, w: 20, h: 380 },
-          { x: 620, y: 160, w: 20, h: 380 }
+          { x: 300, y: 0, w: 20, h: 360 },
+          { x: 620, y: 160, w: 20, h: 360 }
         ],
         plates: [
-          { id: 'p1', x: 180, y: 440, radius: 22, targetGate: 'g1', color: '#ffbe0b' },
+          { id: 'p1', x: 180, y: 420, radius: 22, targetGate: 'g1', color: '#ffbe0b' },
           { id: 'p2', x: 460, y: 80, radius: 22, targetGate: 'g2', color: '#ff006e' }
         ],
         gates: [
-          { id: 'g1', x1: 300, y1: 380, x2: 300, y2: 540, color: '#ffbe0b' },
+          { id: 'g1', x1: 300, y1: 360, x2: 300, y2: 520, color: '#ffbe0b' },
           { id: 'g2', x1: 620, y1: 0, x2: 620, y2: 160, color: '#ff006e' }
         ],
         guards: [
-          { x: 460, y: 280, waypoints: [{x:360,y:280},{x:560,y:280}], speed: 3.2, coneDist: 160, coneAngle: 0.7 }
+          { x: 460, y: 260, waypoints: [{x:360,y:260},{x:560,y:260}], speed: 3.0, coneDist: 150, coneAngle: 0.7 }
         ]
       },
 
+      // 09: Temporal Slingshot
       {
-        title: "SECTOR 09: SHADOW PINBALL",
-        loopDuration: 9.5,
+        title: "SECTOR 09: TEMPORAL SLINGSHOT",
+        hint: "💡 High-speed synchronization. Commit your loop at the exact right second to sync.",
+        loopDuration: 8.5,
         maxGhosts: 3,
-        playerStart: { x: 80, y: 270 },
-        exit: { x: 900, y: 270 },
+        playerStart: { x: 80, y: 260 },
+        exit: { x: 900, y: 260 },
         walls: [
-          { x: 480, y: 60, w: 20, h: 180 },
-          { x: 480, y: 300, w: 20, h: 180 }
+          { x: 480, y: 0, w: 20, h: 180 },
+          { x: 480, y: 340, w: 20, h: 180 }
         ],
         plates: [
           { id: 'p1', x: 260, y: 120, radius: 22, targetGate: 'g1', color: '#ffbe0b' },
-          { id: 'p2', x: 260, y: 420, radius: 22, targetGate: 'g2', color: '#00f3ff' }
+          { id: 'p2', x: 260, y: 400, radius: 22, targetGate: 'g2', color: '#00f3ff' }
         ],
         gates: [
-          { id: 'g1', x1: 480, y1: 240, x2: 480, y2: 300, color: '#ffbe0b' }
+          { id: 'g1', x1: 480, y1: 180, x2: 480, y2: 260, color: '#ffbe0b' },
+          { id: 'g2', x1: 480, y1: 260, x2: 480, y2: 340, color: '#00f3ff' }
         ],
         guards: [
-          { x: 700, y: 270, waypoints: [{x:700,y:140},{x:700,y:400}], speed: 3.4, coneDist: 180, coneAngle: 0.8 }
+          { x: 700, y: 260, waypoints: [{x:700,y:120},{x:700,y:400}], speed: 3.2, coneDist: 170, coneAngle: 0.75 }
         ]
       },
 
+      // 10: Shadow Pinball
       {
-        title: "SECTOR 10: CHRONO APEX",
+        title: "SECTOR 10: SHADOW PINBALL",
+        hint: "💡 Triple gate split. Position two past shadows at opposite switches simultaneously.",
         loopDuration: 10.0,
         maxGhosts: 4,
-        playerStart: { x: 80, y: 270 },
-        exit: { x: 900, y: 270 },
+        playerStart: { x: 80, y: 260 },
+        exit: { x: 900, y: 260 },
         walls: [
-          { x: 300, y: 80, w: 20, h: 380 },
-          { x: 680, y: 80, w: 20, h: 380 }
+          { x: 300, y: 0, w: 20, h: 180 },
+          { x: 300, y: 340, w: 20, h: 180 },
+          { x: 680, y: 0, w: 20, h: 180 },
+          { x: 680, y: 340, w: 20, h: 180 }
         ],
         plates: [
-          { id: 'p1', x: 180, y: 140, radius: 22, targetGate: 'g1', color: '#ffbe0b' },
-          { id: 'p2', x: 490, y: 140, radius: 22, targetGate: 'g2', color: '#00f3ff' },
-          { id: 'p3', x: 490, y: 400, radius: 22, targetGate: 'g3', color: '#ff006e' }
+          { id: 'p1', x: 180, y: 130, radius: 22, targetGate: 'g1', color: '#ffbe0b' },
+          { id: 'p2', x: 490, y: 130, radius: 22, targetGate: 'g2', color: '#00f3ff' },
+          { id: 'p3', x: 490, y: 390, radius: 22, targetGate: 'g3', color: '#ff006e' }
         ],
         gates: [
-          { id: 'g1', x1: 300, y1: 220, x2: 300, y2: 320, color: '#ffbe0b' },
-          { id: 'g2', x1: 680, y1: 140, x2: 680, y2: 240, color: '#00f3ff' },
-          { id: 'g3', x1: 680, y1: 300, x2: 680, y2: 400, color: '#ff006e' }
+          { id: 'g1', x1: 300, y1: 180, x2: 300, y2: 340, color: '#ffbe0b' },
+          { id: 'g2', x1: 680, y1: 180, x2: 680, y2: 260, color: '#00f3ff' },
+          { id: 'g3', x1: 680, y1: 260, x2: 680, y2: 340, color: '#ff006e' }
         ],
         guards: [
-          { x: 490, y: 270, waypoints: [{x:360,y:270},{x:620,y:270}], speed: 3.5, coneDist: 160, coneAngle: 0.7 }
+          { x: 490, y: 260, waypoints: [{x:360,y:260},{x:620,y:260}], speed: 3.2, coneDist: 150, coneAngle: 0.65 }
         ]
       },
 
+      // 11: Recursive Overclock
       {
-        title: "SECTOR 11: RECURSIVE MAZE",
-        loopDuration: 10.0,
+        title: "SECTOR 11: RECURSIVE OVERCLOCK",
+        hint: "💡 Tight temporal corridors. Coordinate with 3 shadow ghosts across 3 staggered gates.",
+        loopDuration: 10.5,
         maxGhosts: 4,
         playerStart: { x: 80, y: 80 },
-        exit: { x: 900, y: 460 },
+        exit: { x: 900, y: 440 },
         walls: [
-          { x: 240, y: 140, w: 20, h: 400 },
-          { x: 480, y: 0, w: 20, h: 400 },
-          { x: 720, y: 140, w: 20, h: 400 }
+          { x: 260, y: 160, w: 20, h: 360 },
+          { x: 500, y: 0, w: 20, h: 360 },
+          { x: 740, y: 160, w: 20, h: 360 }
         ],
         plates: [
-          { id: 'p1', x: 140, y: 440, radius: 22, targetGate: 'g1', color: '#ffbe0b' },
-          { id: 'p2', x: 360, y: 80, radius: 22, targetGate: 'g2', color: '#00f3ff' },
-          { id: 'p3', x: 600, y: 440, radius: 22, targetGate: 'g3', color: '#ff006e' }
+          { id: 'p1', x: 140, y: 420, radius: 22, targetGate: 'g1', color: '#ffbe0b' },
+          { id: 'p2', x: 380, y: 80, radius: 22, targetGate: 'g2', color: '#00f3ff' },
+          { id: 'p3', x: 620, y: 420, radius: 22, targetGate: 'g3', color: '#ff006e' }
         ],
         gates: [
-          { id: 'g1', x1: 240, y1: 240, x2: 240, y2: 340, color: '#ffbe0b' },
-          { id: 'g2', x1: 480, y1: 180, x2: 480, y2: 280, color: '#00f3ff' },
-          { id: 'g3', x1: 720, y1: 240, x2: 720, y2: 340, color: '#ff006e' }
+          { id: 'g1', x1: 260, y1: 0, x2: 260, y2: 160, color: '#ffbe0b' },
+          { id: 'g2', x1: 500, y1: 360, x2: 500, y2: 520, color: '#00f3ff' },
+          { id: 'g3', x1: 740, y1: 0, x2: 740, y2: 160, color: '#ff006e' }
         ],
         guards: [
-          { x: 840, y: 270, waypoints: [{x:840,y:140},{x:840,y:400}], speed: 3.6, coneDist: 180, coneAngle: 0.8 }
+          { x: 840, y: 260, waypoints: [{x:840,y:140},{x:840,y:380}], speed: 3.4, coneDist: 170, coneAngle: 0.75 }
         ]
       },
 
+      // 12: Quantum Singularity (The Grand Master Finale)
       {
-        title: "SECTOR 12: QUANTUM SINGULARITY (FINAL)",
-        loopDuration: 11.0,
+        title: "SECTOR 12: QUANTUM SINGULARITY",
+        hint: "💡 FINAL BREACH! 4 Shadows must coordinate across the central vault to extract the Core!",
+        loopDuration: 11.5,
         maxGhosts: 4,
-        playerStart: { x: 80, y: 270 },
-        exit: { x: 900, y: 270 },
+        playerStart: { x: 80, y: 260 },
+        exit: { x: 900, y: 260 },
         walls: [
-          { x: 300, y: 100, w: 380, h: 20 },
-          { x: 300, y: 420, w: 380, h: 20 },
-          { x: 480, y: 200, w: 20, h: 140 }
+          { x: 300, y: 0, w: 20, h: 180 },
+          { x: 300, y: 340, w: 20, h: 180 },
+          { x: 680, y: 0, w: 20, h: 180 },
+          { x: 680, y: 340, w: 20, h: 180 },
+          { x: 490, y: 160, w: 20, h: 200 }
         ],
         plates: [
-          { id: 'p1', x: 180, y: 140, radius: 22, targetGate: 'g1', color: '#ffbe0b' },
-          { id: 'p2', x: 180, y: 400, radius: 22, targetGate: 'g2', color: '#00f3ff' },
-          { id: 'p3', x: 490, y: 120, radius: 22, targetGate: 'g3', color: '#ff006e' }
+          { id: 'p1', x: 180, y: 130, radius: 22, targetGate: 'g1', color: '#ffbe0b' },
+          { id: 'p2', x: 180, y: 390, radius: 22, targetGate: 'g2', color: '#00f3ff' },
+          { id: 'p3', x: 490, y: 80, radius: 22, targetGate: 'g3', color: '#ff006e' }
         ],
         gates: [
-          { id: 'g1', x1: 300, y1: 200, x2: 300, y2: 340, color: '#ffbe0b' },
-          { id: 'g2', x1: 680, y1: 200, x2: 680, y2: 340, color: '#00f3ff' },
-          { id: 'g3', x1: 480, y1: 340, x2: 480, y2: 420, color: '#ff006e' }
+          { id: 'g1', x1: 300, y1: 180, x2: 300, y2: 260, color: '#ffbe0b' },
+          { id: 'g2', x1: 300, y1: 260, x2: 300, y2: 340, color: '#00f3ff' },
+          { id: 'g3', x1: 680, y1: 180, x2: 680, y2: 340, color: '#ff006e' }
         ],
         guards: [
-          { x: 780, y: 270, waypoints: [{x:780,y:120},{x:780,y:420}], speed: 3.8, coneDist: 180, coneAngle: 0.8 }
+          { x: 780, y: 260, waypoints: [{x:780,y:120},{x:780,y:400}], speed: 3.6, coneDist: 180, coneAngle: 0.8 }
         ]
       }
     ];
@@ -835,13 +977,12 @@
       state: 'START', // 'START', 'RECORDING', 'DEAD', 'WIN'
 
       loopTimer: 0,
-      loopDuration: 8.0,
-      currentLoopIndex: 0, // 0, 1, 2...
-      maxGhosts: 3,
+      loopDuration: 8.5,
+      maxGhosts: 4,
 
       player: {
         x: 100,
-        y: 270,
+        y: 260,
         radius: 12,
         speed: 4.8,
         isDashing: false,
@@ -849,23 +990,53 @@
         dashCooldown: 0
       },
 
-      // Recorded timeline samples: Array of { t, x, y, isDashing }
       currentRecording: [],
-      pastGhosts: [], // Array of Array of samples
+      pastGhosts: [],
 
       plates: [],
       gates: [],
       walls: [],
       guards: [],
-      exit: { x: 880, y: 270 },
+      exit: { x: 880, y: 260 },
 
       particles: [],
-      soundRipples: [],
       floatingTexts: [],
 
       deaths: 0,
       totalTime: 0
     };
+
+    // --- MATHEMATICAL COLLISION UTILITIES ---
+    function distToSegment(px, py, x1, y1, x2, y2) {
+      const l2 = (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1);
+      if (l2 === 0) return Math.hypot(px - x1, py - y1);
+      let t = ((px - x1) * (x2 - x1) + (py - y1) * (y2 - y1)) / l2;
+      t = Math.max(0, Math.min(1, t));
+      return Math.hypot(px - (x1 + t * (x2 - x1)), py - (y1 + t * (y2 - y1)));
+    }
+
+    function pointRectCollision(px, py, pr, rx, ry, rw, rh) {
+      const closeX = Math.max(rx, Math.min(px, rx + rw));
+      const closeY = Math.max(ry, Math.min(py, ry + rh));
+      return Math.hypot(px - closeX, py - closeY) < pr;
+    }
+
+    function lineIntersectsLine(x1, y1, x2, y2, x3, y3, x4, y4) {
+      const denom = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1);
+      if (denom === 0) return false;
+      const ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / denom;
+      const ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / denom;
+      return (ua >= 0 && ua <= 1 && ub >= 0 && ub <= 1);
+    }
+
+    function lineIntersectsRect(x1, y1, x2, y2, rx, ry, rw, rh) {
+      return (
+        lineIntersectsLine(x1, y1, x2, y2, rx, ry, rx + rw, ry) ||
+        lineIntersectsLine(x1, y1, x2, y2, rx + rw, ry, rx + rw, ry + rh) ||
+        lineIntersectsLine(x1, y1, x2, y2, rx + rw, ry + rh, rx, ry + rh) ||
+        lineIntersectsLine(x1, y1, x2, y2, rx, ry + rh, rx, ry)
+      );
+    }
 
     // --- LEVEL LOADER ---
     function loadLevel(idx) {
@@ -873,9 +1044,8 @@
       const sec = SECTORS[idx];
       Engine.sector = sec;
 
-      Engine.loopDuration = sec.loopDuration || 8.0;
-      Engine.maxGhosts = sec.maxGhosts || 3;
-      Engine.currentLoopIndex = 0;
+      Engine.loopDuration = sec.loopDuration || 8.5;
+      Engine.maxGhosts = sec.maxGhosts || 4;
       Engine.loopTimer = 0;
 
       Engine.player.x = sec.playerStart.x;
@@ -896,18 +1066,22 @@
         speed: g.speed,
         angle: 0,
         coneDist: g.coneDist,
-        coneAngle: g.coneAngle
+        coneAngle: g.coneAngle,
+        distractedTimer: 0
       }));
 
       Engine.currentRecording = [];
       Engine.pastGhosts = [];
       Engine.particles = [];
-      Engine.soundRipples = [];
       Engine.floatingTexts = [];
 
-      document.getElementById('sectorTag').innerText = `SECTOR ${String(idx + 1).padStart(2, '0')}`;
+      document.getElementById('sectorSelect').value = idx;
       document.getElementById('progressText').innerText = `${idx + 1} / ${SECTORS.length}`;
       document.getElementById('vignette').className = 'screen-vignette';
+
+      if (sec.hint) {
+        addFloatingText(canvas.width / 2, 40, sec.hint, '#00f3ff', 4.0);
+      }
 
       updateHUD();
     }
@@ -915,7 +1089,6 @@
     // --- RECORDING & LOOP REWIND ENGINE ---
     function commitLoopAndStartNext() {
       if (Engine.currentRecording.length > 0) {
-        // Save current timeline as past ghost
         Engine.pastGhosts.push([...Engine.currentRecording]);
       }
 
@@ -926,9 +1099,8 @@
         if (Engine.state === 'RECORDING') vig.className = 'screen-vignette';
       }, 400);
 
-      // Check if max ghosts reached
-      if (Engine.pastGhosts.length >= Engine.maxGhosts) {
-        // Reset all ghosts or cycle oldest
+      // Keep up to maxGhosts past records
+      while (Engine.pastGhosts.length >= Engine.maxGhosts) {
         Engine.pastGhosts.shift();
       }
 
@@ -938,7 +1110,7 @@
       Engine.player.y = Engine.sector.playerStart.y;
       Engine.player.isDashing = false;
 
-      // Reset guards to initial positions
+      // Reset guards
       Engine.guards = Engine.sector.guards.map(g => ({
         x: g.x,
         y: g.y,
@@ -947,19 +1119,13 @@
         speed: g.speed,
         angle: 0,
         coneDist: g.coneDist,
-        coneAngle: g.coneAngle
+        coneAngle: g.coneAngle,
+        distractedTimer: 0
       }));
 
       spawnParticles(Engine.player.x, Engine.player.y, '#00f3ff', 25, 120);
-      addFloatingText(Engine.player.x, Engine.player.y - 20, `GHOST ${Engine.pastGhosts.length + 1} DEPLOYED`, '#00f3ff');
+      addFloatingText(Engine.player.x, Engine.player.y - 20, `SHADOW ${Engine.pastGhosts.length} SYNCHRONIZED`, '#00f3ff', 1.2);
       updateHUD();
-    }
-
-    // --- COLLISION HELPERS ---
-    function pointRectCollision(px, py, pr, rx, ry, rw, rh) {
-      const closeX = Math.max(rx, Math.min(px, rx + rw));
-      const closeY = Math.max(ry, Math.min(py, ry + rh));
-      return Math.hypot(px - closeX, py - closeY) < pr;
     }
 
     function spawnParticles(x, y, color, count = 12, speed = 100) {
@@ -970,17 +1136,17 @@
           x: x, y: y,
           vx: Math.cos(angle) * spd,
           vy: Math.sin(angle) * spd,
-          life: 0.3 + Math.random() * 0.3,
-          maxLife: 0.6,
+          life: 0.3 + Math.random() * 0.35,
+          maxLife: 0.65,
           color: color,
           size: 2 + Math.random() * 3
         });
       }
     }
 
-    function addFloatingText(x, y, text, color = '#ffbe0b') {
+    function addFloatingText(x, y, text, color = '#ffbe0b', maxLife = 1.0) {
       Engine.floatingTexts.push({
-        x: x, y: y, text: text, color: color, life: 0.8, maxLife: 0.8
+        x: x, y: y, text: text, color: color, life: maxLife, maxLife: maxLife
       });
     }
 
@@ -1008,15 +1174,43 @@
       keys[e.key.toLowerCase()] = false;
     });
 
+    // Touch Virtual D-Pad handlers
+    function setupTouchControls() {
+      const dpadMap = {
+        'dpadUp': 'arrowup',
+        'dpadDown': 'arrowdown',
+        'dpadLeft': 'arrowleft',
+        'dpadRight': 'arrowright'
+      };
+      Object.keys(dpadMap).forEach(id => {
+        const btn = document.getElementById(id);
+        if (!btn) return;
+        const key = dpadMap[id];
+        const start = (e) => { e.preventDefault(); sound.init(); keys[key] = true; };
+        const end = (e) => { e.preventDefault(); keys[key] = false; };
+        btn.addEventListener('pointerdown', start);
+        btn.addEventListener('pointerup', end);
+        btn.addEventListener('pointercancel', end);
+        btn.addEventListener('pointerleave', end);
+      });
+
+      const dashBtn = document.getElementById('btnTouchDash');
+      if (dashBtn) dashBtn.addEventListener('click', () => { sound.init(); triggerDash(); });
+
+      const loopBtn = document.getElementById('btnTouchLoop');
+      if (loopBtn) loopBtn.addEventListener('click', () => { sound.init(); if (Engine.state === 'RECORDING') commitLoopAndStartNext(); });
+    }
+    setupTouchControls();
+
     function triggerDash() {
       const p = Engine.player;
       if (p.dashCooldown > 0 || p.isDashing || Engine.state !== 'RECORDING') return;
 
       p.isDashing = true;
-      p.dashTimer = 0.16;
-      p.dashCooldown = 1.0;
+      p.dashTimer = 0.18;
+      p.dashCooldown = 0.8;
       sound.playDash();
-      spawnParticles(p.x, p.y, '#00f3ff', 12, 90);
+      spawnParticles(p.x, p.y, '#00f3ff', 14, 110);
     }
 
     // --- GAME ENGINE UPDATE ---
@@ -1029,20 +1223,18 @@
       Engine.loopTimer += dt;
       const p = Engine.player;
 
-      // Check loop timer expiration
+      // Check loop timer expiry
       if (Engine.loopTimer >= Engine.loopDuration) {
         commitLoopAndStartNext();
         return;
       }
 
-      // Dash timers
       if (p.dashCooldown > 0) p.dashCooldown = Math.max(0, p.dashCooldown - dt);
       if (p.isDashing) {
         p.dashTimer -= dt;
         if (p.dashTimer <= 0) p.isDashing = false;
       }
 
-      // Player Movement
       let mx = 0, my = 0;
       if (keys['w'] || keys['arrowup']) my -= 1;
       if (keys['s'] || keys['arrowdown']) my += 1;
@@ -1061,8 +1253,7 @@
       const nextPx = p.x + mx * moveDist;
       const nextPy = p.y + my * moveDist;
 
-      // Wall & Closed Laser Gate Collisions
-      const canvas = document.getElementById('gameCanvas');
+      // X-Axis collision check
       if (nextPx >= p.radius && nextPx <= canvas.width - p.radius) {
         let hit = false;
         for (const w of Engine.walls) {
@@ -1070,16 +1261,13 @@
         }
         for (const g of Engine.gates) {
           if (!g.open) {
-            const minX = Math.min(g.x1, g.x2) - 8;
-            const maxX = Math.max(g.x1, g.x2) + 8;
-            const minY = Math.min(g.y1, g.y2) - 8;
-            const maxY = Math.max(g.y1, g.y2) + 8;
-            if (nextPx >= minX && nextPx <= maxX && p.y >= minY && p.y <= maxY) hit = true;
+            if (distToSegment(nextPx, p.y, g.x1, g.y1, g.x2, g.y2) < p.radius + 6) hit = true;
           }
         }
         if (!hit) p.x = nextPx;
       }
 
+      // Y-Axis collision check
       if (nextPy >= p.radius && nextPy <= canvas.height - p.radius) {
         let hit = false;
         for (const w of Engine.walls) {
@@ -1087,17 +1275,13 @@
         }
         for (const g of Engine.gates) {
           if (!g.open) {
-            const minX = Math.min(g.x1, g.x2) - 8;
-            const maxX = Math.max(g.x1, g.x2) + 8;
-            const minY = Math.min(g.y1, g.y2) - 8;
-            const maxY = Math.max(g.y1, g.y2) + 8;
-            if (p.x >= minX && p.x <= maxX && nextPy >= minY && nextPy <= maxY) hit = true;
+            if (distToSegment(p.x, nextPy, g.x1, g.y1, g.x2, g.y2) < p.radius + 6) hit = true;
           }
         }
         if (!hit) p.y = nextPy;
       }
 
-      // Record Player Sample
+      // Record Player Movement
       Engine.currentRecording.push({
         t: Engine.loopTimer,
         x: p.x,
@@ -1105,10 +1289,10 @@
         isDashing: p.isDashing
       });
 
-      // Sample Past Ghosts for current loop time
+      // Sample Ghost Positions
       const ghostPositions = [];
       Engine.pastGhosts.forEach(ghostTimeline => {
-        // Find closest sample
+        if (!ghostTimeline || ghostTimeline.length === 0) return;
         let sample = ghostTimeline[0];
         for (let i = 0; i < ghostTimeline.length; i++) {
           if (ghostTimeline[i].t <= Engine.loopTimer) {
@@ -1120,7 +1304,7 @@
         if (sample) ghostPositions.push(sample);
       });
 
-      // Update Pressure Plates (Triggered by Player OR Any Past Ghost!)
+      // Pressure Plate & Gate System
       const allActors = [{ x: p.x, y: p.y }, ...ghostPositions];
       Engine.plates.forEach(plate => {
         const isTriggered = allActors.some(actor => Math.hypot(actor.x - plate.x, actor.y - plate.y) < plate.radius);
@@ -1130,17 +1314,17 @@
             sound.playPlate();
             spawnParticles(plate.x, plate.y, plate.color, 12, 70);
           }
-          // Open target gate
           const target = Engine.gates.find(g => g.id === plate.targetGate);
           if (target) target.open = isTriggered;
         }
       });
 
-      // Patrol Guards Motion
+      // Guard Patrol & Vision Raycasting
       for (const g of Engine.guards) {
+        // Move towards waypoint
         const wp = g.waypoints[g.wpIdx];
         const dist = Math.hypot(wp.x - g.x, wp.y - g.y);
-        if (dist < 0.1) {
+        if (dist < 2.0) {
           g.wpIdx = (g.wpIdx + 1) % g.waypoints.length;
         } else {
           const moveAngle = Math.atan2(wp.y - g.y, wp.x - g.x);
@@ -1149,7 +1333,27 @@
           g.y += Math.sin(moveAngle) * g.speed * 60 * dt;
         }
 
-        // Check Sentry Line-of-Sight against Player (Only the LIVE player can die!)
+        // Check if guard detects any ghost decoy (distraction)
+        for (const gh of ghostPositions) {
+          const dToGh = Math.hypot(gh.x - g.x, gh.y - g.y);
+          if (dToGh < g.coneDist) {
+            const angleToGh = Math.atan2(gh.y - g.y, gh.x - g.x);
+            let diff = Math.abs(angleToGh - g.angle);
+            while (diff > Math.PI) diff = Math.abs(diff - Math.PI * 2);
+            if (diff <= g.coneAngle) {
+              // Check wall occlusion
+              let blocked = false;
+              for (const w of Engine.walls) {
+                if (lineIntersectsRect(g.x, g.y, gh.x, gh.y, w.x, w.y, w.w, w.h)) blocked = true;
+              }
+              if (!blocked) {
+                g.angle = angleToGh; // Guard turns towards decoy ghost!
+              }
+            }
+          }
+        }
+
+        // Check detection of live player
         const dToP = Math.hypot(p.x - g.x, p.y - g.y);
         if (dToP < g.coneDist && !p.isDashing) {
           const angleToP = Math.atan2(p.y - g.y, p.x - g.x);
@@ -1157,19 +1361,25 @@
           while (diff > Math.PI) diff = Math.abs(diff - Math.PI * 2);
 
           if (diff <= g.coneAngle) {
-            triggerDeath("Spotted by Sentry Patrol");
-            return;
+            let blocked = false;
+            for (const w of Engine.walls) {
+              if (lineIntersectsRect(g.x, g.y, p.x, p.y, w.x, w.y, w.w, w.h)) blocked = true;
+            }
+            if (!blocked) {
+              triggerDeath("Spotted by Sentry Patrol Cone");
+              return;
+            }
           }
         }
       }
 
-      // Check Victory Condition (Reaching Exit Gateway)
+      // Exit Extraction Victory
       if (Math.hypot(p.x - Engine.exit.x, p.y - Engine.exit.y) < p.radius + 18) {
         triggerWin();
         return;
       }
 
-      // Update Particles & Texts
+      // Update Particles
       for (let i = Engine.particles.length - 1; i >= 0; i--) {
         const pt = Engine.particles[i];
         pt.life -= dt;
@@ -1178,10 +1388,11 @@
         if (pt.life <= 0) Engine.particles.splice(i, 1);
       }
 
+      // Update Floating Texts
       for (let i = Engine.floatingTexts.length - 1; i >= 0; i--) {
         const ft = Engine.floatingTexts[i];
         ft.life -= dt;
-        ft.y -= 25 * dt;
+        ft.y -= 15 * dt;
         if (ft.life <= 0) Engine.floatingTexts.splice(i, 1);
       }
 
@@ -1189,16 +1400,14 @@
     }
 
     // --- CANVAS RENDERING ---
-    const ctx = canvas.getContext('2d');
-
     function render() {
       ctx.fillStyle = '#03050a';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       if (!Engine.sector) return;
 
-      // Grid Floor Lines
-      ctx.strokeStyle = 'rgba(0, 243, 255, 0.035)';
+      // Cyber Grid
+      ctx.strokeStyle = 'rgba(0, 243, 255, 0.04)';
       ctx.lineWidth = 1;
       for (let x = 0; x < canvas.width; x += 35) {
         ctx.beginPath();
@@ -1213,16 +1422,16 @@
         ctx.stroke();
       }
 
-      // 1. Solid Walls
+      // Walls
       for (const w of Engine.walls) {
         ctx.fillStyle = '#0c1324';
         ctx.fillRect(w.x, w.y, w.w, w.h);
-        ctx.strokeStyle = 'rgba(0, 243, 255, 0.35)';
+        ctx.strokeStyle = 'rgba(0, 243, 255, 0.4)';
         ctx.lineWidth = 1.5;
         ctx.strokeRect(w.x, w.y, w.w, w.h);
       }
 
-      // 2. Pressure Plates
+      // Pressure Plates
       for (const plate of Engine.plates) {
         ctx.save();
         ctx.translate(plate.x, plate.y);
@@ -1233,32 +1442,42 @@
         ctx.fill();
 
         ctx.strokeStyle = plate.color;
-        ctx.lineWidth = 2;
+        ctx.lineWidth = plate.active ? 3 : 2;
+        ctx.shadowColor = plate.color;
+        ctx.shadowBlur = plate.active ? 15 : 4;
         ctx.stroke();
+        ctx.shadowBlur = 0;
 
-        ctx.font = "bold 10px 'Orbitron'";
+        ctx.font = "bold 9px 'Orbitron'";
         ctx.fillStyle = plate.active ? '#000' : plate.color;
         ctx.textAlign = 'center';
-        ctx.fillText("PLATE", 0, 4);
+        ctx.fillText("PLATE", 0, 3.5);
         ctx.restore();
       }
 
-      // 3. Laser Gates
+      // Laser Gates
       for (const g of Engine.gates) {
         if (!g.open) {
+          // Closed Laser - Vibrant glow
           ctx.strokeStyle = g.color || '#ffbe0b';
           ctx.lineWidth = 4;
+          ctx.shadowColor = g.color || '#ffbe0b';
+          ctx.shadowBlur = 12;
           ctx.beginPath();
           ctx.moveTo(g.x1, g.y1);
           ctx.lineTo(g.x2, g.y2);
           ctx.stroke();
 
-          ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
-          ctx.lineWidth = 8;
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.moveTo(g.x1, g.y1);
+          ctx.lineTo(g.x2, g.y2);
           ctx.stroke();
+          ctx.shadowBlur = 0;
         } else {
-          // Open dashed line
-          ctx.strokeStyle = 'rgba(5, 255, 161, 0.3)';
+          // Open Laser
+          ctx.strokeStyle = 'rgba(5, 255, 161, 0.35)';
           ctx.lineWidth = 2;
           ctx.setLineDash([6, 6]);
           ctx.beginPath();
@@ -1269,38 +1488,39 @@
         }
       }
 
-      // 4. Exit Gateway
+      // Extraction Core (Exit)
       const ex = Engine.exit;
       ctx.save();
       ctx.translate(ex.x, ex.y);
       ctx.strokeStyle = '#05ffa1';
       ctx.lineWidth = 3;
+      ctx.shadowColor = '#05ffa1';
+      ctx.shadowBlur = 16;
       ctx.beginPath();
       ctx.arc(0, 0, 24, 0, Math.PI * 2);
       ctx.stroke();
 
       ctx.rotate(Engine.totalTime * 2.5);
-      ctx.fillStyle = 'rgba(5, 255, 161, 0.3)';
+      ctx.fillStyle = 'rgba(5, 255, 161, 0.35)';
       ctx.fillRect(-12, -12, 24, 24);
+      ctx.shadowBlur = 0;
       ctx.restore();
 
-      // 5. Patrol Guards & Vision Cones
+      // Guards & Vision Cones
       for (const g of Engine.guards) {
         ctx.save();
         ctx.translate(g.x, g.y);
 
-        // Vision Cone
         ctx.beginPath();
         ctx.moveTo(0, 0);
         ctx.arc(0, 0, g.coneDist, g.angle - g.coneAngle, g.angle + g.coneAngle);
         ctx.closePath();
-        ctx.fillStyle = 'rgba(255, 42, 81, 0.28)';
+        ctx.fillStyle = 'rgba(255, 42, 81, 0.25)';
         ctx.fill();
 
-        // Body
         ctx.fillStyle = '#ff2a51';
         ctx.beginPath();
-        ctx.arc(0, 0, 14, 0, Math.PI * 2);
+        ctx.arc(0, 0, 13, 0, Math.PI * 2);
         ctx.fill();
         ctx.strokeStyle = '#fff';
         ctx.lineWidth = 2;
@@ -1308,9 +1528,10 @@
         ctx.restore();
       }
 
-      // 6. Past Shadow Ghosts (Replaying Past Loops!)
-      const ghostColors = ['#ff006e', '#ffbe0b', '#b5179e'];
+      // Ghost Shadows
+      const ghostColors = ['#ff006e', '#ffbe0b', '#00f3ff', '#b5179e'];
       Engine.pastGhosts.forEach((ghostTimeline, gIdx) => {
+        if (!ghostTimeline || ghostTimeline.length === 0) return;
         let sample = ghostTimeline[0];
         for (let i = 0; i < ghostTimeline.length; i++) {
           if (ghostTimeline[i].t <= Engine.loopTimer) {
@@ -1328,6 +1549,8 @@
 
         ctx.fillStyle = gColor;
         ctx.globalAlpha = 0.65;
+        ctx.shadowColor = gColor;
+        ctx.shadowBlur = 10;
         ctx.beginPath();
         ctx.arc(0, 0, 12, 0, Math.PI * 2);
         ctx.fill();
@@ -1335,20 +1558,23 @@
         ctx.strokeStyle = '#fff';
         ctx.lineWidth = 1.5;
         ctx.stroke();
+        ctx.shadowBlur = 0;
 
         ctx.font = "bold 9px 'Orbitron'";
         ctx.fillStyle = '#fff';
         ctx.textAlign = 'center';
-        ctx.fillText(`G${gIdx + 1}`, 0, -15);
+        ctx.fillText(`S${gIdx + 1}`, 0, -15);
         ctx.restore();
       });
 
-      // 7. Live Player (Cyan Infiltrator)
+      // Live Player
       const p = Engine.player;
       ctx.save();
       ctx.translate(p.x, p.y);
 
       ctx.fillStyle = '#00f3ff';
+      ctx.shadowColor = '#00f3ff';
+      ctx.shadowBlur = p.isDashing ? 20 : 10;
       ctx.beginPath();
       ctx.arc(0, 0, p.radius, 0, Math.PI * 2);
       ctx.fill();
@@ -1356,6 +1582,7 @@
       ctx.strokeStyle = '#fff';
       ctx.lineWidth = 2;
       ctx.stroke();
+      ctx.shadowBlur = 0;
 
       ctx.font = "bold 9px 'Orbitron'";
       ctx.fillStyle = '#00f3ff';
@@ -1363,7 +1590,7 @@
       ctx.fillText("YOU", 0, -16);
       ctx.restore();
 
-      // 8. Particles
+      // Particles
       for (const pt of Engine.particles) {
         ctx.fillStyle = pt.color;
         ctx.globalAlpha = pt.life / pt.maxLife;
@@ -1373,12 +1600,12 @@
       }
       ctx.globalAlpha = 1.0;
 
-      // 9. Floating Texts
+      // Floating Notification Texts
       for (const ft of Engine.floatingTexts) {
-        ctx.font = "bold 15px 'Orbitron'";
+        ctx.font = "bold 13px 'Orbitron'";
         ctx.fillStyle = ft.color;
         ctx.textAlign = 'center';
-        ctx.globalAlpha = ft.life / ft.maxLife;
+        ctx.globalAlpha = Math.min(1.0, ft.life / (ft.maxLife * 0.3));
         ctx.fillText(ft.text, ft.x, ft.y);
       }
       ctx.globalAlpha = 1.0;
@@ -1393,7 +1620,7 @@
 
       const remSec = Math.max(0, Engine.loopDuration - Engine.loopTimer);
       document.getElementById('loopSecondsText').innerText = `${remSec.toFixed(1)}s`;
-      document.getElementById('loopCountText').innerText = `${Engine.pastGhosts.length + 1} / ${Engine.maxGhosts} GHOSTS`;
+      document.getElementById('loopCountText').innerText = `${Engine.pastGhosts.length + 1} / ${Engine.maxGhosts} SHADOWS`;
 
       const pct = Math.max(0, Math.min(100, (remSec / Engine.loopDuration) * 100));
       document.getElementById('timelineFill').style.width = `${pct}%`;
@@ -1435,7 +1662,7 @@
       const isFinal = Engine.levelIdx === SECTORS.length - 1;
       document.getElementById('vicTitle').innerText = isFinal ? '🏆 ALL TIMELINES CONQUERED' : 'TIMELINE SYNCHRONIZED';
       document.getElementById('vicStats').innerText = isFinal
-        ? `GENIUS OPERATIVE! You solved all 12 quantum shadow loops in ${document.getElementById('timeText').innerText} with ${Engine.deaths} retries!`
+        ? `QUANTUM MASTER OPERATIVE! You solved all 12 quantum shadow loops in ${document.getElementById('timeText').innerText} with ${Engine.deaths} retries!`
         : `Sector ${Engine.levelIdx + 1} quantum core extracted!`;
 
       document.getElementById('btnNextLevel').innerText = isFinal ? 'PLAY AGAIN [SPACE / CLICK]' : 'NEXT SECTOR [SPACE / CLICK]';
@@ -1459,13 +1686,18 @@
       if (Engine.state === 'RECORDING') commitLoopAndStartNext();
     });
 
+    document.getElementById('sectorSelect').addEventListener('change', (e) => {
+      loadLevel(parseInt(e.target.value, 10));
+      if (Engine.state === 'START') startGame();
+    });
+
     document.getElementById('btnSound').addEventListener('click', (e) => {
       sound.init();
       const on = sound.toggle();
       e.target.innerText = on ? '🔊 AUDIO' : '🔇 MUTED';
     });
 
-    // --- GAME LOOP ---
+    // --- MAIN GAME LOOP ---
     function gameLoop(now) {
       const dt = Math.min(0.1, (now - lastTime) / 1000);
       lastTime = now;
@@ -1476,7 +1708,7 @@
       requestAnimationFrame(gameLoop);
     }
 
-    // Init
+    // Initialize cleanly on sector 0
     loadLevel(0);
     requestAnimationFrame(gameLoop);
   </script>
