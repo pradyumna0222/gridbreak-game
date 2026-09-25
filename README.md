@@ -1,62 +1,56 @@
-# GridBreak: Operator Signal
+# GridBreak: Red Team
 
-![GridBreak Banner](banner.jpg)
+Browser puzzle-stealth on a **corporate network map**. You are a live payload. Hold access nodes to drop firewalls, fork implant sessions that replay your last path, bait IDS sensors, and reach **C2 EXFIL**.
 
-> **Tactical Top-Down Cyberpunk Stealth Operations**  
-> Infiltrate classified corporate black-sites, evade sweeping CCTV spotlights and heavy enforcer patrols, disarm laser security grids, and extract sensitive neural payloads.
+Play live (GitHub Pages, after deploy): [pradyumna0222.github.io/gridbreak-game](https://pradyumna0222.github.io/gridbreak-game/)
 
----
+Repo: [github.com/pradyumna0222/gridbreak-game](https://github.com/pradyumna0222/gridbreak-game)
 
-## 🎮 Features
-
-- **Top-Down Stealth Action**: Smooth 8-directional movement, dynamic vision cone raycasting, and obstacle line-of-sight occlusion.
-- **Realistic Tiered Alarm Engine**:
-  - `0% – 20%` **SECURE**: Standard patrolling routines.
-  - `20% – 55%` **CAUTION [?]**: Peripheral detection triggers investigation; guards stop, face disturbance, and search for 2.5s.
-  - `55% – 99%` **INTRUSION ALERT [!]**: Visual lock confirmed; enforcers actively pursue and sirens sound.
-  - `100%` **FACILITY LOCKDOWN**: Total sector lockdown and emergency turret response.
-- **Radial Threat Direction Indicator**: Dynamic on-player threat arc pointing directly at detecting enemies.
-- **5 Progression Sectors**:
-  - **Level 1**: Perimeter Breach (`SEC-01`)
-  - **Level 2**: Surveillance Array (`SEC-02`)
-  - **Level 3**: Enforcer Intercept (`SEC-03`)
-  - **Level 4**: The Core Vault (`SEC-04`)
-  - **Level 5**: Neural Apex Core (`SEC-05`)
-- **4 Hack Abilities**:
-  - `[1]` **EMP Stun** (3 Energy): Paralyzes enforcers for 5.0s.
-  - `[2]` **Jam Optics** (2 Energy): Jams camera video feeds for 6.0s.
-  - `[3]` **Bypass Gate** (5 Energy): Overrides active laser firewall barriers.
-  - `[4]` **Stealth Cloak** (4 Energy): 3.5s optical camouflage invisibility.
-- **Tactical Dash**: Press `Spacebar` for high-speed evasion through laser gaps and sensor blindspots.
-- **Procedural Web Audio Synthesizer**: 100% self-contained sound engine with dynamic stealth-to-alert synth transitions, footstep clicks, and emergency sirens.
-- **100% Self-Contained**: Runs directly in any modern web browser without dependencies, npm install, or build steps.
+This is a **fictional red-team lab** — security terms are flavor for the puzzle (firewall, MFA, IDS, VLAN, C2). It does not teach real exploits.
 
 ---
 
-## 🕹️ Controls
+## How it plays
 
-| Action | Key / Control |
+- **Payload (you)** — WASD / arrows. Reach the green C2 EXFIL node.
+- **Access nodes** — stand on MFA, VLAN, RCE, etc. to drop the matching firewall. Implants can hold nodes while you move.
+- **Session fork [T]** — persist your last path as a parallel implant before TTL runs out. Dual gates need two bodies at once.
+- **IDS cones** — red scanners. **Space** = encrypted burst (dash through a cone). Implants can lure the sensor off you.
+- **SIEM alerts** — getting scanned kills the session; reinject with R.
+
+## 12 subnets
+
+1. DNS recon / NGFW  
+2. Dual MFA bypass  
+3. EDR decoy  
+4. Triple exploit chain  
+5. MITM packet relay  
+6. Kernel / hypercall staging  
+7. DPI firewall gauntlet  
+8. Air-gapped SOC VLANs  
+9. BGP route sync  
+10. Split-key cipher  
+11. ROP / ASLR / DEP / canary  
+12. Quantum root extraction (finale)
+
+## Controls
+
+| Action | Key |
 |---|---|
-| **Move Operative** | `W`, `A`, `S`, `D` or `Arrow Keys` |
-| **Tactical Dash** | `Spacebar` |
-| **EMP Stun** | `1` Key / Button `[1]` |
-| **Jam Optics** | `2` Key / Button `[2]` |
-| **Bypass Gate** | `3` Key / Button `[3]` |
-| **Stealth Cloak** | `4` Key / Button `[4]` |
-| **Interact / Hack Terminal** | `E` Key / Proximity |
-| **Audio Toggle** | `🔊 AUDIO ON/OFF` |
-| **Synth Music Toggle** | `🎵 SYNTH ON/OFF` |
-| **CRT Scanlines** | `⚡ CRT FX` |
+| Move payload | `W A S D` or arrows |
+| Encrypted burst | `Space` |
+| Fork implant session | `T` |
+| Reset subnet | `R` |
+| Audio | HUD button |
 
----
+## Run locally
 
-## 🚀 Quick Start
-
-Simply open `index.html` in any web browser:
+Open `index.html` in a browser, or:
 
 ```bash
-# Or serve locally using python
 python -m http.server 8085
 ```
 
-Navigate to `http://localhost:8085` and commence infiltration!
+Then go to `http://localhost:8085`.
+
+Single file, no npm, no build.

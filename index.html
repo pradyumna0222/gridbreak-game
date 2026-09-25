@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CHRONO-LOOP // Quantum Shadow Heist</title>
+  <title>GridBreak // Red Team — Network Infiltration Lab</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=JetBrains+Mono:wght@500;700;800&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=JetBrains+Mono:wght@500;700;800&family=Share+Tech+Mono&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #030408;
-      --panel-bg: rgba(8, 12, 24, 0.95);
+      --bg: #030509;
+      --panel-bg: rgba(6, 11, 22, 0.94);
       --cyan: #00f3ff;
       --cyan-glow: rgba(0, 243, 255, 0.6);
       --magenta: #ff006e;
@@ -21,7 +21,9 @@
       --green-glow: rgba(5, 255, 161, 0.6);
       --crimson: #ff2a51;
       --crimson-glow: rgba(255, 42, 81, 0.7);
+      --purple: #b5179e;
       --font-display: 'Orbitron', monospace;
+      --font-code: 'Share Tech Mono', monospace;
       --font-mono: 'JetBrains Mono', monospace;
       --font-ui: 'Rajdhani', sans-serif;
     }
@@ -44,20 +46,20 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 10px;
+      padding: 8px 12px;
     }
 
-    /* Cyber Backdrop Grid */
+    /* Cyber Matrix Backdrop */
     body::before {
       content: '';
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(circle at 50% 50%, rgba(0, 243, 255, 0.06) 0%, transparent 70%),
-        radial-gradient(circle at 85% 15%, rgba(255, 0, 110, 0.05) 0%, transparent 60%),
-        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-      background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
+        radial-gradient(circle at 50% 50%, rgba(0, 243, 255, 0.05) 0%, transparent 70%),
+        radial-gradient(circle at 85% 15%, rgba(255, 0, 110, 0.04) 0%, transparent 60%),
+        linear-gradient(rgba(0, 243, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 243, 255, 0.02) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 28px 28px, 28px 28px;
       z-index: 0;
       pointer-events: none;
     }
@@ -83,7 +85,7 @@
       100% { filter: hue-rotate(60deg); }
     }
 
-    /* CRT Overlay */
+    /* Scanlines */
     .crt-overlay {
       position: fixed;
       inset: 0;
@@ -101,9 +103,9 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       width: 100%;
-      max-width: 990px;
+      max-width: 1000px;
     }
 
     /* Header HUD */
@@ -115,7 +117,7 @@
       background: var(--panel-bg);
       border: 1px solid rgba(0, 243, 255, 0.35);
       border-radius: 8px;
-      padding: 10px 18px;
+      padding: 8px 16px;
       backdrop-filter: blur(12px);
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
       gap: 12px;
@@ -125,32 +127,42 @@
     .brand-group {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       flex-shrink: 0;
     }
     .brand-title {
       font-family: var(--font-display);
       font-weight: 900;
-      font-size: 18px;
+      font-size: 16px;
       letter-spacing: 2px;
-      background: linear-gradient(90deg, #fff, var(--cyan), var(--magenta));
+      background: linear-gradient(90deg, #fff, var(--cyan), var(--green));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       text-transform: uppercase;
     }
+    .cyber-badge {
+      font-family: var(--font-code);
+      font-size: 10px;
+      color: var(--cyan);
+      background: rgba(0, 243, 255, 0.12);
+      border: 1px solid rgba(0, 243, 255, 0.4);
+      padding: 2px 6px;
+      border-radius: 3px;
+      letter-spacing: 1px;
+    }
     
     .sector-select {
       background: #091224;
-      border: 1px solid var(--magenta);
-      color: #fff;
-      font-family: var(--font-mono);
-      font-size: 12px;
-      font-weight: 800;
-      padding: 4px 8px;
+      border: 1px solid var(--cyan);
+      color: var(--cyan);
+      font-family: var(--font-code);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
       border-radius: 4px;
       outline: none;
       cursor: pointer;
-      box-shadow: 0 0 10px var(--magenta-glow);
+      box-shadow: 0 0 10px var(--cyan-glow);
     }
     .sector-select option {
       background: #091224;
@@ -160,34 +172,34 @@
     .metrics-group {
       display: flex;
       align-items: center;
-      gap: 16px;
-      font-family: var(--font-mono);
-      font-size: 12px;
+      gap: 14px;
+      font-family: var(--font-code);
+      font-size: 11.5px;
       flex-grow: 1;
       justify-content: center;
     }
     .metric-pill {
       display: flex;
       align-items: center;
-      gap: 6px;
-      color: #9cb4d8;
+      gap: 5px;
+      color: #8fa7cf;
     }
     .metric-pill strong {
       color: #fff;
-      font-size: 13px;
+      font-size: 12.5px;
     }
 
-    /* Time Loop Timeline Bar */
+    /* TTL Timeline Bar */
     .timeline-container {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 3px;
       min-width: 170px;
     }
     .timeline-track {
       width: 100%;
-      height: 9px;
-      background: rgba(0, 0, 0, 0.8);
+      height: 8px;
+      background: rgba(0, 0, 0, 0.85);
       border: 1px solid rgba(0, 243, 255, 0.45);
       border-radius: 4px;
       overflow: hidden;
@@ -196,26 +208,26 @@
     .timeline-fill {
       height: 100%;
       width: 100%;
-      background: linear-gradient(90deg, var(--cyan), var(--magenta));
+      background: linear-gradient(90deg, var(--green), var(--cyan), var(--magenta));
       box-shadow: 0 0 12px var(--cyan);
       transition: width 0.04s linear;
     }
 
     .hud-actions {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       align-items: center;
       flex-shrink: 0;
     }
 
     .btn-toggle {
-      background: #0d1527;
+      background: #0c1426;
       border: 1px solid rgba(0, 243, 255, 0.3);
       color: #8da4c7;
-      font-family: var(--font-mono);
+      font-family: var(--font-code);
       font-size: 11px;
       font-weight: 700;
-      padding: 5px 10px;
+      padding: 4px 10px;
       border-radius: 4px;
       cursor: pointer;
       transition: all 0.15s;
@@ -269,7 +281,7 @@
 
     .modal-title {
       font-family: var(--font-display);
-      font-size: 26px;
+      font-size: 24px;
       font-weight: 900;
       letter-spacing: 2px;
       margin-bottom: 8px;
@@ -289,40 +301,12 @@
     }
 
     .modal-desc {
-      font-family: var(--font-mono);
-      font-size: 13px;
+      font-family: var(--font-code);
+      font-size: 12.5px;
       color: #9cb2d4;
       max-width: 540px;
       line-height: 1.5;
       margin-bottom: 20px;
-    }
-
-    .loop-rules-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-bottom: 20px;
-      width: 100%;
-      max-width: 580px;
-    }
-    .rule-card {
-      background: rgba(0, 243, 255, 0.05);
-      border: 1px solid rgba(0, 243, 255, 0.25);
-      border-radius: 6px;
-      padding: 10px 8px;
-      text-align: center;
-      font-family: var(--font-mono);
-      font-size: 11px;
-    }
-    .rule-card .rule-icon {
-      font-size: 20px;
-      margin-bottom: 4px;
-    }
-    .rule-card strong {
-      display: block;
-      color: #fff;
-      font-size: 11px;
-      margin-bottom: 2px;
     }
 
     .action-btn {
@@ -332,7 +316,7 @@
       font-weight: 900;
       font-size: 13px;
       letter-spacing: 1.5px;
-      padding: 12px 28px;
+      padding: 10px 26px;
       border: none;
       border-radius: 4px;
       cursor: pointer;
@@ -349,29 +333,91 @@
       box-shadow: 0 0 20px var(--crimson-glow);
     }
 
-    /* Bottom Strip */
-    .controls-strip {
+    /* Terminal Console Bar */
+    .terminal-strip {
       width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(6, 10, 20, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(5, 9, 18, 0.9);
+      border: 1px solid rgba(0, 243, 255, 0.2);
       border-radius: 6px;
-      padding: 7px 14px;
-      font-family: var(--font-mono);
-      font-size: 11.5px;
-      color: #7b91b5;
+      padding: 6px 14px;
+      font-family: var(--font-code);
+      font-size: 11px;
+      color: #6d88b4;
+    }
+    .term-log {
+      color: var(--green);
+      font-weight: 700;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      max-width: 580px;
     }
     .key-badge {
       background: rgba(0, 243, 255, 0.12);
       border: 1px solid rgba(0, 243, 255, 0.35);
       color: var(--cyan);
-      padding: 2px 6px;
+      padding: 1px 5px;
       border-radius: 3px;
       font-weight: 800;
+      font-size: 10px;
+      margin: 0 2px;
+    }
+
+    .legend-strip {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+      justify-content: center;
+      font-family: var(--font-code);
       font-size: 10.5px;
-      margin: 0 3px;
+      color: #7d93b8;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      box-shadow: 0 0 8px currentColor;
+    }
+
+    .brief-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+      width: 100%;
+      max-width: 620px;
+    }
+    .brief-card {
+      background: rgba(0, 243, 255, 0.06);
+      border: 1px solid rgba(0, 243, 255, 0.28);
+      border-radius: 6px;
+      padding: 10px 8px;
+      text-align: left;
+    }
+    .brief-card h3 {
+      font-family: var(--font-code);
+      font-size: 11px;
+      color: var(--cyan);
+      margin-bottom: 4px;
+      letter-spacing: 0.5px;
+    }
+    .brief-card p {
+      font-family: var(--font-code);
+      font-size: 11px;
+      color: #8fa7cf;
+      line-height: 1.4;
+    }
+    @media (max-width: 720px) {
+      .brief-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -388,29 +434,30 @@
     <!-- Header HUD -->
     <div class="hud-header">
       <div class="brand-group">
-        <div class="brand-title">CHRONO-LOOP</div>
-        <select id="sectorSelect" class="sector-select" title="Jump directly to any sector">
-          <option value="0">SECTOR 01: Parallel Echo</option>
-          <option value="1">SECTOR 02: Dual Sync</option>
-          <option value="2">SECTOR 03: Phantom Decoy</option>
-          <option value="3">SECTOR 04: Trinity Matrix</option>
-          <option value="4">SECTOR 05: Interlocking Relay</option>
-          <option value="5">SECTOR 06: Quad Harmonic</option>
-          <option value="6">SECTOR 07: Sentry Crossfire</option>
-          <option value="7">SECTOR 08: Labyrinth Vault</option>
-          <option value="8">SECTOR 09: Temporal Slingshot</option>
-          <option value="9">SECTOR 10: Shadow Pinball</option>
-          <option value="10">SECTOR 11: Recursive Overclock</option>
-          <option value="11">SECTOR 12: Quantum Singularity</option>
+        <div class="brand-title">GRIDBREAK</div>
+        <span class="cyber-badge">RED TEAM LAB</span>
+        <select id="sectorSelect" class="sector-select" title="Target Network Subnet">
+          <option value="0">SUBNET 01: DNS Poisoning Recon</option>
+          <option value="1">SUBNET 02: Dual MFA Bypass</option>
+          <option value="2">SUBNET 03: EDR Sentinel Decoy</option>
+          <option value="3">SUBNET 04: Triple Zero-Day Chain</option>
+          <option value="4">SUBNET 05: MITM Packet Relay</option>
+          <option value="5">SUBNET 06: Quad Kernel Exploit</option>
+          <option value="6">SUBNET 07: DPI Firewall Gauntlet</option>
+          <option value="7">SUBNET 08: Air-Gapped SOC Labyrinth</option>
+          <option value="8">SUBNET 09: BGP Route Hijack</option>
+          <option value="9">SUBNET 10: Asymmetric Cipher Crack</option>
+          <option value="10">SUBNET 11: Recursive Overflow</option>
+          <option value="11">SUBNET 12: Quantum Root Extraction</option>
         </select>
       </div>
 
       <div class="metrics-group">
-        <!-- Timeline Bar -->
+        <!-- TTL Countdown Timeline -->
         <div class="timeline-container">
-          <div style="display:flex; justify-content:space-between; font-size:11px;">
-            <span>TIMELINE: <strong id="loopCountText" style="color:var(--cyan);">1 / 3 SHADOWS</strong></span>
-            <span id="loopSecondsText" style="color:var(--amber); font-weight:800;">8.0s</span>
+          <div style="display:flex; justify-content:space-between; font-size:10.5px;">
+            <span>SESSIONS: <strong id="loopCountText" style="color:var(--cyan);">1 / 3 LIVE</strong></span>
+            <span id="loopSecondsText" style="color:var(--amber); font-weight:800;">8.5s TTL</span>
           </div>
           <div class="timeline-track">
             <div id="timelineFill" class="timeline-fill"></div>
@@ -418,11 +465,11 @@
         </div>
 
         <div class="metric-pill">
-          <span>SWITCHES:</span>
+          <span>ACCESS HELD:</span>
           <strong id="platesText" style="color:var(--green);">0/1</strong>
         </div>
         <div class="metric-pill">
-          <span>RETRIES:</span>
+          <span>SIEM ALERTS:</span>
           <strong id="deathsText" style="color:var(--crimson);">0</strong>
         </div>
         <div class="metric-pill">
@@ -432,9 +479,9 @@
       </div>
 
       <div class="hud-actions">
-        <button id="btnLoopNow" class="btn-toggle highlight" title="Commit Actions &amp; Rewind Next Loop [T]">⏳ LOOP [T]</button>
+        <button id="btnLoopNow" class="btn-toggle highlight" title="Fork a persistent implant session [T]">⏳ FORK [T]</button>
         <button id="btnSound" class="btn-toggle">🔊 AUDIO</button>
-        <button id="btnReset" class="btn-toggle" title="Restart Sector Timeline [R]">🔄 [R]</button>
+        <button id="btnReset" class="btn-toggle" title="Purge Exploit &amp; Reset [R]">🔄 [R]</button>
       </div>
     </div>
 
@@ -442,64 +489,68 @@
     <div class="canvas-container">
       <canvas id="gameCanvas" width="980" height="520"></canvas>
 
-      <!-- Start Overlay -->
-      <div id="startModal" class="modal-overlay">
-        <div class="modal-title cyan">CHRONO-LOOP // SHADOW HEIST</div>
+      <!-- Briefing Overlay -->
+      <div id="briefModal" class="modal-overlay active">
+        <div class="modal-title cyan">AUTHORIZED RED TEAM ENGAGEMENT</div>
         <div class="modal-desc">
-          <strong>You cannot breach the quantum vault alone. Cooperate with your past shadow ghosts across parallel time loops to extract the core.</strong>
+          You are a payload moving through a corporate network map. Hold access nodes to drop firewalls,
+          fork implant sessions that keep walking your last path, lure IDS sensors with decoys, then reach C2 EXFIL.
         </div>
-
-        <div class="loop-rules-grid">
-          <div class="rule-card">
-            <div class="rule-icon">⏳</div>
-            <strong>1. RECORD SHADOW</strong>
-            <span>Stand on pressure switches or lure sentries before the loop timer expires.</span>
+        <div class="brief-grid">
+          <div class="brief-card">
+            <h3>01 // ACCESS NODES</h3>
+            <p>Stand on a labeled node (MFA, VLAN, RCE) to lower the matching firewall. Ghost implants can hold nodes for you.</p>
           </div>
-          <div class="rule-card">
-            <div class="rule-icon">👥</div>
-            <strong>2. TIME-LOOP CO-OP</strong>
-            <span>Your past ghosts replay your exact movements while the new YOU advances past gates!</span>
+          <div class="brief-card">
+            <h3>02 // SESSION FORK [T]</h3>
+            <p>Press T before TTL expires to persist your last path as a parallel implant. Use it for dual-control gates.</p>
           </div>
-          <div class="rule-card">
-            <div class="rule-icon">🏆</div>
-            <strong>3. EXTRACT CORE</strong>
-            <span>Coordinate multi-switches with all shadows to unlock the final extraction portal!</span>
+          <div class="brief-card">
+            <h3>03 // IDS / EDR</h3>
+            <p>Red scan cones are detection sensors. Dash [SPACE] bursts past a cone. Ghosts can bait the scanner off you.</p>
           </div>
         </div>
-
-        <button id="btnStartGame" class="action-btn">COMMENCE TIME LOOP [SPACE / CLICK]</button>
+        <button id="btnStartMission" class="action-btn">INITIATE ENGAGEMENT [SPACE]</button>
       </div>
 
       <!-- Death Overlay -->
       <div id="deathModal" class="modal-overlay">
-        <div class="modal-title danger">TIMELINE COLLAPSE</div>
+        <div class="modal-title danger">SIEM ALERT — SESSION KILLED</div>
         <div class="modal-desc" id="deathReason">
-          Eliminated by security grid or sentry detection.
+          Payload inspected by IDS / EDR. Persistence wiped. Reinject from the last hop.
         </div>
-        <button id="btnRetryGame" class="action-btn danger-btn">RESTART TIMELINE [R / SPACE]</button>
+        <button id="btnRetryGame" class="action-btn danger-btn">REINJECT PAYLOAD [R / SPACE]</button>
       </div>
 
       <!-- Victory Overlay -->
       <div id="victoryModal" class="modal-overlay">
-        <div class="modal-title success" id="vicTitle">VAULT SYNCHRONIZED</div>
+        <div class="modal-title success" id="vicTitle">C2 EXFIL COMPLETE</div>
         <div class="modal-desc" id="vicStats">
-          Perfect multi-ghost coordination! Quantum neural core successfully extracted.
+          Subnet compromised. Encrypted loot staged to command-and-control.
         </div>
-        <button id="btnNextLevel" class="action-btn">NEXT SECTOR [SPACE / CLICK]</button>
+        <button id="btnNextLevel" class="action-btn">NEXT SUBNET [SPACE / CLICK]</button>
       </div>
     </div>
 
-    <!-- Controls Footer -->
-    <div class="controls-strip">
-      <div>
-        <span>🎮 <span class="key-badge">WASD / ARROWS</span> Move</span>
-        <span>⚡ <span class="key-badge">SPACE</span> Dash</span>
-        <span>⏳ <span class="key-badge">T</span> Commit &amp; Rewind Loop</span>
-        <span>🔄 <span class="key-badge">R</span> Reset</span>
+    <!-- Terminal Status Strip -->
+    <div class="terminal-strip">
+      <div class="term-log" id="termLog">
+        [SOC_LOG] Red-team lab online. Hold ACCESS nodes to drop firewalls. Fork sessions with [T].
       </div>
       <div>
-        <span>SECTOR: <strong id="progressText" style="color:#fff;">1 / 12</strong></span>
+        <span><span class="key-badge">WASD</span> Move</span>
+        <span><span class="key-badge">SPACE</span> Burst</span>
+        <span><span class="key-badge">T</span> Fork session</span>
+        <span><span class="key-badge">R</span> Reset</span>
       </div>
+    </div>
+
+    <div class="legend-strip">
+      <div class="legend-item"><span class="legend-dot" style="background:#00f3ff;color:#00f3ff;border-radius:50%;"></span> PAYLOAD (you)</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#ff006e;color:#ff006e;border-radius:50%;"></span> IMPLANT (forked path)</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#ffbe0b;color:#ffbe0b;"></span> ACCESS NODE</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#ff2a51;color:#ff2a51;"></span> FIREWALL / IDS CONE</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#05ffa1;color:#05ffa1;border-radius:50%;"></span> C2 EXFIL</div>
     </div>
 
   </div>
@@ -510,7 +561,7 @@
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
 
-    // --- PROCEDURAL AUDIO ENGINE ---
+    // --- PROCEDURAL CYBER AUDIO SYNTHESIZER ---
     class SoundEngine {
       constructor() {
         this.ctx = null;
@@ -551,38 +602,38 @@
           const gain = this.ctx.createGain();
           osc.type = 'sawtooth';
           osc.frequency.setValueAtTime(140, now);
-          osc.frequency.exponentialRampToValueAtTime(860, now + 0.35);
+          osc.frequency.exponentialRampToValueAtTime(920, now + 0.3);
           gain.gain.setValueAtTime(0.14, now);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
           osc.connect(gain);
           gain.connect(this.ctx.destination);
           osc.start();
-          osc.stop(now + 0.35);
+          osc.stop(now + 0.3);
         } catch(e) {}
       }
       playPlate() {
-        this.playTone(560, 'sine', 0.15, 0.12);
+        this.playTone(620, 'sine', 0.12, 0.12);
       }
       playDash() {
-        this.playTone(480, 'sawtooth', 0.1, 0.12);
+        this.playTone(480, 'square', 0.08, 0.1);
       }
       playDeath() {
-        this.playTone(85, 'sawtooth', 0.45, 0.25);
+        this.playTone(75, 'sawtooth', 0.45, 0.25);
       }
       playWin() {
-        [440, 554, 659, 880, 1108].forEach((f, i) => {
-          setTimeout(() => this.playTone(f, 'sine', 0.35, 0.12), i * 80);
+        [523, 659, 784, 1046, 1318].forEach((f, i) => {
+          setTimeout(() => this.playTone(f, 'sine', 0.3, 0.12), i * 70);
         });
       }
     }
     const sound = new SoundEngine();
 
-    // --- 12 MIND-BENDING COOPERATIVE TIME-LOOP SECTORS ---
+    // --- 12 ZERO-DAY CYBER SECURITY SUBNETS ---
     const SECTORS = [
-      // 01: Training Loop - Step on plate to lower laser
       {
-        title: "SECTOR 01: PARALLEL ECHO",
-        hint: "💡 Step on the Yellow Switch, then press [T] to rewind. Then run through the opened laser gate!",
+        title: "SUBNET 01: DNS POISONING & RECON",
+        hint: "💡 Exploit Node Alpha to suppress the Next-Gen Firewall (NGFW). Press [T] to fork a shadow thread!",
+        logMsg: "[AUTH_BYPASS] Node Alpha suppresses Port 443 firewall filter. Exfiltrate via Root Vault.",
         loopDuration: 8.5,
         maxGhosts: 2,
         playerStart: { x: 120, y: 260 },
@@ -592,18 +643,18 @@
           { x: 480, y: 340, w: 20, h: 180 }
         ],
         plates: [
-          { id: 'p1', x: 260, y: 260, radius: 26, targetGate: 'g1', color: '#ffbe0b' }
+          { id: 'p1', label: 'DNS_INJ', x: 260, y: 260, radius: 26, targetGate: 'g1', color: '#ffbe0b' }
         ],
         gates: [
-          { id: 'g1', x1: 480, y1: 180, x2: 480, y2: 340, color: '#ffbe0b' }
+          { id: 'g1', label: 'NGFW_PORT_443', x1: 480, y1: 180, x2: 480, y2: 340, color: '#ffbe0b' }
         ],
         guards: []
       },
 
-      // 02: Dual Pressure Plates - Needs 2 Shadows to hold both doors!
       {
-        title: "SECTOR 02: DUAL SYNCHRONIZATION",
-        hint: "💡 Shadow 1 holds Switch 1 to let Shadow 2 reach Switch 2. Then YOU can reach the Exit!",
+        title: "SUBNET 02: DUAL MFA BYPASS",
+        hint: "💡 Thread 1 holds MFA Token 1 to let Thread 2 hijack Token 2. Then live Root payload breaches exit!",
+        logMsg: "[MFA_SYNC] Multi-Factor auth nodes must be hijacked concurrently in parallel time threads.",
         loopDuration: 9.5,
         maxGhosts: 3,
         playerStart: { x: 120, y: 260 },
@@ -615,20 +666,20 @@
           { x: 640, y: 340, w: 20, h: 180 }
         ],
         plates: [
-          { id: 'p1', x: 200, y: 130, radius: 24, targetGate: 'g1', color: '#ffbe0b' },
-          { id: 'p2', x: 500, y: 390, radius: 24, targetGate: 'g2', color: '#ff006e' }
+          { id: 'p1', label: 'MFA_AUTH_1', x: 200, y: 130, radius: 24, targetGate: 'g1', color: '#ffbe0b' },
+          { id: 'p2', label: 'MFA_AUTH_2', x: 500, y: 390, radius: 24, targetGate: 'g2', color: '#ff006e' }
         ],
         gates: [
-          { id: 'g1', x1: 360, y1: 180, x2: 360, y2: 340, color: '#ffbe0b' },
-          { id: 'g2', x1: 640, y1: 180, x2: 640, y2: 340, color: '#ff006e' }
+          { id: 'g1', label: 'WAF_FILTER_A', x1: 360, y1: 180, x2: 360, y2: 340, color: '#ffbe0b' },
+          { id: 'g2', label: 'WAF_FILTER_B', x1: 640, y1: 180, x2: 640, y2: 340, color: '#ff006e' }
         ],
         guards: []
       },
 
-      // 03: Guard Distraction Loop
       {
-        title: "SECTOR 03: PHANTOM DECOY",
-        hint: "💡 Ghosts act as decoys! Sentry patrols investigate ghosts, turning their backs on you!",
+        title: "SUBNET 03: EDR SENTINEL DECOY",
+        hint: "💡 EDR Sentinel AI performs Deep Packet Inspection (DPI). Shadow threads act as DDoS decoys!",
+        logMsg: "[DPI_ALERT] EDR Sentinel patrols the network. Fork a decoy thread to lure the scanner.",
         loopDuration: 9.0,
         maxGhosts: 3,
         playerStart: { x: 120, y: 140 },
@@ -637,20 +688,20 @@
           { x: 460, y: 0, w: 20, h: 320 }
         ],
         plates: [
-          { id: 'p1', x: 260, y: 400, radius: 26, targetGate: 'g1', color: '#ffbe0b' }
+          { id: 'p1', label: 'SQL_INJ', x: 260, y: 400, radius: 26, targetGate: 'g1', color: '#ffbe0b' }
         ],
         gates: [
-          { id: 'g1', x1: 460, y1: 320, x2: 460, y2: 520, color: '#ffbe0b' }
+          { id: 'g1', label: 'ZERO_TRUST_GATE', x1: 460, y1: 320, x2: 460, y2: 520, color: '#ffbe0b' }
         ],
         guards: [
           { x: 680, y: 260, waypoints: [{x:680,y:140},{x:680,y:380}], speed: 2.2, coneDist: 160, coneAngle: 0.65 }
         ]
       },
 
-      // 04: Triple Switch Matrix
       {
-        title: "SECTOR 04: TRINITY MATRIX",
-        hint: "💡 Three distinct chambers. Deploy 3 shadow clones to bypass all 3 laser barriers.",
+        title: "SUBNET 04: TRIPLE ZERO-DAY CHAIN",
+        hint: "💡 Chain 3 zero-day exploits across 3 subnet partitions. Deploy 3 worker threads.",
+        logMsg: "[CHAIN_EXPLOIT] Injecting RCE + Privilege Escalation + Sandbox Escape concurrently.",
         loopDuration: 10.0,
         maxGhosts: 4,
         playerStart: { x: 120, y: 260 },
@@ -662,22 +713,22 @@
           { x: 640, y: 340, w: 20, h: 180 }
         ],
         plates: [
-          { id: 'p1', x: 180, y: 120, radius: 24, targetGate: 'g1', color: '#ffbe0b' },
-          { id: 'p2', x: 480, y: 120, radius: 24, targetGate: 'g2', color: '#00f3ff' },
-          { id: 'p3', x: 480, y: 400, radius: 24, targetGate: 'g3', color: '#ff006e' }
+          { id: 'p1', label: 'RCE_NODE', x: 180, y: 120, radius: 24, targetGate: 'g1', color: '#ffbe0b' },
+          { id: 'p2', label: 'PRIV_ESC', x: 480, y: 120, radius: 24, targetGate: 'g2', color: '#00f3ff' },
+          { id: 'p3', label: 'SANDBOX_ESC', x: 480, y: 400, radius: 24, targetGate: 'g3', color: '#ff006e' }
         ],
         gates: [
-          { id: 'g1', x1: 320, y1: 180, x2: 320, y2: 340, color: '#ffbe0b' },
-          { id: 'g2', x1: 640, y1: 180, x2: 640, y2: 260, color: '#00f3ff' },
-          { id: 'g3', x1: 640, y1: 260, x2: 640, y2: 340, color: '#ff006e' }
+          { id: 'g1', label: 'KERNEL_WALL', x1: 320, y1: 180, x2: 320, y2: 340, color: '#ffbe0b' },
+          { id: 'g2', label: 'IP_TABLE_A', x1: 640, y1: 180, x2: 640, y2: 260, color: '#00f3ff' },
+          { id: 'g3', label: 'IP_TABLE_B', x1: 640, y1: 260, x2: 640, y2: 340, color: '#ff006e' }
         ],
         guards: []
       },
 
-      // 05: The Interlocking Relay
       {
-        title: "SECTOR 05: INTERLOCKING RELAY",
-        hint: "💡 Coordinated timing: Switch paths with your shadow while dodging the center sentry.",
+        title: "SUBNET 05: MITM PACKET RELAY",
+        hint: "💡 Man-in-the-Middle injection: Synchronize packet routing with shadow threads across the central hub.",
+        logMsg: "[MITM_ROUTING] SSL Certificate inspection bypassed. Synchronize proxy buffers.",
         loopDuration: 9.5,
         maxGhosts: 3,
         playerStart: { x: 90, y: 80 },
@@ -689,22 +740,22 @@
           { x: 640, y: 340, w: 340, h: 20 }
         ],
         plates: [
-          { id: 'p1', x: 180, y: 250, radius: 24, targetGate: 'g1', color: '#ffbe0b' },
-          { id: 'p2', x: 490, y: 250, radius: 24, targetGate: 'g2', color: '#00f3ff' }
+          { id: 'p1', label: 'PROXY_INJ', x: 180, y: 250, radius: 24, targetGate: 'g1', color: '#ffbe0b' },
+          { id: 'p2', label: 'TLS_FORGE', x: 490, y: 250, radius: 24, targetGate: 'g2', color: '#00f3ff' }
         ],
         gates: [
-          { id: 'g1', x1: 320, y1: 160, x2: 440, y2: 160, color: '#ffbe0b' },
-          { id: 'g2', x1: 520, y1: 340, x2: 640, y2: 340, color: '#00f3ff' }
+          { id: 'g1', label: 'PROXY_GATE_1', x1: 320, y1: 160, x2: 440, y2: 160, color: '#ffbe0b' },
+          { id: 'g2', label: 'PROXY_GATE_2', x1: 520, y1: 340, x2: 640, y2: 340, color: '#00f3ff' }
         ],
         guards: [
           { x: 490, y: 80, waypoints: [{x:340,y:80},{x:640,y:80}], speed: 2.4, coneDist: 140, coneAngle: 0.6 }
         ]
       },
 
-      // 06: Four Ghosts Symphony
       {
-        title: "SECTOR 06: QUAD HARMONIC CHASM",
-        hint: "💡 4-Switch cascading unlock. Plan the sequence of your timeline copies carefully!",
+        title: "SUBNET 06: QUAD KERNEL EXPLOIT",
+        hint: "💡 4-Stage cascading kernel hijack. Coordinate all 4 parallel exploit threads.",
+        logMsg: "[KERNEL_SYNC] 4-stage hypervisor exploit pipeline active. Hold all 3 hypercall nodes.",
         loopDuration: 10.5,
         maxGhosts: 4,
         playerStart: { x: 90, y: 260 },
@@ -718,22 +769,22 @@
           { x: 720, y: 340, w: 20, h: 180 }
         ],
         plates: [
-          { id: 'p1', x: 160, y: 130, radius: 22, targetGate: 'g1', color: '#ffbe0b' },
-          { id: 'p2', x: 390, y: 390, radius: 22, targetGate: 'g2', color: '#ff006e' },
-          { id: 'p3', x: 610, y: 130, radius: 22, targetGate: 'g3', color: '#00f3ff' }
+          { id: 'p1', label: 'HYPERCALL_1', x: 160, y: 130, radius: 22, targetGate: 'g1', color: '#ffbe0b' },
+          { id: 'p2', label: 'HYPERCALL_2', x: 390, y: 390, radius: 22, targetGate: 'g2', color: '#ff006e' },
+          { id: 'p3', label: 'HYPERCALL_3', x: 610, y: 130, radius: 22, targetGate: 'g3', color: '#00f3ff' }
         ],
         gates: [
-          { id: 'g1', x1: 280, y1: 180, x2: 280, y2: 340, color: '#ffbe0b' },
-          { id: 'g2', x1: 500, y1: 180, x2: 500, y2: 340, color: '#ff006e' },
-          { id: 'g3', x1: 720, y1: 180, x2: 720, y2: 340, color: '#00f3ff' }
+          { id: 'g1', label: 'RING_0_WALL', x1: 280, y1: 180, x2: 280, y2: 340, color: '#ffbe0b' },
+          { id: 'g2', label: 'VMM_WALL', x1: 500, y1: 180, x2: 500, y2: 340, color: '#ff006e' },
+          { id: 'g3', label: 'SECURE_BOOT', x1: 720, y1: 180, x2: 720, y2: 340, color: '#00f3ff' }
         ],
         guards: []
       },
 
-      // 07: Sentry Crossfire
       {
-        title: "SECTOR 07: SENTRY CROSSFIRE",
-        hint: "💡 High speed patrols. Time your tactical dash [SPACE] to sprint across vision cones.",
+        title: "SUBNET 07: DPI FIREWALL GAUNTLET",
+        hint: "💡 High speed EDR patrol nets. Time your tactical dash [SPACE] to sprint across scanning cones.",
+        logMsg: "[DPI_ACTIVE] Deep Packet Inspection sensors overclocked. Dash [SPACE] to avoid detection.",
         loopDuration: 9.0,
         maxGhosts: 3,
         playerStart: { x: 90, y: 440 },
@@ -743,10 +794,10 @@
           { x: 460, y: 320, w: 20, h: 200 }
         ],
         plates: [
-          { id: 'p1', x: 260, y: 120, radius: 24, targetGate: 'g1', color: '#ffbe0b' }
+          { id: 'p1', label: 'DPI_BYPASS', x: 260, y: 120, radius: 24, targetGate: 'g1', color: '#ffbe0b' }
         ],
         gates: [
-          { id: 'g1', x1: 460, y1: 160, x2: 460, y2: 320, color: '#ffbe0b' }
+          { id: 'g1', label: 'SURICATA_IDS', x1: 460, y1: 160, x2: 460, y2: 320, color: '#ffbe0b' }
         ],
         guards: [
           { x: 660, y: 220, waypoints: [{x:660,y:100},{x:660,y:420}], speed: 2.8, coneDist: 170, coneAngle: 0.75 },
@@ -754,10 +805,10 @@
         ]
       },
 
-      // 08: The Labyrinth Vault
       {
-        title: "SECTOR 08: LABYRINTH VAULT",
-        hint: "💡 Multi-wing vault. Navigate through the upper and lower conduits with shadow assistance.",
+        title: "SUBNET 08: AIR-GAPPED SOC LABYRINTH",
+        hint: "💡 Complex SOC infrastructure. Cross-coordinate between Upper and Lower server clusters.",
+        logMsg: "[AIR_GAP] Security Operations Center partitioned into segregated VLANs.",
         loopDuration: 10.0,
         maxGhosts: 4,
         playerStart: { x: 90, y: 80 },
@@ -767,22 +818,22 @@
           { x: 620, y: 160, w: 20, h: 360 }
         ],
         plates: [
-          { id: 'p1', x: 180, y: 420, radius: 24, targetGate: 'g1', color: '#ffbe0b' },
-          { id: 'p2', x: 460, y: 80, radius: 24, targetGate: 'g2', color: '#ff006e' }
+          { id: 'p1', label: 'VLAN_A_INJ', x: 180, y: 420, radius: 24, targetGate: 'g1', color: '#ffbe0b' },
+          { id: 'p2', label: 'VLAN_B_INJ', x: 460, y: 80, radius: 24, targetGate: 'g2', color: '#ff006e' }
         ],
         gates: [
-          { id: 'g1', x1: 300, y1: 360, x2: 300, y2: 520, color: '#ffbe0b' },
-          { id: 'g2', x1: 620, y1: 0, x2: 620, y2: 160, color: '#ff006e' }
+          { id: 'g1', label: 'VLAN_ISOLATOR_1', x1: 300, y1: 360, x2: 300, y2: 520, color: '#ffbe0b' },
+          { id: 'g2', label: 'VLAN_ISOLATOR_2', x1: 620, y1: 0, x2: 620, y2: 160, color: '#ff006e' }
         ],
         guards: [
           { x: 460, y: 260, waypoints: [{x:360,y:260},{x:560,y:260}], speed: 3.0, coneDist: 150, coneAngle: 0.7 }
         ]
       },
 
-      // 09: Temporal Slingshot
       {
-        title: "SECTOR 09: TEMPORAL SLINGSHOT",
-        hint: "💡 High-speed synchronization. Commit your loop at the exact right second to sync.",
+        title: "SUBNET 09: BGP ROUTE HIJACK",
+        hint: "💡 High-speed routing synchronization. Commit your thread at the exact right millisecond.",
+        logMsg: "[BGP_POISON] BGP autonomous systems rerouted. High-velocity packet injection.",
         loopDuration: 8.5,
         maxGhosts: 3,
         playerStart: { x: 90, y: 260 },
@@ -792,22 +843,22 @@
           { x: 480, y: 340, w: 20, h: 180 }
         ],
         plates: [
-          { id: 'p1', x: 260, y: 120, radius: 24, targetGate: 'g1', color: '#ffbe0b' },
-          { id: 'p2', x: 260, y: 400, radius: 24, targetGate: 'g2', color: '#00f3ff' }
+          { id: 'p1', label: 'AS_INJECT_1', x: 260, y: 120, radius: 24, targetGate: 'g1', color: '#ffbe0b' },
+          { id: 'p2', label: 'AS_INJECT_2', x: 260, y: 400, radius: 24, targetGate: 'g2', color: '#00f3ff' }
         ],
         gates: [
-          { id: 'g1', x1: 480, y1: 180, x2: 480, y2: 260, color: '#ffbe0b' },
-          { id: 'g2', x1: 480, y1: 260, x2: 480, y2: 340, color: '#00f3ff' }
+          { id: 'g1', label: 'BGP_FILTER_1', x1: 480, y1: 180, x2: 480, y2: 260, color: '#ffbe0b' },
+          { id: 'g2', label: 'BGP_FILTER_2', x1: 480, y1: 260, x2: 480, y2: 340, color: '#00f3ff' }
         ],
         guards: [
           { x: 700, y: 260, waypoints: [{x:700,y:120},{x:700,y:400}], speed: 3.2, coneDist: 170, coneAngle: 0.75 }
         ]
       },
 
-      // 10: Shadow Pinball
       {
-        title: "SECTOR 10: SHADOW PINBALL",
-        hint: "💡 Triple gate split. Position two past shadows at opposite switches simultaneously.",
+        title: "SUBNET 10: ASYMMETRIC CIPHER CRACK",
+        hint: "💡 Split cryptographic key. Position two past shadow threads at opposite key holders simultaneously.",
+        logMsg: "[RSA_4096] Multi-prime factor keys must be sustained simultaneously.",
         loopDuration: 10.0,
         maxGhosts: 4,
         playerStart: { x: 90, y: 260 },
@@ -819,24 +870,24 @@
           { x: 680, y: 340, w: 20, h: 180 }
         ],
         plates: [
-          { id: 'p1', x: 180, y: 130, radius: 24, targetGate: 'g1', color: '#ffbe0b' },
-          { id: 'p2', x: 490, y: 130, radius: 24, targetGate: 'g2', color: '#00f3ff' },
-          { id: 'p3', x: 490, y: 390, radius: 24, targetGate: 'g3', color: '#ff006e' }
+          { id: 'p1', label: 'KEY_PART_A', x: 180, y: 130, radius: 24, targetGate: 'g1', color: '#ffbe0b' },
+          { id: 'p2', label: 'KEY_PART_B', x: 490, y: 130, radius: 24, targetGate: 'g2', color: '#00f3ff' },
+          { id: 'p3', label: 'KEY_PART_C', x: 490, y: 390, radius: 24, targetGate: 'g3', color: '#ff006e' }
         ],
         gates: [
-          { id: 'g1', x1: 300, y1: 180, x2: 300, y2: 340, color: '#ffbe0b' },
-          { id: 'g2', x1: 680, y1: 180, x2: 680, y2: 260, color: '#00f3ff' },
-          { id: 'g3', x1: 680, y1: 260, x2: 680, y2: 340, color: '#ff006e' }
+          { id: 'g1', label: 'CIPHER_GATE_1', x1: 300, y1: 180, x2: 300, y2: 340, color: '#ffbe0b' },
+          { id: 'g2', label: 'CIPHER_GATE_2', x1: 680, y1: 180, x2: 680, y2: 260, color: '#00f3ff' },
+          { id: 'g3', label: 'CIPHER_GATE_3', x1: 680, y1: 260, x2: 680, y2: 340, color: '#ff006e' }
         ],
         guards: [
           { x: 490, y: 260, waypoints: [{x:360,y:260},{x:620,y:260}], speed: 3.2, coneDist: 150, coneAngle: 0.65 }
         ]
       },
 
-      // 11: Recursive Overclock
       {
-        title: "SECTOR 11: RECURSIVE OVERCLOCK",
-        hint: "💡 Tight temporal corridors. Coordinate with 3 shadow ghosts across 3 staggered gates.",
+        title: "SUBNET 11: RECURSIVE OVERFLOW",
+        hint: "💡 Tight temporal memory conduits. Coordinate with 3 shadow threads across 3 staggered memory segments.",
+        logMsg: "[HEAP_SPRAY] Recursive memory overflow chain active. Synchronize execution pointers.",
         loopDuration: 10.5,
         maxGhosts: 4,
         playerStart: { x: 90, y: 80 },
@@ -847,24 +898,24 @@
           { x: 740, y: 160, w: 20, h: 360 }
         ],
         plates: [
-          { id: 'p1', x: 140, y: 420, radius: 24, targetGate: 'g1', color: '#ffbe0b' },
-          { id: 'p2', x: 380, y: 80, radius: 24, targetGate: 'g2', color: '#00f3ff' },
-          { id: 'p3', x: 620, y: 420, radius: 24, targetGate: 'g3', color: '#ff006e' }
+          { id: 'p1', label: 'ROP_CHAIN_1', x: 140, y: 420, radius: 24, targetGate: 'g1', color: '#ffbe0b' },
+          { id: 'p2', label: 'ROP_CHAIN_2', x: 380, y: 80, radius: 24, targetGate: 'g2', color: '#00f3ff' },
+          { id: 'p3', label: 'ROP_CHAIN_3', x: 620, y: 420, radius: 24, targetGate: 'g3', color: '#ff006e' }
         ],
         gates: [
-          { id: 'g1', x1: 260, y1: 0, x2: 260, y2: 160, color: '#ffbe0b' },
-          { id: 'g2', x1: 500, y1: 360, x2: 500, y2: 520, color: '#00f3ff' },
-          { id: 'g3', x1: 740, y1: 0, x2: 740, y2: 160, color: '#ff006e' }
+          { id: 'g1', label: 'ASLR_FILTER', x1: 260, y1: 0, x2: 260, y2: 160, color: '#ffbe0b' },
+          { id: 'g2', label: 'DEP_FILTER', x1: 500, y1: 360, x2: 500, y2: 520, color: '#00f3ff' },
+          { id: 'g3', label: 'CANARY_FILTER', x1: 740, y1: 0, x2: 740, y2: 160, color: '#ff006e' }
         ],
         guards: [
           { x: 840, y: 260, waypoints: [{x:840,y:140},{x:840,y:380}], speed: 3.4, coneDist: 170, coneAngle: 0.75 }
         ]
       },
 
-      // 12: Quantum Singularity (The Grand Master Finale)
       {
-        title: "SECTOR 12: QUANTUM SINGULARITY",
-        hint: "💡 FINAL BREACH! 4 Shadows must coordinate across the central vault to extract the Core!",
+        title: "SUBNET 12: QUANTUM ROOT EXTRACTION",
+        hint: "💡 MASTER ZERO-DAY! 4 Threads must coordinate across the central Quantum Server to extract the Root Key!",
+        logMsg: "[ROOT_BREACH] Final air-gapped quantum encryption core. Deploy all 4 threads concurrently!",
         loopDuration: 11.5,
         maxGhosts: 4,
         playerStart: { x: 90, y: 260 },
@@ -877,14 +928,14 @@
           { x: 490, y: 160, w: 20, h: 200 }
         ],
         plates: [
-          { id: 'p1', x: 180, y: 130, radius: 24, targetGate: 'g1', color: '#ffbe0b' },
-          { id: 'p2', x: 180, y: 390, radius: 24, targetGate: 'g2', color: '#00f3ff' },
-          { id: 'p3', x: 490, y: 80, radius: 24, targetGate: 'g3', color: '#ff006e' }
+          { id: 'p1', label: 'ROOT_AUTH_1', x: 180, y: 130, radius: 24, targetGate: 'g1', color: '#ffbe0b' },
+          { id: 'p2', label: 'ROOT_AUTH_2', x: 180, y: 390, radius: 24, targetGate: 'g2', color: '#00f3ff' },
+          { id: 'p3', label: 'ROOT_AUTH_3', x: 490, y: 80, radius: 24, targetGate: 'g3', color: '#ff006e' }
         ],
         gates: [
-          { id: 'g1', x1: 300, y1: 180, x2: 300, y2: 260, color: '#ffbe0b' },
-          { id: 'g2', x1: 300, y1: 260, x2: 300, y2: 340, color: '#00f3ff' },
-          { id: 'g3', x1: 680, y1: 180, x2: 680, y2: 340, color: '#ff006e' }
+          { id: 'g1', label: 'QUANTUM_SHIELD_1', x1: 300, y1: 180, x2: 300, y2: 260, color: '#ffbe0b' },
+          { id: 'g2', label: 'QUANTUM_SHIELD_2', x1: 300, y1: 260, x2: 300, y2: 340, color: '#00f3ff' },
+          { id: 'g3', label: 'QUANTUM_SHIELD_3', x1: 680, y1: 180, x2: 680, y2: 340, color: '#ff006e' }
         ],
         guards: [
           { x: 780, y: 260, waypoints: [{x:780,y:120},{x:780,y:400}], speed: 3.6, coneDist: 180, coneAngle: 0.8 }
@@ -896,7 +947,7 @@
     const Engine = {
       levelIdx: 0,
       sector: null,
-      state: 'RECORDING', // Starts immediately playable!
+      state: 'BRIEFING',
 
       loopTimer: 0,
       loopDuration: 8.5,
@@ -988,8 +1039,7 @@
         speed: g.speed,
         angle: 0,
         coneDist: g.coneDist,
-        coneAngle: g.coneAngle,
-        distractedTimer: 0
+        coneAngle: g.coneAngle
       }));
 
       Engine.currentRecording = [];
@@ -998,8 +1048,8 @@
       Engine.floatingTexts = [];
 
       document.getElementById('sectorSelect').value = idx;
-      document.getElementById('progressText').innerText = `${idx + 1} / ${SECTORS.length}`;
       document.getElementById('vignette').className = 'screen-vignette';
+      document.getElementById('termLog').innerText = sec.logMsg;
 
       if (sec.hint) {
         addFloatingText(canvas.width / 2, 40, sec.hint, '#00f3ff', 5.0);
@@ -1040,12 +1090,12 @@
         speed: g.speed,
         angle: 0,
         coneDist: g.coneDist,
-        coneAngle: g.coneAngle,
-        distractedTimer: 0
+        coneAngle: g.coneAngle
       }));
 
       spawnParticles(Engine.player.x, Engine.player.y, '#00f3ff', 25, 120);
-      addFloatingText(Engine.player.x, Engine.player.y - 20, `SHADOW ${Engine.pastGhosts.length} SYNCHRONIZED`, '#00f3ff', 1.4);
+      addFloatingText(Engine.player.x, Engine.player.y - 20, `IMPLANT ${Engine.pastGhosts.length} PERSISTED`, '#00f3ff', 1.4);
+      document.getElementById('termLog').innerText = `[PERSIST] Implant session #${Engine.pastGhosts.length} keeps your last path alive in parallel.`;
       updateHUD();
     }
 
@@ -1071,6 +1121,18 @@
       });
     }
 
+    function drawHexPath(r) {
+      ctx.beginPath();
+      for (let i = 0; i < 6; i++) {
+        const a = Math.PI / 6 + (i * Math.PI) / 3;
+        const x = Math.cos(a) * r;
+        const y = Math.sin(a) * r;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+    }
+
     // --- INPUT CONTROLLER ---
     const keys = {};
 
@@ -1080,13 +1142,14 @@
 
       if (e.key === ' ' || e.code === 'Space') {
         e.preventDefault();
-        if (Engine.state === 'DEAD') retryLevel();
+        if (Engine.state === 'BRIEFING') startMission();
+        else if (Engine.state === 'DEAD') retryLevel();
         else if (Engine.state === 'WIN') nextLevel();
         else triggerDash();
       } else if (e.key === 't' || e.key === 'T') {
         if (Engine.state === 'RECORDING') commitLoopAndStartNext();
       } else if (e.key === 'r' || e.key === 'R') {
-        retryLevel();
+        if (Engine.state !== 'BRIEFING') retryLevel();
       }
     });
 
@@ -1103,6 +1166,7 @@
       p.dashCooldown = 0.8;
       sound.playDash();
       spawnParticles(p.x, p.y, '#00f3ff', 14, 110);
+      document.getElementById('termLog').innerText = `[TUNNEL] Encrypted burst packet — IDS cone skipped for 0.18s.`;
     }
 
     // --- GAME ENGINE UPDATE ---
@@ -1115,7 +1179,6 @@
       Engine.loopTimer += dt;
       const p = Engine.player;
 
-      // Check loop timer expiry
       if (Engine.loopTimer >= Engine.loopDuration) {
         commitLoopAndStartNext();
         return;
@@ -1196,7 +1259,7 @@
         if (sample) ghostPositions.push(sample);
       });
 
-      // Pressure Plate & Gate System
+      // Auth Nodes (Plates) & Firewall Gates
       const allActors = [{ x: p.x, y: p.y }, ...ghostPositions];
       Engine.plates.forEach(plate => {
         const isTriggered = allActors.some(actor => Math.hypot(actor.x - plate.x, actor.y - plate.y) < plate.radius);
@@ -1205,13 +1268,14 @@
           if (isTriggered) {
             sound.playPlate();
             spawnParticles(plate.x, plate.y, plate.color, 14, 80);
+            document.getElementById('termLog').innerText = `[ACCESS] Node [${plate.label}] held. Matching firewall rule dropped.`;
           }
           const target = Engine.gates.find(g => g.id === plate.targetGate);
           if (target) target.open = isTriggered;
         }
       });
 
-      // Guard Patrol & Vision Raycasting
+      // EDR Sentinel Patrol & Vision Raycasting
       for (const g of Engine.guards) {
         const wp = g.waypoints[g.wpIdx];
         const dist = Math.hypot(wp.x - g.x, wp.y - g.y);
@@ -1224,7 +1288,7 @@
           g.y += Math.sin(moveAngle) * g.speed * 60 * dt;
         }
 
-        // Check if guard detects any ghost decoy (distraction)
+        // Lured by Decoy Worker Threads
         for (const gh of ghostPositions) {
           const dToGh = Math.hypot(gh.x - g.x, gh.y - g.y);
           if (dToGh < g.coneDist) {
@@ -1243,7 +1307,7 @@
           }
         }
 
-        // Check detection of live player
+        // Detection of Real Exploit Payload
         const dToP = Math.hypot(p.x - g.x, p.y - g.y);
         if (dToP < g.coneDist && !p.isDashing) {
           const angleToP = Math.atan2(p.y - g.y, p.x - g.x);
@@ -1256,14 +1320,14 @@
               if (lineIntersectsRect(g.x, g.y, p.x, p.y, w.x, w.y, w.w, w.h)) blocked = true;
             }
             if (!blocked) {
-              triggerDeath("Spotted by Sentry Patrol Cone");
+              triggerDeath("IDS / EDR deep packet inspection flagged the live payload. Session killed.");
               return;
             }
           }
         }
       }
 
-      // Exit Extraction Victory
+      // Root Mainframe Exfiltration Victory
       if (Math.hypot(p.x - Engine.exit.x, p.y - Engine.exit.y) < p.radius + 20) {
         triggerWin();
         return;
@@ -1296,7 +1360,7 @@
 
       if (!Engine.sector) return;
 
-      // Cyber Grid Background
+      // Packet hex grid
       ctx.strokeStyle = 'rgba(0, 243, 255, 0.04)';
       ctx.lineWidth = 1;
       for (let x = 0; x < canvas.width; x += 35) {
@@ -1312,21 +1376,31 @@
         ctx.stroke();
       }
 
-      // Solid Walls
+      ctx.font = "10px 'Share Tech Mono'";
+      ctx.fillStyle = 'rgba(0, 243, 255, 0.07)';
+      ctx.textAlign = 'left';
+      const ticks = Math.floor(Engine.totalTime * 4) % 16;
+      for (let i = 0; i < 12; i++) {
+        const gx = ((i * 83) + ticks * 11) % canvas.width;
+        const gy = (i * 47 + 30) % canvas.height;
+        ctx.fillText(i % 2 ? '0x7F' : 'SYN', gx, gy);
+      }
+
+      // Solid Subnet Isolation Walls
       for (const w of Engine.walls) {
-        ctx.fillStyle = '#0c1324';
+        ctx.fillStyle = '#09101f';
         ctx.fillRect(w.x, w.y, w.w, w.h);
         ctx.strokeStyle = 'rgba(0, 243, 255, 0.45)';
         ctx.lineWidth = 1.5;
         ctx.strokeRect(w.x, w.y, w.w, w.h);
       }
 
-      // Pressure Switches
+      // Auth Exploit Nodes
       for (const plate of Engine.plates) {
         ctx.save();
         ctx.translate(plate.x, plate.y);
 
-        ctx.fillStyle = plate.active ? plate.color : 'rgba(255, 255, 255, 0.08)';
+        ctx.fillStyle = plate.active ? plate.color : 'rgba(255, 255, 255, 0.07)';
         ctx.beginPath();
         ctx.arc(0, 0, plate.radius, 0, Math.PI * 2);
         ctx.fill();
@@ -1338,14 +1412,14 @@
         ctx.stroke();
         ctx.shadowBlur = 0;
 
-        ctx.font = "bold 9.5px 'Orbitron'";
+        ctx.font = "bold 8.5px 'Share Tech Mono'";
         ctx.fillStyle = plate.active ? '#000' : plate.color;
         ctx.textAlign = 'center';
-        ctx.fillText("PLATE", 0, 3.5);
+        ctx.fillText(plate.label || "NODE", 0, 3);
         ctx.restore();
       }
 
-      // Laser Gates
+      // Firewall Partitions (Laser Gates)
       for (const g of Engine.gates) {
         if (!g.open) {
           ctx.strokeStyle = g.color || '#ffbe0b';
@@ -1364,6 +1438,13 @@
           ctx.lineTo(g.x2, g.y2);
           ctx.stroke();
           ctx.shadowBlur = 0;
+
+          // Gate Label
+          const midX = (g.x1 + g.x2) / 2;
+          const midY = (g.y1 + g.y2) / 2;
+          ctx.font = "bold 8px 'Share Tech Mono'";
+          ctx.fillStyle = g.color || '#ffbe0b';
+          ctx.fillText(g.label || "FW", midX + 8, midY - 4);
         } else {
           ctx.strokeStyle = 'rgba(5, 255, 161, 0.4)';
           ctx.lineWidth = 2;
@@ -1376,7 +1457,7 @@
         }
       }
 
-      // Extraction Core Portal (Exit)
+      // Root Mainframe Exfiltration Terminal (Exit)
       const ex = Engine.exit;
       ctx.save();
       ctx.translate(ex.x, ex.y);
@@ -1392,9 +1473,14 @@
       ctx.fillStyle = 'rgba(5, 255, 161, 0.35)';
       ctx.fillRect(-12, -12, 24, 24);
       ctx.shadowBlur = 0;
+
+      ctx.font = "bold 9px 'Share Tech Mono'";
+      ctx.fillStyle = '#05ffa1';
+      ctx.textAlign = 'center';
+      ctx.fillText("C2 EXFIL", 0, -28);
       ctx.restore();
 
-      // Guards & Sentry Cones
+      // EDR Sentinel Cones
       for (const g of Engine.guards) {
         ctx.save();
         ctx.translate(g.x, g.y);
@@ -1407,16 +1493,20 @@
         ctx.fill();
 
         ctx.fillStyle = '#ff2a51';
-        ctx.beginPath();
-        ctx.arc(0, 0, 13, 0, Math.PI * 2);
+        drawHexPath(14);
         ctx.fill();
         ctx.strokeStyle = '#fff';
         ctx.lineWidth = 2;
         ctx.stroke();
+
+        ctx.font = "bold 8px 'Share Tech Mono'";
+        ctx.fillStyle = '#ff2a51';
+        ctx.textAlign = 'center';
+        ctx.fillText("IDS", 0, -16);
         ctx.restore();
       }
 
-      // Replaying Shadow Ghosts
+      // Replaying Exploit Shadow Threads
       const ghostColors = ['#ff006e', '#ffbe0b', '#00f3ff', '#b5179e'];
       Engine.pastGhosts.forEach((ghostTimeline, gIdx) => {
         if (!ghostTimeline || ghostTimeline.length === 0) return;
@@ -1436,11 +1526,10 @@
         ctx.translate(sample.x, sample.y);
 
         ctx.fillStyle = gColor;
-        ctx.globalAlpha = 0.7;
+        ctx.globalAlpha = 0.72;
         ctx.shadowColor = gColor;
         ctx.shadowBlur = 10;
-        ctx.beginPath();
-        ctx.arc(0, 0, 12, 0, Math.PI * 2);
+        drawHexPath(12);
         ctx.fill();
 
         ctx.strokeStyle = '#fff';
@@ -1448,14 +1537,14 @@
         ctx.stroke();
         ctx.shadowBlur = 0;
 
-        ctx.font = "bold 9px 'Orbitron'";
+        ctx.font = "bold 9px 'Share Tech Mono'";
         ctx.fillStyle = '#fff';
         ctx.textAlign = 'center';
-        ctx.fillText(`S${gIdx + 1}`, 0, -15);
+        ctx.fillText(`IMP_${gIdx + 1}`, 0, -15);
         ctx.restore();
       });
 
-      // Live Player
+      // Live Hacker Operative Payload
       const p = Engine.player;
       ctx.save();
       ctx.translate(p.x, p.y);
@@ -1463,8 +1552,7 @@
       ctx.fillStyle = '#00f3ff';
       ctx.shadowColor = '#00f3ff';
       ctx.shadowBlur = p.isDashing ? 20 : 10;
-      ctx.beginPath();
-      ctx.arc(0, 0, p.radius, 0, Math.PI * 2);
+      drawHexPath(p.radius);
       ctx.fill();
 
       ctx.strokeStyle = '#fff';
@@ -1472,10 +1560,10 @@
       ctx.stroke();
       ctx.shadowBlur = 0;
 
-      ctx.font = "bold 9.5px 'Orbitron'";
+      ctx.font = "bold 9px 'Share Tech Mono'";
       ctx.fillStyle = '#00f3ff';
       ctx.textAlign = 'center';
-      ctx.fillText("YOU", 0, -16);
+      ctx.fillText("PAYLOAD", 0, -16);
       ctx.restore();
 
       // Particles
@@ -1490,7 +1578,7 @@
 
       // Floating Hint Texts
       for (const ft of Engine.floatingTexts) {
-        ctx.font = "bold 13.5px 'Orbitron'";
+        ctx.font = "bold 13px 'Share Tech Mono'";
         ctx.fillStyle = ft.color;
         ctx.textAlign = 'center';
         ctx.globalAlpha = Math.min(1.0, ft.life / (ft.maxLife * 0.3));
@@ -1507,8 +1595,8 @@
       document.getElementById('deathsText').innerText = Engine.deaths;
 
       const remSec = Math.max(0, Engine.loopDuration - Engine.loopTimer);
-      document.getElementById('loopSecondsText').innerText = `${remSec.toFixed(1)}s`;
-      document.getElementById('loopCountText').innerText = `${Engine.pastGhosts.length + 1} / ${Engine.maxGhosts} SHADOWS`;
+      document.getElementById('loopSecondsText').innerText = `${remSec.toFixed(1)}s TTL`;
+      document.getElementById('loopCountText').innerText = `${Engine.pastGhosts.length + 1} / ${Engine.maxGhosts} LIVE`;
 
       const pct = Math.max(0, Math.min(100, (remSec / Engine.loopDuration) * 100));
       document.getElementById('timelineFill').style.width = `${pct}%`;
@@ -1527,6 +1615,7 @@
       document.getElementById('vignette').className = 'screen-vignette danger';
       document.getElementById('deathReason').innerText = reason;
       document.getElementById('deathModal').classList.add('active');
+      document.getElementById('termLog').innerText = `[CRITICAL_ALARM] ${reason}`;
     }
 
     function retryLevel() {
@@ -1542,13 +1631,14 @@
       sound.playWin();
 
       const isFinal = Engine.levelIdx === SECTORS.length - 1;
-      document.getElementById('vicTitle').innerText = isFinal ? '🏆 ALL TIMELINES CONQUERED' : 'TIMELINE SYNCHRONIZED';
+      document.getElementById('vicTitle').innerText = isFinal ? 'FULL ESTATE COMPROMISED' : 'C2 EXFIL COMPLETE';
       document.getElementById('vicStats').innerText = isFinal
-        ? `QUANTUM MASTER OPERATIVE! You solved all 12 quantum shadow loops in ${document.getElementById('timeText').innerText} with ${Engine.deaths} retries!`
-        : `Sector ${Engine.levelIdx + 1} quantum core extracted!`;
+        ? `Red-team lab cleared. All 12 subnets staged to C2 in ${document.getElementById('timeText').innerText} with ${Engine.deaths} SIEM alerts.`
+        : `Subnet ${Engine.levelIdx + 1} loot staged. Firewalls dropped, IDS evaded.`;
 
-      document.getElementById('btnNextLevel').innerText = isFinal ? 'PLAY AGAIN [SPACE / CLICK]' : 'NEXT SECTOR [SPACE / CLICK]';
+      document.getElementById('btnNextLevel').innerText = isFinal ? 'RUN LAB AGAIN [SPACE / CLICK]' : 'NEXT SUBNET [SPACE / CLICK]';
       document.getElementById('victoryModal').classList.add('active');
+      document.getElementById('termLog').innerText = `[C2] Exfil handshake OK — subnet ${Engine.levelIdx + 1}.`;
     }
 
     function nextLevel() {
@@ -1560,6 +1650,17 @@
     }
 
     // --- BUTTON EVENT LISTENERS ---
+    function startMission() {
+      document.getElementById('briefModal').classList.remove('active');
+      Engine.state = 'RECORDING';
+      sound.init();
+      sound.playRewind();
+      document.getElementById('termLog').innerText = Engine.sector
+        ? Engine.sector.logMsg
+        : '[ENGAGED] Payload injected into subnet 01.';
+    }
+
+    document.getElementById('btnStartMission').addEventListener('click', startMission);
     document.getElementById('btnRetryGame').addEventListener('click', retryLevel);
     document.getElementById('btnNextLevel').addEventListener('click', nextLevel);
     document.getElementById('btnReset').addEventListener('click', retryLevel);
@@ -1568,6 +1669,7 @@
     });
 
     document.getElementById('sectorSelect').addEventListener('change', (e) => {
+      document.getElementById('briefModal').classList.remove('active');
       loadLevel(parseInt(e.target.value, 10));
       Engine.state = 'RECORDING';
     });
